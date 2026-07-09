@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
-import DogPhoto from "@/components/DogPhoto";
-import Paw from "@/components/Paw";
 
 // Revalida el contador cada 60 s en producción (no queda congelado del build).
 export const revalidate = 60;
@@ -60,92 +58,15 @@ export default async function HomePage() {
             </p>
           </div>
 
-          {/* Vista previa: cédula + pasaporte */}
-          <div className="relative mx-auto h-[400px] w-full max-w-sm">
-            {/* Brillo pulsante */}
-            <div className="cred-glow pointer-events-none absolute inset-6 rounded-[40%] bg-ec-yellow/25 blur-3xl" />
-            {/* Pasaporte (detrás) */}
-            <div className="cred-back absolute right-0 top-0 w-60 rounded-xl bg-[#6b1f2a] p-3 text-[#e8cf96] shadow-2xl ring-1 ring-black/20">
-              <div className="flex items-center gap-2 border-b border-[#e8cf96]/25 pb-2">
-                <Paw className="h-5 w-5 text-[#e8cf96]" />
-                <div className="leading-tight">
-                  <p className="text-[9px] font-black tracking-wide">PASAPORTE DE MASCOTA</p>
-                  <p className="text-[7px] tracking-widest opacity-80">PET PASSPORT · ECUADOR</p>
-                </div>
-              </div>
-              <div className="mt-2 flex gap-2">
-                <div className="h-16 w-14 overflow-hidden rounded ring-1 ring-[#e8cf96]/30">
-                  <DogPhoto className="h-full w-full" />
-                </div>
-                <div className="text-[8px] leading-tight">
-                  <p className="opacity-70">Nombre / Name</p>
-                  <p className="text-[11px] font-bold text-white">ROCKY</p>
-                  <p className="mt-1 opacity-70">Tipo / Type</p>
-                  <p className="font-bold text-white">PET · ECU</p>
-                </div>
-              </div>
-              <p className="mt-2 font-mono text-[7px] tracking-wider text-white/80">
-                {"P<ECUROCKY<<<<<<<<<<<<<<"}
-              </p>
-            </div>
-
-            {/* Cédula (delante) */}
-            <div className="cred-front absolute bottom-0 left-0 w-[19rem] rounded-xl bg-white p-1 shadow-2xl ring-1 ring-black/10">
-              <div className="rounded-lg bg-[#f8fbfc] p-3 text-navy">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-4 w-6 flex-col overflow-hidden rounded-sm ring-1 ring-black/10">
-                    <span className="h-1/2 bg-ec-yellow" />
-                    <span className="h-1/4 bg-ec-blue" />
-                    <span className="h-1/4 bg-ec-red" />
-                  </span>
-                  <p className="text-[10px] font-black uppercase tracking-wide">
-                    Cédula de Identidad Animal
-                  </p>
-                </div>
-                <div className="mt-2 flag-bar" />
-                <div className="mt-3 flex gap-3">
-                  <div className="h-24 w-20 overflow-hidden rounded-md ring-1 ring-slate-200">
-                    <DogPhoto className="h-full w-full" />
-                  </div>
-                  <div className="grid flex-1 grid-cols-2 gap-x-2 gap-y-1.5">
-                    <div>
-                      <p className="text-[8px] uppercase text-slate-400">Nombre</p>
-                      <p className="text-sm font-bold leading-none text-slate-800">ROCKY</p>
-                    </div>
-                    <div>
-                      <p className="text-[8px] uppercase text-slate-400">Sexo</p>
-                      <p className="text-[11px] font-bold text-slate-800">Macho</p>
-                    </div>
-                    <div>
-                      <p className="text-[8px] uppercase text-slate-400">Especie</p>
-                      <p className="text-[11px] font-bold text-slate-800">Canina</p>
-                    </div>
-                    <div>
-                      <p className="text-[8px] uppercase text-slate-400">Raza</p>
-                      <p className="text-[11px] font-bold text-slate-800">Golden</p>
-                    </div>
-                    <div className="col-span-2">
-                      <p className="text-[8px] uppercase text-slate-400">Nacionalidad</p>
-                      <p className="text-[11px] font-bold text-slate-800">Ecuatoriana</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-2 flex items-end justify-between">
-                  <p className="text-[9px]">
-                    <span className="text-slate-400">NUI.</span>{" "}
-                    <span className="font-mono font-bold text-navy">985100200300</span>
-                  </p>
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-4 w-6 rounded-sm bg-gradient-to-br from-amber-300 to-amber-500" />
-                    <div className="grid h-11 w-11 grid-cols-4 grid-rows-4 gap-px rounded bg-white p-0.5 ring-1 ring-slate-200">
-                      {Array.from({ length: 16 }).map((_, i) => (
-                        <span key={i} className={(i * 7) % 3 === 0 ? "bg-navy" : "bg-transparent"} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* Imagen principal: perro con su pasaporte y cédulas */}
+          <div className="relative mx-auto w-full max-w-sm">
+            <div className="cred-glow pointer-events-none absolute inset-4 rounded-[45%] bg-ec-yellow/25 blur-3xl" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/portada-mascotas.png"
+              alt="Perro con su pasaporte y cédulas de mascota — Cedulación Pet"
+              className="float-soft relative w-full drop-shadow-2xl"
+            />
           </div>
         </div>
       </section>

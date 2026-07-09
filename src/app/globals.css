@@ -78,10 +78,17 @@ body {
 }
 .cred-glow { animation: cred-glow 6s ease-in-out infinite; }
 
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-16px); }
+}
+.float-soft { animation: float-soft 5s ease-in-out infinite; will-change: transform; }
+
 @media (prefers-reduced-motion: reduce) {
   .cred-back  { animation: none; transform: rotate(-6deg); }
   .cred-front { animation: none; transform: rotate(2deg); }
   .cred-glow  { animation: none; }
+  .float-soft { animation: none; }
 }
 
 /* Impresión: solo se ve la cédula. */
