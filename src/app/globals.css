@@ -59,6 +59,31 @@ body {
   background-size: 130px 130px;
 }
 
+/* Flotación dinámica de las credenciales en la portada. */
+@keyframes cred-float-back {
+  0%, 100% { transform: rotate(-6deg) translateY(0); }
+  50%      { transform: rotate(-6deg) translateY(-14px); }
+}
+@keyframes cred-float-front {
+  0%, 100% { transform: rotate(2deg) translateY(0); }
+  50%      { transform: rotate(2deg) translateY(10px); }
+}
+.cred-back  { animation: cred-float-back 5s ease-in-out infinite; will-change: transform; }
+.cred-front { animation: cred-float-front 5.8s ease-in-out infinite; will-change: transform; }
+
+/* Brillo pulsante detrás de las credenciales. */
+@keyframes cred-glow {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50%      { opacity: 0.6; transform: scale(1.08); }
+}
+.cred-glow { animation: cred-glow 6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cred-back  { animation: none; transform: rotate(-6deg); }
+  .cred-front { animation: none; transform: rotate(2deg); }
+  .cred-glow  { animation: none; }
+}
+
 /* Impresión: solo se ve la cédula. */
 @media print {
   .no-print {

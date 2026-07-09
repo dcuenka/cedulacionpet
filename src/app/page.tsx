@@ -30,7 +30,7 @@ export default async function HomePage() {
               {BRAND.authority}
             </span>
             <h1 className="mt-5 text-4xl font-black leading-tight md:text-5xl">
-              Identificación y <span className="text-ec-yellow">localización</span> de tu mascota
+              <span className="text-ec-yellow">Identificación</span> y registro nacional de tu mascota
             </h1>
             <p className="mt-4 max-w-lg text-lg text-white/70">
               Registramos la ficha técnica completa de tu mascota, implantamos un{" "}
@@ -46,7 +46,7 @@ export default async function HomePage() {
                 href="/localizar"
                 className="rounded-lg bg-ec-yellow px-6 py-3 font-bold text-navy shadow-lg transition hover:brightness-95"
               >
-                🔎 Consultar / localizar mascota
+                🔎 Consultar / identificar mascota
               </Link>
               <Link
                 href="/admin"
@@ -62,8 +62,10 @@ export default async function HomePage() {
 
           {/* Vista previa: cédula + pasaporte */}
           <div className="relative mx-auto h-[400px] w-full max-w-sm">
+            {/* Brillo pulsante */}
+            <div className="cred-glow pointer-events-none absolute inset-6 rounded-[40%] bg-ec-yellow/25 blur-3xl" />
             {/* Pasaporte (detrás) */}
-            <div className="absolute right-0 top-0 w-60 -rotate-6 rounded-xl bg-[#6b1f2a] p-3 text-[#e8cf96] shadow-2xl ring-1 ring-black/20">
+            <div className="cred-back absolute right-0 top-0 w-60 rounded-xl bg-[#6b1f2a] p-3 text-[#e8cf96] shadow-2xl ring-1 ring-black/20">
               <div className="flex items-center gap-2 border-b border-[#e8cf96]/25 pb-2">
                 <Paw className="h-5 w-5 text-[#e8cf96]" />
                 <div className="leading-tight">
@@ -88,7 +90,7 @@ export default async function HomePage() {
             </div>
 
             {/* Cédula (delante) */}
-            <div className="absolute bottom-0 left-0 w-[19rem] rotate-2 rounded-xl bg-white p-1 shadow-2xl ring-1 ring-black/10 transition hover:rotate-0">
+            <div className="cred-front absolute bottom-0 left-0 w-[19rem] rounded-xl bg-white p-1 shadow-2xl ring-1 ring-black/10">
               <div className="rounded-lg bg-[#f8fbfc] p-3 text-navy">
                 <div className="flex items-center gap-2">
                   <span className="flex h-4 w-6 flex-col overflow-hidden rounded-sm ring-1 ring-black/10">
