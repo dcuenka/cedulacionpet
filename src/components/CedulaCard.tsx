@@ -1,5 +1,4 @@
 import { BRAND } from "@/lib/brand";
-import Paw from "@/components/Paw";
 
 type Record = {
   registrationNo: string;
@@ -26,18 +25,42 @@ function fmt(d?: Date | null) {
   if (!d) return "—";
   return new Intl.DateTimeFormat("es-EC", {
     day: "2-digit",
-    month: "2-digit",
+    month: "short",
     year: "numeric",
-  }).format(new Date(d));
+    timeZone: "UTC",
+  })
+    .format(new Date(d))
+    .replace(".", "")
+    .toUpperCase();
 }
 
-function Field({ label, value }: { label: string; value?: string | null }) {
+function Flag() {
+  return (
+    <span className="flex h-5 w-8 flex-col overflow-hidden rounded-sm ring-1 ring-black/10">
+      <span className="h-1/2 w-full bg-ec-yellow" />
+      <span className="h-1/4 w-full bg-ec-blue" />
+      <span className="h-1/4 w-full bg-ec-red" />
+    </span>
+  );
+}
+
+function Field({
+  label,
+  value,
+  big,
+}: {
+  label: string;
+  value?: string | null;
+  big?: boolean;
+}) {
   return (
     <div>
-      <p className="text-[10px] font-bold uppercase tracking-wider text-teal">
+      <p className="text-[9px] font-medium uppercase tracking-wider text-slate-400">
         {label}
       </p>
-      <p className="text-sm font-semibold text-navy">{value || "—"}</p>
+      <p className={`font-bold text-slate-800 ${big ? "text-xl leading-tight" : "text-sm"}`}>
+        {value || "—"}
+      </p>
     </div>
   );
 }
@@ -49,101 +72,78 @@ export default function CedulaCard({
   record: Record;
   qr: string;
 }) {
+  const nui = record.microchip || record.certificateNo || record.registrationNo;
   return (
     <div className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xl">
-      {/* Barra tricolor del Ecuador */}
-      <div className="flag-bar" />
       {/* Cabecera */}
-      <div className="paw-watermark bg-navy px-6 py-4 text-white">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 ring-2 ring-ec-yellow/70">
-              <Paw className="h-5 w-5 text-ec-yellow" />
-            </span>
-            <div>
-              <p className="text-base font-black uppercase tracking-wide">{BRAND.name}</p>
-              <p className="text-[10px] uppercase tracking-widest text-white/60">
-                {BRAND.tagline}
-              </p>
-            </div>
-          </div>
-          <p className="text-right text-[10px] font-bold uppercase tracking-widest text-ec-yellow">
-            Cédula de
-            <br />
-            Identificación Animal
+      <div className="flex items-center gap-3 px-5 pt-4">
+        <Flag />
+        <div>
+          <p className="text-sm font-black uppercase tracking-wide text-navy">
+            Cédula de Identidad Animal
+          </p>
+          <p className="text-[10px] uppercase tracking-widest text-slate-400">
+            {BRAND.name} · {BRAND.tagline}
           </p>
         </div>
       </div>
+      <div className="mt-3 flag-bar" />
 
-      <div className="grid gap-6 p-6 sm:grid-cols-[130px_1fr_auto]">
-        {/* Foto */}
+      {/* Cuerpo */}
+      <div className="grid gap-5 bg-[#f8fbfc] p-5 sm:grid-cols-[132px_1fr]">
+        {/* Foto + NUI */}
         <div className="mx-auto sm:mx-0">
           <div className="flex h-40 w-32 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
             {record.photoData ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={record.photoData}
-                alt={record.petName}
-                className="h-full w-full object-cover"
-              />
+              <img src={record.photoData} alt={record.petName} className="h-full w-full object-cover" />
             ) : (
               <span className="text-4xl">🐾</span>
             )}
           </div>
-        </div>
-
-        {/* Datos */}
-        <div>
-          <h2 className="text-2xl font-black text-navy">{record.petName}</h2>
+          <p className="mt-2 text-sm">
+            <span className="text-slate-400">NUI.</span>{" "}
+            <span className="font-mono font-bold text-navy">{nui}</span>
+          </p>
           {record.status === "anulado" && (
-            <span className="mt-1 inline-block rounded bg-red-100 px-2 py-0.5 text-xs font-bold text-red-700">
-              REGISTRO ANULADO
+            <span className="mt-2 inline-block rounded bg-red-100 px-2 py-0.5 text-xs font-bold text-red-700">
+              ANULADA
             </span>
           )}
-          <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3">
-            <Field label="Especie" value={record.species} />
-            <Field label="Sexo" value={record.sex} />
-            <Field label="Raza" value={record.breed} />
-            <Field label="Color" value={record.color} />
-            <Field label="Nacimiento" value={fmt(record.birthDate)} />
-            <Field label="Esterilizado" value={record.sterilized ? "Sí" : "No"} />
-            <Field label="Microchip" value={record.microchip || "No registra"} />
-          </div>
         </div>
 
-        {/* QR */}
-        <div className="flex flex-col items-center justify-start">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={qr} alt="Código QR" className="h-28 w-28" />
-          <p className="mt-1 text-center text-[9px] text-slate-400">
-            Escanea si me
-            <br />
-            encuentras
-          </p>
+        {/* Campos */}
+        <div className="grid grid-cols-2 gap-x-6 gap-y-3 self-start">
+          <Field label="Nombre" value={record.petName} big />
+          <Field label="Condición" value="REGISTRADA" />
+          <Field label="Especie" value={record.species} />
+          <Field label="Sexo" value={record.sex} />
+          <Field label="Raza" value={record.breed} />
+          <Field label="Color" value={record.color} />
+          <Field label="Nacionalidad" value="ECUATORIANA" />
+          <Field label="Esterilizado" value={record.sterilized ? "Sí" : "No"} />
+          <Field label="Fecha de nacimiento" value={fmt(record.birthDate)} />
+          <Field label="No. Documento" value={record.certificateNo || record.registrationNo} />
+          <Field label="Procedencia" value={[record.city, record.province].filter(Boolean).join(", ") || "Ecuador"} />
+          <Field label="Microchip N.º" value={record.microchip || "No registra"} />
         </div>
       </div>
 
-      {/* Pie: propietario y número de registro */}
-      <div className="grid gap-4 bg-navy px-6 py-4 text-white sm:grid-cols-2">
+      {/* Pie: tutor + chip + QR */}
+      <div className="flex items-end justify-between gap-4 border-t border-slate-100 px-5 py-4">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-wider text-teal">
+          <p className="text-[9px] font-medium uppercase tracking-wider text-slate-400">
             Tutor responsable
           </p>
-          <p className="text-sm font-bold">{record.ownerName}</p>
-          <p className="text-xs text-white/60">
-            {record.ownerIdType}: {record.ownerId}
-            {(record.city || record.province) &&
-              ` · ${[record.city, record.province].filter(Boolean).join(", ")}`}
+          <p className="text-sm font-bold text-slate-800">{record.ownerName}</p>
+          <p className="text-xs text-slate-500">
+            {record.ownerIdType}: {record.ownerId} · Emisión {fmt(record.createdAt)}
           </p>
         </div>
-        <div className="sm:text-right">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-teal">
-            Certificado N.º
-          </p>
-          <p className="font-mono text-lg font-black">
-            {record.certificateNo || record.registrationNo}
-          </p>
-          <p className="text-xs text-white/60">Emitida: {fmt(record.createdAt)}</p>
+        <div className="flex items-center gap-3">
+          <span className="h-6 w-8 rounded-sm bg-gradient-to-br from-amber-300 to-amber-500 ring-1 ring-amber-600/40" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={qr} alt="Código QR" className="h-20 w-20" />
         </div>
       </div>
     </div>

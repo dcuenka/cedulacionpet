@@ -35,7 +35,7 @@ type PassportData = {
 
 function fmtDate(d?: Date | null): string {
   if (!d) return "—";
-  return new Intl.DateTimeFormat("es-EC", { day: "2-digit", month: "2-digit", year: "numeric" }).format(d);
+  return new Intl.DateTimeFormat("es-EC", { day: "2-digit", month: "2-digit", year: "numeric", timeZone: "UTC" }).format(d);
 }
 
 async function embedPhoto(pdf: PDFDocument, dataUrl?: string | null): Promise<PDFImage | null> {
