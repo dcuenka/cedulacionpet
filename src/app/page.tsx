@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
+import { qrDataUrl } from "@/lib/qr";
+import CedulaCard from "@/components/CedulaCard";
 
 // Revalida el contador cada 60 s en producción (no queda congelado del build).
 export const revalidate = 60;
@@ -12,6 +14,29 @@ export default async function HomePage() {
   } catch {
     total = 0;
   }
+
+  // Cédula de muestra para la portada (datos ficticios + foto del perro).
+  const demoQr = await qrDataUrl("CP-2026-000001");
+  const demoCedula = {
+    registrationNo: "CP-2026-000001",
+    certificateNo: "CP-2026-000001",
+    microchip: "985100200300",
+    petName: "MAX",
+    species: "Canina",
+    breed: "Mestizo",
+    sex: "Macho",
+    color: "Café y blanco",
+    birthDate: new Date("2022-05-10"),
+    sterilized: true,
+    photoData: "/perro-cedula.png",
+    ownerName: "Juan López",
+    ownerIdType: "Cédula",
+    ownerId: "1723456789",
+    city: "Quito",
+    province: "Pichincha",
+    status: "activo",
+    createdAt: new Date("2026-07-08"),
+  };
 
   return (
     <div>
@@ -58,15 +83,20 @@ export default async function HomePage() {
             </p>
           </div>
 
-          {/* Imagen principal: perro con su pasaporte y cédulas */}
+          {/* Imagen principal: perro recortado + su cédula */}
           <div className="relative mx-auto w-full max-w-sm">
-            <div className="cred-glow pointer-events-none absolute inset-4 rounded-[45%] bg-ec-yellow/25 blur-3xl" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/portada-mascotas.png"
-              alt="Perro con su pasaporte y cédulas de mascota — Cedulación Pet"
-              className="float-soft relative w-full drop-shadow-2xl"
-            />
+            <div className="cred-glow pointer-events-none absolute inset-x-6 top-2 h-72 rounded-[45%] bg-ec-yellow/25 blur-3xl" />
+            <div className="float-soft relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/portada-perro.png"
+                alt="Perro con estetoscopio — Cedulación Pet"
+                className="mx-auto w-[80%] drop-shadow-2xl"
+              />
+              <div className="relative -mt-8">
+                <CedulaCard record={demoCedula} qr={demoQr} />
+              </div>
+            </div>
           </div>
         </div>
       </section>
