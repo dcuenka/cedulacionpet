@@ -11,21 +11,33 @@ incluido en el `build`. Solo faltan tus cuentas.
 ## 1) Crear la base de datos en Neon
 
 1. Entra a **https://neon.tech** e inicia sesión (puedes usar tu cuenta de GitHub).
-2. **New Project** → nómbralo `cedulacionpet` → región cercana (p. ej. `AWS us-east-2`).
+2. **New Project** → nómbralo `cedulacionpet` → región **`AWS us-east-1` (N. Virginia)**.
+   *(Se recomienda us-east-1 para emparejar con la región `iad1` de Vercel que ya
+   está fijada en `vercel.json`, y así minimizar la latencia hacia la base.)*
 3. En **Connection Details** copia las DOS cadenas:
    - **Pooled connection** (tiene `-pooler` en el host) → será `DATABASE_URL`
    - **Direct connection** (sin `-pooler`) → será `DIRECT_URL`
 
 ## 2) Subir el código a GitHub
 
-Desde la carpeta del proyecto:
+El commit inicial ya está hecho (rama `main`). Solo falta crear el repo y subirlo.
+
+**Opción A — GitHub CLI (más rápido).** Si no lo tienes instalado:
 
 ```bash
-git add -A
-git commit -m "Cedulación Pet - listo para producción"   # ya hecho por Claude
-# crea el repo (requiere GitHub CLI autenticado) …
+winget install --id GitHub.cli -e      # instalar (Windows)
+gh auth login                          # inicia sesión (elige GitHub.com > HTTPS)
+```
+
+Luego, desde la carpeta del proyecto, un solo comando crea el repo y lo sube:
+
+```bash
 gh repo create cedulacionpet --private --source=. --remote=origin --push
-# … o manualmente: crea el repo en github.com y luego:
+```
+
+**Opción B — manual.** Crea el repo `cedulacionpet` en github.com y luego:
+
+```bash
 git remote add origin https://github.com/TU_USUARIO/cedulacionpet.git
 git push -u origin main
 ```
