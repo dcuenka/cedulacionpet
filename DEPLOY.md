@@ -93,6 +93,30 @@ Si compras `cedulacionpet.com` (o `.ec`):
 
 ---
 
+## Checklist de verificación post-deploy
+
+Al terminar el deploy, revisa en orden (5 minutos):
+
+- [ ] **Portada** abre en `https://cedulacionpet.vercel.app` y se ve la barra
+      tricolor, la huella y la marca **Cedulación Pet**.
+- [ ] **Base conectada:** `/admin` carga sin error 500. Si da error al crear una
+      ficha → faltó `npx prisma db push` (crear tablas en Neon).
+- [ ] **Login admin:** entras a `/admin` con tu `ADMIN_PASSWORD`.
+- [ ] **Crear ficha** de prueba con microchip y foto → se genera la cédula.
+- [ ] **Cédula PDF** descarga y muestra foto, datos, tricolor y QR.
+- [ ] **Pasaporte PDF** descarga con sus 2 páginas (portada + datos con MRZ).
+- [ ] **QR correcto (¡clave!):** escanéalo con el celular. Debe abrir
+      `https://cedulacionpet.vercel.app/m/<microchip>`, **NO** `localhost`.
+      Si abre localhost → corrige `NEXT_PUBLIC_SITE_URL` y **Redeploy**.
+- [ ] **Localización pública:** en `/localizar` ingresas el microchip y aparece la
+      ficha con el contacto del tutor (botón WhatsApp).
+- [ ] **Perdida:** marca la ficha como perdida en el admin → `/m/<microchip>`
+      muestra el banner rojo "PERDIDA".
+- [ ] **Respaldo:** la ficha aparece en la lista de `/admin` (guardada en Neon).
+- [ ] **Seguridad:** cierra sesión → `/admin` y `/cedula/...` redirigen al login.
+- [ ] **Claves reales:** confirma que `ADMIN_PASSWORD` NO es la de ejemplo y que
+      `ADMIN_SESSION_SECRET` es un valor aleatorio largo.
+
 ## Desarrollo local
 
 Ahora el proyecto usa PostgreSQL. Para correr en local, pon en `.env` la cadena de
