@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// PostgreSQL (Neon / Vercel Postgres). Para desarrollo local usa la misma
+// cadena de Neon, o una rama de desarrollo del proyecto en Neon.
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// Ficha de registro de un animal de compañía (Formulario de Registro petdulación).
+model PetRecord {
+  id             String  @id @default(cuid())
+  // Número de ficha interno del sistema, ej: PET-2026-000123
+  registrationNo String  @unique
+  // Números impresos en el formulario físico.
+  certificateNo  String? // Certificado N°
+  qrCode         String? @unique // Código QR N° (tarjeta/etiqueta física)
+  microchip      String? @unique // Microchip N° (leído con el lector)
+
+  // --- Información del animalito de compañía ---
+  petName           String
+  species           String // Especie
+  breed             String? // Raza
+  birthDate         DateTime?
+  sex               String // Macho, Hembra
+  color             String?
+  sterilized        Boolean  @default(false) // Esterilizado
+  training          Boolean  @default(false) // Adiestramiento
+  aggressionHistory Boolean  @default(false) // Antecedentes de agresión
+  feeding           String? // Alimentación: Balanceado | Casera | Mixta
+  lastVaccineDate   DateTime? // Fecha última vacuna
+  diseases          String? // Enfermedades
+  photoData         String? // foto en base64 (data URL)
+
+  // --- Información del tutor responsable ---
+  ownerName     String
+  ownerIdType   String  @default("Cédula")
+  ownerId       String // Cédula
+  ownerPhone    String? // Teléfono 1
+  ownerPhoneAlt String? // Teléfono 2
+  ownerEmail    String?
+  ownerAddress  String? // Dirección
+  province      String?
+  city          String?
+
+  // --- Datos internos ---
+  mvz        String? // Médico veterinario (MVZ) responsable
+  clientType String   @default("interno") // interno | externo
+  status     String   @default("activo") // activo | anulado
+  lost       Boolean  @default(false)
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([ownerId])
+  @@index([microchip])
+  @@index([createdAt])
+}

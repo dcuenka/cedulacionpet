@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+:root {
+  --background: #eef3f9;
+  --foreground: #0a2a5e;
+
+  /* Azul institucional (tipo Registro Civil / gob.ec) */
+  --navy: #0a337a;
+  --navy-700: #072559;
+
+  /* Azul interactivo (botones, etiquetas) */
+  --teal: #1257b0;
+  --teal-600: #0e4693;
+
+  /* Colores de la bandera del Ecuador */
+  --ec-yellow: #ffd100;
+  --ec-blue: #0a337a;
+  --ec-red: #d6001c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-navy: var(--navy);
+  --color-navy-700: var(--navy-700);
+  --color-teal: var(--teal);
+  --color-teal-600: var(--teal-600);
+  --color-ec-yellow: var(--ec-yellow);
+  --color-ec-blue: var(--ec-blue);
+  --color-ec-red: var(--ec-red);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Barra tricolor de la bandera del Ecuador (amarillo, azul, rojo). */
+.flag-bar {
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    var(--ec-yellow) 0 33.33%,
+    var(--ec-blue) 33.33% 66.66%,
+    var(--ec-red) 66.66% 100%
+  );
+}
+
+/* Marca de agua de huellas para fondos institucionales. */
+.paw-watermark {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cellipse cx='60' cy='78' rx='20' ry='16'/%3E%3Cellipse cx='34' cy='52' rx='8' ry='11'/%3E%3Cellipse cx='52' cy='40' rx='8' ry='12'/%3E%3Cellipse cx='72' cy='40' rx='8' ry='12'/%3E%3Cellipse cx='90' cy='52' rx='8' ry='11'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 130px 130px;
+}
+
+/* Impresión: solo se ve la cédula. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+}
