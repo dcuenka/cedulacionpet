@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
+import { qrDataUrl } from "@/lib/qr";
+import CedulaCard from "@/components/CedulaCard";
 
 // Revalida el contador cada 60 s en producción (no queda congelado del build).
 export const revalidate = 60;
@@ -12,6 +14,29 @@ export default async function HomePage() {
   } catch {
     total = 0;
   }
+
+  // Cédula de muestra para la portada (datos ficticios).
+  const demoQr = await qrDataUrl("985141002233417");
+  const demoCedula = {
+    registrationNo: "CP-2026-000042",
+    certificateNo: "0042",
+    microchip: "985141002233417",
+    petName: "TOBY",
+    species: "Canina",
+    breed: "Mestizo",
+    sex: "Macho",
+    color: "Café y blanco",
+    birthDate: new Date("2023-03-15"),
+    sterilized: true,
+    photoData: "/perro-cedula.png",
+    ownerName: "Andrés Vega",
+    ownerIdType: "Cédula",
+    ownerId: "0912345678",
+    city: "Guayaquil",
+    province: "Guayas",
+    status: "activo",
+    createdAt: new Date("2026-07-09"),
+  };
 
   return (
     <div>
@@ -58,75 +83,11 @@ export default async function HomePage() {
             </p>
           </div>
 
-          {/* Imagen principal: perro recortado + su cédula (proporción ID) */}
-          <div className="relative mx-auto w-full max-w-sm">
-            <div className="cred-glow pointer-events-none absolute inset-x-6 top-2 h-72 rounded-[45%] bg-ec-yellow/25 blur-3xl" />
+          {/* Imagen principal: cédula (diseño completo, datos ficticios) */}
+          <div className="relative mx-auto w-full max-w-lg">
+            <div className="cred-glow pointer-events-none absolute -inset-6 rounded-[36px] bg-ec-yellow/20 blur-3xl" />
             <div className="float-soft relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/portada-perro.png"
-                alt="Perro con estetoscopio — Cedulación Pet"
-                className="mx-auto w-[82%] drop-shadow-2xl"
-              />
-              {/* Cédula horizontal (proporción de cédula real), cubriendo las patas */}
-              <div
-                className="relative -mt-24 flex flex-col overflow-hidden rounded-xl bg-[#f8fbfc] text-navy shadow-2xl ring-1 ring-black/10"
-                style={{ aspectRatio: "1.586 / 1" }}
-              >
-                <div className="flag-bar" />
-                <div className="flex items-center gap-1.5 px-3 pt-2">
-                  <span className="flex h-3.5 w-5 flex-col overflow-hidden rounded-[2px] ring-1 ring-black/10">
-                    <span className="h-1/2 bg-ec-yellow" />
-                    <span className="h-1/4 bg-ec-blue" />
-                    <span className="h-1/4 bg-ec-red" />
-                  </span>
-                  <p className="text-[9px] font-black uppercase tracking-wide">
-                    Cédula de Identidad Animal
-                  </p>
-                </div>
-                <div className="flex flex-1 gap-2.5 px-3 py-2">
-                  <div className="aspect-[3/4] h-full overflow-hidden rounded-md bg-slate-100 ring-1 ring-slate-200">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/perro-cedula.png" alt="SAMY" className="h-full w-full object-cover" />
-                  </div>
-                  <div className="grid flex-1 content-start grid-cols-2 gap-x-2 gap-y-1">
-                    <div className="col-span-2">
-                      <p className="text-[7px] uppercase tracking-wide text-slate-400">Nombre</p>
-                      <p className="text-sm font-black leading-none text-slate-800">SAMY</p>
-                    </div>
-                    <div>
-                      <p className="text-[7px] uppercase tracking-wide text-slate-400">Especie</p>
-                      <p className="text-[10px] font-bold text-slate-800">Canina</p>
-                    </div>
-                    <div>
-                      <p className="text-[7px] uppercase tracking-wide text-slate-400">Sexo</p>
-                      <p className="text-[10px] font-bold text-slate-800">Macho</p>
-                    </div>
-                    <div>
-                      <p className="text-[7px] uppercase tracking-wide text-slate-400">Raza</p>
-                      <p className="text-[10px] font-bold text-slate-800">Mestizo</p>
-                    </div>
-                    <div>
-                      <p className="text-[7px] uppercase tracking-wide text-slate-400">Nacionalidad</p>
-                      <p className="text-[10px] font-bold text-slate-800">Ecuatoriana</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-end justify-between px-3 pb-2">
-                  <p className="text-[8px]">
-                    <span className="text-slate-400">NUI.</span>{" "}
-                    <span className="font-mono font-bold text-navy">985100200300</span>
-                  </p>
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-3.5 w-5 rounded-[2px] bg-gradient-to-br from-amber-300 to-amber-500" />
-                    <div className="grid h-9 w-9 grid-cols-4 grid-rows-4 gap-px rounded bg-white p-0.5 ring-1 ring-slate-200">
-                      {Array.from({ length: 16 }).map((_, i) => (
-                        <span key={i} className={(i * 7) % 3 === 0 ? "bg-navy" : "bg-transparent"} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <CedulaCard record={demoCedula} qr={demoQr} />
             </div>
           </div>
         </div>

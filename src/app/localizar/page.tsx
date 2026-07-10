@@ -19,14 +19,15 @@ export default function LocalizarPage() {
         </h1>
         <p className="mt-2 text-sm text-slate-600">
           ¿Encontraste una mascota o quieres verificar su ficha? Ingresa el{" "}
-          <strong>número de serie del microchip</strong> (o el número de cédula que
-          aparece en la placa) o <strong>escanea el código QR</strong> de su cédula.
+          <strong>número de serie del microchip</strong>, el{" "}
+          <strong>número de cédula del tutor</strong>, el N.º de ficha o{" "}
+          <strong>escanea el código QR</strong> de su cédula.
         </p>
         <form action={search} className="mt-6 flex gap-2">
           <input
             name="q"
             required
-            placeholder="N.º de microchip o de cédula"
+            placeholder="Microchip, N.º de ficha o cédula del tutor"
             className="flex-1 rounded-lg border border-slate-300 px-4 py-3 font-mono text-navy outline-none focus:border-teal focus:ring-2 focus:ring-teal/20"
           />
           <button className="rounded-lg bg-navy px-6 py-3 font-semibold text-white transition hover:bg-navy-700">

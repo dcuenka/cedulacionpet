@@ -28,18 +28,66 @@ export default async function LocalizarCodePage({
   const { code: raw } = await params;
   const code = decodeURIComponent(raw);
 
-  const record = await prisma.petRecord.findFirst({
+  // Busca por microchip, código QR, certificado, N.º de ficha o cédula/RUC del tutor.
+  const matches = await prisma.petRecord.findMany({
     where: {
+      status: "activo",
       OR: [
         { microchip: code },
         { qrCode: code },
         { certificateNo: code },
         { registrationNo: code },
+        { ownerId: code },
       ],
     },
+    orderBy: { createdAt: "desc" },
   });
 
-  if (!record || record.status === "anulado") {
+  // Varias mascotas registradas a nombre del mismo tutor: se elige cuál ver.
+  if (matches.length > 1) {
+    return (
+      <div className="mx-auto max-w-lg px-4 py-12">
+        <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-lg">
+          <h1 className="text-xl font-black text-navy">
+            {matches.length} mascotas encontradas
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Este tutor tiene varias mascotas registradas. Elige una para ver su ficha.
+          </p>
+          <div className="mt-5 flex flex-col gap-2">
+            {matches.map((m) => (
+              <Link
+                key={m.id}
+                href={`/m/${encodeURIComponent(m.microchip || m.registrationNo)}`}
+                className="flex items-center gap-3 rounded-xl border border-slate-200 p-3 transition hover:border-teal hover:bg-teal/5"
+              >
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-100">
+                  {m.photoData ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={m.photoData} alt={m.petName} className="h-full w-full object-cover" />
+                  ) : (
+                    <span className="text-xl">🐾</span>
+                  )}
+                </div>
+                <div>
+                  <p className="font-bold text-navy">{m.petName}</p>
+                  <p className="text-xs text-slate-500">
+                    {m.species}
+                    {m.breed ? ` · ${m.breed}` : ""}
+                    {m.lost ? " · ⚠ Perdida" : ""}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const record = matches[0];
+
+  if (!record) {
     return (
       <div className="mx-auto max-w-md px-4 py-20 text-center">
         <div className="rounded-2xl border border-slate-200 bg-white p-10 shadow-sm">
