@@ -2,10 +2,21 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
 import { qrDataUrl } from "@/lib/qr";
-import CedulaCard from "@/components/CedulaCard";
 
 // Revalida el contador cada 60 s en producción (no queda congelado del build).
 export const revalidate = 60;
+
+// Campo compacto para la cédula de muestra de la portada.
+function CedField({ label, value, big }: { label: string; value: string; big?: boolean }) {
+  return (
+    <div>
+      <p className="text-[6px] font-medium uppercase tracking-wide text-slate-400">{label}</p>
+      <p className={`font-bold leading-tight text-slate-800 ${big ? "text-[15px]" : "text-[9px]"}`}>
+        {value}
+      </p>
+    </div>
+  );
+}
 
 export default async function HomePage() {
   let total = 0;
@@ -15,28 +26,8 @@ export default async function HomePage() {
     total = 0;
   }
 
-  // Cédula de muestra para la portada (datos ficticios).
+  // QR de muestra para la cédula de la portada (datos ficticios).
   const demoQr = await qrDataUrl("985141002233417");
-  const demoCedula = {
-    registrationNo: "CP-2026-000042",
-    certificateNo: "0042",
-    microchip: "985141002233417",
-    petName: "TOBY",
-    species: "Canina",
-    breed: "Mestizo",
-    sex: "Macho",
-    color: "Café y blanco",
-    birthDate: new Date("2023-03-15"),
-    sterilized: true,
-    photoData: "/perro-cedula.png",
-    ownerName: "Andrés Vega",
-    ownerIdType: "Cédula",
-    ownerId: "0912345678",
-    city: "Guayaquil",
-    province: "Guayas",
-    status: "activo",
-    createdAt: new Date("2026-07-09"),
-  };
 
   return (
     <div>
@@ -83,11 +74,82 @@ export default async function HomePage() {
             </p>
           </div>
 
-          {/* Imagen principal: cédula (diseño completo, datos ficticios) */}
+          {/* Imagen principal: cédula (proporción real de cédula) + perro asomándose */}
           <div className="relative mx-auto w-full max-w-lg">
             <div className="cred-glow pointer-events-none absolute -inset-6 rounded-[36px] bg-ec-yellow/20 blur-3xl" />
             <div className="float-soft relative">
-              <CedulaCard record={demoCedula} qr={demoQr} />
+              {/* Perro asomando detrás de la cédula */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/portada-perro.png"
+                alt="Perro — Cedulación Pet"
+                className="pointer-events-none absolute -top-28 left-1/2 z-0 w-24 -translate-x-1/2 drop-shadow-xl"
+              />
+              {/* Cédula (proporción tipo cédula de ciudadanía, ~1.586:1) */}
+              <div
+                className="relative z-10 flex flex-col overflow-hidden rounded-xl bg-white text-navy shadow-2xl ring-1 ring-black/10"
+                style={{ aspectRatio: "1.586 / 1" }}
+              >
+                <div className="flex items-center gap-2 px-3 pt-2">
+                  <span className="flex h-4 w-6 flex-col overflow-hidden rounded-[2px] ring-1 ring-black/10">
+                    <span className="h-1/2 bg-ec-yellow" />
+                    <span className="h-1/4 bg-ec-blue" />
+                    <span className="h-1/4 bg-ec-red" />
+                  </span>
+                  <div>
+                    <p className="text-[10px] font-black uppercase leading-none tracking-wide">
+                      Cédula de Identidad Animal
+                    </p>
+                    <p className="mt-0.5 text-[6px] uppercase tracking-widest text-slate-400">
+                      {BRAND.name} · {BRAND.tagline}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-1.5 flag-bar" />
+                <div className="flex flex-1 gap-3 bg-[#f8fbfc] px-3 py-2">
+                  <div className="flex w-[27%] shrink-0 flex-col">
+                    <div className="flex-1 overflow-hidden rounded bg-slate-100 ring-1 ring-slate-200">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/perro-cedula.png" alt="TOBY" className="h-full w-full object-cover" />
+                    </div>
+                    <p className="mt-1 text-[6.5px]">
+                      <span className="text-slate-400">NUI.</span>{" "}
+                      <span className="font-mono font-bold text-navy">985141002233417</span>
+                    </p>
+                  </div>
+                  <div className="grid flex-1 content-start grid-cols-2 gap-x-3 gap-y-1">
+                    <div className="col-span-2">
+                      <CedField label="Nombre" value="TOBY" big />
+                    </div>
+                    <CedField label="Especie" value="Canina" />
+                    <CedField label="Condición" value="Registrada" />
+                    <CedField label="Sexo" value="Macho" />
+                    <CedField label="Raza" value="Mestizo" />
+                    <CedField label="Color" value="Café y blanco" />
+                    <CedField label="Nacionalidad" value="Ecuatoriana" />
+                    <CedField label="Nacimiento" value="15 MAR 2023" />
+                    <CedField label="Esterilizado" value="Sí" />
+                    <CedField label="No. Documento" value="0042" />
+                    <CedField label="Microchip N.º" value="985141002233417" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between border-t border-slate-100 bg-white px-3 py-1.5">
+                  <div>
+                    <p className="text-[6px] font-medium uppercase tracking-wide text-slate-400">
+                      Tutor responsable
+                    </p>
+                    <p className="text-[10px] font-bold text-slate-800">Andrés Vega</p>
+                    <p className="text-[6px] text-slate-400">
+                      Cédula: 0912345678 · Emisión 09 JUL 2026
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-4 w-6 rounded-sm bg-gradient-to-br from-amber-300 to-amber-500 ring-1 ring-amber-600/30" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={demoQr} alt="QR" className="h-11 w-11" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
