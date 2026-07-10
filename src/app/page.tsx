@@ -83,7 +83,7 @@ export default async function HomePage() {
               <img
                 src="/portada-perro.png"
                 alt="Perro — Cedulación Pet"
-                className="pointer-events-none absolute -top-28 left-1/2 z-0 w-24 -translate-x-1/2 drop-shadow-xl"
+                className="pointer-events-none absolute -top-[11.5rem] left-1/2 z-0 w-44 -translate-x-1/2 drop-shadow-xl"
               />
               {/* Cédula (proporción tipo cédula de ciudadanía, ~1.586:1) */}
               <div
@@ -106,7 +106,15 @@ export default async function HomePage() {
                   </div>
                 </div>
                 <div className="mt-1.5 flag-bar" />
-                <div className="flex flex-1 gap-3 bg-[#f8fbfc] px-3 py-2">
+                <div
+                  className="flex flex-1 gap-3 bg-[#f8fbfc] px-3 py-2"
+                  style={{
+                    backgroundImage: "url(/ecuador-map.svg)",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundSize: "auto 82%",
+                  }}
+                >
                   <div className="flex w-[27%] shrink-0 flex-col">
                     <div className="flex-1 overflow-hidden rounded bg-slate-100 ring-1 ring-slate-200">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
