@@ -32,6 +32,10 @@ export type FichaDefaults = {
   aggressionHistory?: boolean;
   feeding?: string | null;
   lastVaccineDate?: Date | string | null;
+  nextVaccineDate?: Date | string | null;
+  vaccines?: string | null;
+  lastDewormDate?: Date | string | null;
+  nextDewormDate?: Date | string | null;
   diseases?: string | null;
   photoData?: string | null;
   ownerName?: string;
@@ -277,6 +281,28 @@ export default function PetFichaForm({ record }: { record?: FichaDefaults }) {
           <label className="sm:col-span-2">
             <Label>Enfermedades</Label>
             <input name="diseases" defaultValue={d.diseases || ""} className={inputCls} placeholder="Ninguna / detalle" />
+          </label>
+        </div>
+      </Section>
+
+      {/* Salud: vacunación y desparasitación */}
+      <Section title="Salud: vacunación y desparasitación">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label className="sm:col-span-2">
+            <Label>Vacunas aplicadas</Label>
+            <input name="vaccines" defaultValue={d.vaccines || ""} className={inputCls} placeholder="Ej: Rabia, Parvovirus, Moquillo…" />
+          </label>
+          <label>
+            <Label>Próxima vacuna</Label>
+            <input name="nextVaccineDate" type="date" defaultValue={dateValue(d.nextVaccineDate)} className={inputCls} />
+          </label>
+          <label>
+            <Label>Última desparasitación</Label>
+            <input name="lastDewormDate" type="date" defaultValue={dateValue(d.lastDewormDate)} className={inputCls} />
+          </label>
+          <label>
+            <Label>Próxima desparasitación</Label>
+            <input name="nextDewormDate" type="date" defaultValue={dateValue(d.nextDewormDate)} className={inputCls} />
           </label>
         </div>
       </Section>

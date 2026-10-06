@@ -32,6 +32,10 @@ model PetRecord {
   aggressionHistory Boolean  @default(false) // Antecedentes de agresión
   feeding           String? // Alimentación: Balanceado | Casera | Mixta
   lastVaccineDate   DateTime? // Fecha última vacuna
+  nextVaccineDate   DateTime? // Próxima vacuna
+  vaccines          String? // Vacunas aplicadas (texto)
+  lastDewormDate    DateTime? // Última desparasitación
+  nextDewormDate    DateTime? // Próxima desparasitación
   diseases          String? // Enfermedades
   photoData         String? // foto en base64 (data URL)
 

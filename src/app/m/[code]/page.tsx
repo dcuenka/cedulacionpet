@@ -17,7 +17,7 @@ function waLink(phone?: string | null): string | null {
 
 function fmt(d?: Date | null) {
   if (!d) return "—";
-  return new Intl.DateTimeFormat("es-EC", { dateStyle: "long" }).format(new Date(d));
+  return new Intl.DateTimeFormat("es-EC", { dateStyle: "long", timeZone: "UTC" }).format(new Date(d));
 }
 
 export default async function LocalizarCodePage({
@@ -173,6 +173,30 @@ export default async function LocalizarCodePage({
             </div>
           )}
         </div>
+
+        {/* Carnet de salud */}
+        {(record.vaccines ||
+          record.lastVaccineDate ||
+          record.nextVaccineDate ||
+          record.lastDewormDate ||
+          record.nextDewormDate) && (
+          <div className="border-t border-slate-100 bg-teal/5 p-5">
+            <p className="text-xs font-bold uppercase tracking-wider text-teal">
+              💉 Carnet de salud
+            </p>
+            {record.vaccines && (
+              <p className="mt-2 text-sm text-navy">
+                <span className="font-semibold">Vacunas:</span> {record.vaccines}
+              </p>
+            )}
+            <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+              <Item label="Última vacuna" value={fmt(record.lastVaccineDate)} />
+              <Item label="Próxima vacuna" value={fmt(record.nextVaccineDate)} />
+              <Item label="Última desparasitación" value={fmt(record.lastDewormDate)} />
+              <Item label="Próxima desparasitación" value={fmt(record.nextDewormDate)} />
+            </div>
+          </div>
+        )}
 
         {/* Contacto del tutor */}
         <div className="border-t border-slate-100 bg-slate-50 p-5">

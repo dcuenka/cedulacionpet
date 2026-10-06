@@ -119,6 +119,10 @@ export default async function FichaAdminPage({
           <Row label="Antecedentes de agresión" value={r.aggressionHistory ? "Sí" : "No"} />
           <Row label="Alimentación" value={r.feeding} />
           <Row label="Última vacuna" value={r.lastVaccineDate ? new Intl.DateTimeFormat("es-EC", { dateStyle: "long" }).format(r.lastVaccineDate) : null} />
+          <Row label="Próxima vacuna" value={r.nextVaccineDate ? new Intl.DateTimeFormat("es-EC", { dateStyle: "long" }).format(r.nextVaccineDate) : null} />
+          <Row label="Vacunas aplicadas" value={r.vaccines} />
+          <Row label="Última desparasitación" value={r.lastDewormDate ? new Intl.DateTimeFormat("es-EC", { dateStyle: "long" }).format(r.lastDewormDate) : null} />
+          <Row label="Próxima desparasitación" value={r.nextDewormDate ? new Intl.DateTimeFormat("es-EC", { dateStyle: "long" }).format(r.nextDewormDate) : null} />
           <Row label="Enfermedades" value={r.diseases} />
         </div>
 

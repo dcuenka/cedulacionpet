@@ -163,6 +163,69 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Carnet Digital (punto principal) */}
+      <section className="bg-navy text-white">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-teal-100">
+              📱 Carnet Digital
+            </span>
+            <h2 className="mt-4 text-3xl font-black leading-tight md:text-4xl">
+              El <span className="text-teal">carnet digital</span> de tu mascota, siempre a la mano
+            </h2>
+            <p className="mt-4 text-lg text-white/70">
+              Además de la cédula física, cada mascota tiene su carnet digital: se abre al
+              instante escaneando el <strong className="text-white">QR</strong> o ingresando
+              su número, desde cualquier celular y sin instalar nada.
+            </p>
+            <ul className="mt-6 space-y-3 text-white/85">
+              <li className="flex gap-3"><span className="font-black text-teal">✔</span> Identificación: foto, datos y microchip</li>
+              <li className="flex gap-3"><span className="font-black text-teal">✔</span> Salud: vacunas y desparasitación con fechas</li>
+              <li className="flex gap-3"><span className="font-black text-teal">✔</span> Contacto del tutor para recuperarla si se pierde</li>
+              <li className="flex gap-3"><span className="font-black text-teal">✔</span> Accesible 24/7 desde el navegador</li>
+            </ul>
+            <Link
+              href="/localizar"
+              className="mt-8 inline-block rounded-lg bg-ec-yellow px-6 py-3 font-bold text-navy shadow-lg transition hover:brightness-95"
+            >
+              🔎 Consultar un carnet
+            </Link>
+          </div>
+
+          {/* Mock del carnet en celular */}
+          <div className="mx-auto w-full max-w-[260px]">
+            <div className="rounded-[2rem] border-[6px] border-slate-800 bg-slate-800 shadow-2xl">
+              <div className="overflow-hidden rounded-[1.6rem] bg-white text-navy">
+                <div className="flex items-center gap-3 bg-navy p-4 text-white">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-2xl">🐶</span>
+                  <div>
+                    <p className="text-lg font-black leading-none">FIRULAIS</p>
+                    <p className="text-[11px] text-white/70">Canina · Labrador</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2 p-4 text-[11px]">
+                  <div><p className="uppercase text-slate-400">Sexo</p><p className="font-bold">Macho</p></div>
+                  <div><p className="uppercase text-slate-400">Color</p><p className="font-bold">Dorado</p></div>
+                  <div className="col-span-2"><p className="uppercase text-slate-400">Microchip</p><p className="font-mono font-bold">985141002233417</p></div>
+                </div>
+                <div className="border-t border-slate-100 bg-teal/5 p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-teal">💉 Carnet de salud</p>
+                  <div className="mt-2 grid grid-cols-2 gap-2 text-[11px]">
+                    <div><p className="uppercase text-slate-400">Última vacuna</p><p className="font-bold">10 MAR 2026</p></div>
+                    <div><p className="uppercase text-slate-400">Próxima</p><p className="font-bold">10 MAR 2027</p></div>
+                    <div><p className="uppercase text-slate-400">Desparasitación</p><p className="font-bold">01 AGO 2026</p></div>
+                    <div><p className="uppercase text-slate-400">Próxima</p><p className="font-bold">01 NOV 2026</p></div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center gap-2 bg-navy p-3 text-[11px] font-semibold text-white">
+                  📞 Contactar al tutor
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Cómo funciona */}
       <section className="mx-auto max-w-6xl px-4 py-16">
         <h2 className="text-center text-2xl font-bold text-navy">Cómo funciona</h2>
