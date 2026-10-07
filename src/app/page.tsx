@@ -50,7 +50,7 @@ export default async function HomePage() {
               Registramos la ficha técnica completa de tu mascota, implantamos un{" "}
               <strong className="text-white">microchip</strong> con número de serie único y
               entregamos su <strong className="text-white">cédula física</strong>, su{" "}
-              <strong className="text-white">pasaporte de mascota</strong> y un{" "}
+              <strong className="text-white">carnet de salud</strong> y un{" "}
               <strong className="text-white">código QR</strong>. Si se pierde, quien la
               encuentre puede escanear el QR o ingresar el número de serie y contactarte al
               instante.
@@ -228,8 +228,8 @@ export default async function HomePage() {
             },
             {
               n: "2",
-              t: "Microchip, cédula y pasaporte",
-              d: "Implantamos el microchip, leemos su número de serie y lo registramos. Entregamos la cédula física, el pasaporte de mascota y el código QR.",
+              t: "Microchip, cédula y carnet",
+              d: "Implantamos el microchip, leemos su número de serie y lo registramos. Entregamos la cédula física, el carnet de salud y el código QR.",
             },
             {
               n: "3",

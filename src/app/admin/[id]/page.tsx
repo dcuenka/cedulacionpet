@@ -52,10 +52,10 @@ export default async function FichaAdminPage({
             ⬇ Cédula PDF
           </a>
           <a
-            href={`/api/pasaporte/${encodeURIComponent(r.registrationNo)}`}
-            className="rounded-lg bg-[#6b1f2a] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110"
+            href={`/api/carnet/${encodeURIComponent(r.registrationNo)}`}
+            className="rounded-lg bg-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-navy-700"
           >
-            ⬇ Pasaporte PDF
+            ⬇ Carnet PDF
           </a>
         </div>
       </div>

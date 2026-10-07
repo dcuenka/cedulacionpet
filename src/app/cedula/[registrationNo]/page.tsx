@@ -51,10 +51,10 @@ export default async function CedulaPage({
           ⬇ Descargar cédula (PDF)
         </a>
         <a
-          href={`/api/pasaporte/${encodeURIComponent(record.registrationNo)}`}
-          className="rounded-lg bg-[#6b1f2a] px-6 py-3 font-semibold text-white transition hover:brightness-110"
+          href={`/api/carnet/${encodeURIComponent(record.registrationNo)}`}
+          className="rounded-lg bg-navy px-6 py-3 font-semibold text-white transition hover:bg-navy-700"
         >
-          ⬇ Descargar pasaporte (PDF)
+          ⬇ Descargar carnet (PDF)
         </a>
         <Link
           href={`/admin/${record.id}`}
