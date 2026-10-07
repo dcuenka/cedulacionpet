@@ -118,7 +118,7 @@ export default async function HomePage() {
                   <div className="flex w-[27%] shrink-0 flex-col">
                     <div className="flex-1 overflow-hidden rounded bg-slate-100 ring-1 ring-slate-200">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/perro-cedula.png" alt="TOBY" className="h-full w-full object-cover" />
+                      <img src="/perro-cedula.png" alt="SAMY" className="h-full w-full object-cover" />
                     </div>
                     <p className="mt-1 text-[6.5px]">
                       <span className="text-slate-400">NUI.</span>{" "}
@@ -127,13 +127,13 @@ export default async function HomePage() {
                   </div>
                   <div className="grid flex-1 content-start grid-cols-2 gap-x-3 gap-y-1">
                     <div className="col-span-2">
-                      <CedField label="Nombre" value="TOBY" big />
+                      <CedField label="Nombre" value="SAMY" big />
                     </div>
                     <CedField label="Especie" value="Canina" />
                     <CedField label="Condición" value="Registrada" />
-                    <CedField label="Sexo" value="Macho" />
-                    <CedField label="Raza" value="Mestizo" />
-                    <CedField label="Color" value="Café y blanco" />
+                    <CedField label="Sexo" value="Hembra" />
+                    <CedField label="Raza" value="Labrador" />
+                    <CedField label="Color" value="Dorado" />
                     <CedField label="Nacionalidad" value="Ecuatoriana" />
                     <CedField label="Nacimiento" value="15 MAR 2023" />
                     <CedField label="Esterilizado" value="Sí" />
@@ -197,14 +197,17 @@ export default async function HomePage() {
             <div className="rounded-[2rem] border-[6px] border-slate-800 bg-slate-800 shadow-2xl">
               <div className="overflow-hidden rounded-[1.6rem] bg-white text-navy">
                 <div className="flex items-center gap-3 bg-navy p-4 text-white">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-2xl">🐶</span>
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white/10">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/perro-cedula.png" alt="SAMY" className="h-full w-full object-cover" />
+                  </span>
                   <div>
-                    <p className="text-lg font-black leading-none">FIRULAIS</p>
+                    <p className="text-lg font-black leading-none">SAMY</p>
                     <p className="text-[11px] text-white/70">Canina · Labrador</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2 p-4 text-[11px]">
-                  <div><p className="uppercase text-slate-400">Sexo</p><p className="font-bold">Macho</p></div>
+                  <div><p className="uppercase text-slate-400">Sexo</p><p className="font-bold">Hembra</p></div>
                   <div><p className="uppercase text-slate-400">Color</p><p className="font-bold">Dorado</p></div>
                   <div className="col-span-2"><p className="uppercase text-slate-400">Microchip</p><p className="font-mono font-bold">985141002233417</p></div>
                 </div>
