@@ -59,7 +59,30 @@ model PetRecord {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
+  healthEvents HealthEvent[]
+
   @@index([ownerId])
   @@index([microchip])
   @@index([createdAt])
+}
+
+// Evento de salud aplicado en una visita (vacuna o desparasitación).
+// Es el historial del carnet: una fila por cada proceso realizado.
+model HealthEvent {
+  id          String    @id @default(cuid())
+  petRecordId String
+  pet         PetRecord @relation(fields: [petRecordId], references: [id], onDelete: Cascade)
+
+  type      String // "vacuna" | "desparasitacion"
+  product   String? // nombre de la vacuna / producto
+  date      DateTime // fecha en que se aplicó
+  nextDate  DateTime? // próxima dosis / refuerzo
+  lot       String? // lote del producto
+  mvz       String? // médico veterinario que lo aplicó
+  photoData String? // foto de la etiqueta/carnet (base64), opcional
+  notes     String?
+  createdAt DateTime  @default(now())
+
+  @@index([petRecordId])
+  @@index([date])
 }

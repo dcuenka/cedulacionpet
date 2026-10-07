@@ -30,6 +30,13 @@ type CarnetData = {
   nextVaccineDate?: Date | null;
   lastDewormDate?: Date | null;
   nextDewormDate?: Date | null;
+  healthEvents?: {
+    type: string;
+    date: Date;
+    nextDate?: Date | null;
+    product?: string | null;
+    mvz?: string | null;
+  }[];
   mvz?: string | null;
   ownerName: string;
   ownerIdType: string;
@@ -164,10 +171,24 @@ export async function buildCarnetPdf(data: CarnetData): Promise<Uint8Array> {
   p3.drawText("Vacuna", { x: col1 + 6, y: thY, size: 7, font: bold, color: BURGUNDY });
   p3.drawText("Firma MVZ", { x: col2 + 2, y: thY, size: 7, font: bold, color: BURGUNDY });
 
+  const events = data.healthEvents || [];
+  const vacEvents = events.filter((e) => e.type === "vacuna");
+  const dewEvents = events.filter((e) => e.type === "desparasitacion");
+
   const rows: { fecha: string; vacuna: string }[] = [];
-  if (data.lastVaccineDate || data.vaccines)
-    rows.push({ fecha: fmtDate(data.lastVaccineDate), vacuna: (data.vaccines || "").slice(0, 40) || "Vacuna aplicada" });
-  if (data.nextVaccineDate) rows.push({ fecha: fmtDate(data.nextVaccineDate), vacuna: "PRÓXIMA VACUNA" });
+  if (vacEvents.length > 0) {
+    // Historial real de vacunas (más reciente arriba).
+    for (const ev of vacEvents.slice(0, 5)) {
+      rows.push({ fecha: fmtDate(ev.date), vacuna: (ev.product || "Vacuna aplicada").slice(0, 40) });
+    }
+    const nextV = vacEvents[0].nextDate;
+    if (nextV && rows.length < 6) rows.push({ fecha: fmtDate(nextV), vacuna: "PRÓXIMA VACUNA" });
+  } else {
+    // Respaldo: campos resumen de la ficha.
+    if (data.lastVaccineDate || data.vaccines)
+      rows.push({ fecha: fmtDate(data.lastVaccineDate), vacuna: (data.vaccines || "").slice(0, 40) || "Vacuna aplicada" });
+    if (data.nextVaccineDate) rows.push({ fecha: fmtDate(data.nextVaccineDate), vacuna: "PRÓXIMA VACUNA" });
+  }
   while (rows.length < 5) rows.push({ fecha: "", vacuna: "" });
 
   const rowH = 40;
@@ -190,8 +211,10 @@ export async function buildCarnetPdf(data: CarnetData): Promise<Uint8Array> {
   ry -= 20;
   centerText(p3, "Desparasitación", ry, 9, bold, BURGUNDY);
   ry -= 16;
-  field(p3, 24, ry, "Última:", fmtDate(data.lastDewormDate));
-  field(p3, 165, ry, "Próxima:", fmtDate(data.nextDewormDate));
+  const lastDew = dewEvents[0]?.date ?? data.lastDewormDate;
+  const nextDew = dewEvents[0]?.nextDate ?? data.nextDewormDate;
+  field(p3, 24, ry, "Última:", fmtDate(lastDew));
+  field(p3, 165, ry, "Próxima:", fmtDate(nextDew));
 
   return pdf.save();
 }

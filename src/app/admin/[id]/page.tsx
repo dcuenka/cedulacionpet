@@ -7,8 +7,15 @@ import { qrDataUrl, lookupCode, localizeUrl } from "@/lib/qr";
 import { toggleLost } from "@/lib/actions/records";
 import { toggleStatusAction } from "@/lib/actions/admin";
 import CedulaCard from "@/components/CedulaCard";
+import HealthEventForm from "@/components/HealthEventForm";
+import { deleteHealthEvent } from "@/lib/actions/health";
 
 export const metadata: Metadata = { title: "Ficha" };
+
+function fmtDate(d?: Date | null) {
+  if (!d) return "—";
+  return new Intl.DateTimeFormat("es-EC", { dateStyle: "medium", timeZone: "UTC" }).format(new Date(d));
+}
 
 function Row({ label, value }: { label: string; value?: string | null }) {
   return (
@@ -26,7 +33,10 @@ export default async function FichaAdminPage({
 }) {
   if (!(await isAdmin())) redirect("/admin/login");
   const { id } = await params;
-  const r = await prisma.petRecord.findUnique({ where: { id } });
+  const r = await prisma.petRecord.findUnique({
+    where: { id },
+    include: { healthEvents: { orderBy: { date: "desc" } } },
+  });
   if (!r) notFound();
 
   const code = lookupCode(r);
@@ -151,6 +161,74 @@ export default async function FichaAdminPage({
             </a>
           </div>
         </div>
+      </div>
+
+      {/* Carnet de salud: historial de procesos + registro rápido */}
+      <div className="mt-8">
+        <h2 className="mb-3 font-bold text-navy">💉 Carnet de salud · historial</h2>
+        <HealthEventForm petRecordId={r.id} />
+
+        {r.healthEvents.length > 0 ? (
+          <div className="mt-4 overflow-hidden rounded-xl border border-black/5 bg-white shadow-sm">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+                <tr>
+                  <th className="px-4 py-2">Fecha</th>
+                  <th className="px-4 py-2">Tipo</th>
+                  <th className="px-4 py-2">Producto</th>
+                  <th className="px-4 py-2">Próxima</th>
+                  <th className="px-4 py-2">Foto</th>
+                  <th className="px-4 py-2"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {r.healthEvents.map((ev) => (
+                  <tr key={ev.id} className="border-t border-slate-100 align-middle">
+                    <td className="px-4 py-2 font-medium text-navy">{fmtDate(ev.date)}</td>
+                    <td className="px-4 py-2">
+                      <span
+                        className={`rounded px-2 py-0.5 text-xs font-semibold ${
+                          ev.type === "vacuna"
+                            ? "bg-teal/10 text-teal"
+                            : "bg-amber-100 text-amber-800"
+                        }`}
+                      >
+                        {ev.type === "vacuna" ? "Vacuna" : "Desparasitación"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2 text-slate-700">
+                      {ev.product || "—"}
+                      {ev.lot ? <span className="text-xs text-slate-400"> · Lote {ev.lot}</span> : null}
+                      {ev.mvz ? <span className="block text-xs text-slate-400">MVZ {ev.mvz}</span> : null}
+                    </td>
+                    <td className="px-4 py-2 text-slate-600">{fmtDate(ev.nextDate)}</td>
+                    <td className="px-4 py-2">
+                      {ev.photoData ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={ev.photoData} alt="Etiqueta" className="h-10 w-10 rounded object-cover ring-1 ring-slate-200" />
+                      ) : (
+                        <span className="text-slate-300">—</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-2 text-right">
+                      <form action={deleteHealthEvent}>
+                        <input type="hidden" name="eventId" value={ev.id} />
+                        <input type="hidden" name="petRecordId" value={r.id} />
+                        <button className="text-xs text-slate-400 transition hover:text-red-500">
+                          Eliminar
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="mt-3 text-sm text-slate-400">
+            Aún no hay procesos registrados. Usa el formulario de arriba en cada visita.
+          </p>
+        )}
       </div>
     </div>
   );

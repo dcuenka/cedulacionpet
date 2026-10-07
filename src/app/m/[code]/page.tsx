@@ -45,6 +45,7 @@ export default async function LocalizarCodePage({
       ],
     },
     orderBy: { createdAt: "desc" },
+    include: { healthEvents: { orderBy: { date: "desc" } } },
   });
 
   // Varias mascotas registradas a nombre del mismo tutor: se elige cuál ver.
@@ -120,7 +121,8 @@ export default async function LocalizarCodePage({
     record.lastVaccineDate ||
     record.nextVaccineDate ||
     record.lastDewormDate ||
-    record.nextDewormDate;
+    record.nextDewormDate ||
+    record.healthEvents.length > 0;
 
   return (
     <div className="mx-auto max-w-lg px-4 py-8">
@@ -192,6 +194,41 @@ export default async function LocalizarCodePage({
               <p className="mt-2 text-sm text-navy">
                 <span className="font-semibold">Enfermedades / notas:</span> {record.diseases}
               </p>
+            )}
+
+            {record.healthEvents.length > 0 && (
+              <div className="mt-4">
+                <p className="text-xs font-bold uppercase tracking-wider text-teal">
+                  Historial de procesos
+                </p>
+                <ul className="mt-2 space-y-2">
+                  {record.healthEvents.map((ev) => (
+                    <li
+                      key={ev.id}
+                      className="flex items-start gap-2 border-b border-slate-100 pb-2 text-sm last:border-0"
+                    >
+                      <span
+                        className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold ${
+                          ev.type === "vacuna"
+                            ? "bg-teal/10 text-teal"
+                            : "bg-amber-100 text-amber-800"
+                        }`}
+                      >
+                        {ev.type === "vacuna" ? "VACUNA" : "DESPARAS."}
+                      </span>
+                      <span className="text-navy">
+                        <span className="font-semibold">{fmt(ev.date)}</span>
+                        {ev.product ? ` · ${ev.product}` : ""}
+                        {ev.nextDate ? (
+                          <span className="block text-xs text-slate-500">
+                            Próxima: {fmt(ev.nextDate)}
+                          </span>
+                        ) : null}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         </div>

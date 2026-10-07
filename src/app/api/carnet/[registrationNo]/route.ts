@@ -9,6 +9,7 @@ export async function GET(
   const { registrationNo } = await params;
   const record = await prisma.petRecord.findUnique({
     where: { registrationNo: decodeURIComponent(registrationNo) },
+    include: { healthEvents: { orderBy: { date: "desc" } } },
   });
   if (!record) {
     return NextResponse.json({ error: "No encontrado" }, { status: 404 });
