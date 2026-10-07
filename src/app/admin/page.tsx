@@ -64,6 +64,12 @@ export default async function AdminPage({
         </div>
         <div className="flex gap-2">
           <Link
+            href="/admin/recordatorios"
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-navy transition hover:bg-slate-50"
+          >
+            💉 Recordatorios
+          </Link>
+          <Link
             href="/admin/nueva"
             className="rounded-lg bg-teal px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-600"
           >

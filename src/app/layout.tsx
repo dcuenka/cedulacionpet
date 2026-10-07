@@ -45,6 +45,12 @@ function Header() {
             >
               Consultar mascota
             </Link>
+            <Link
+              href="/localizar"
+              className="rounded-md bg-teal px-4 py-2 font-semibold text-white transition hover:bg-teal-600"
+            >
+              Consultar carnet
+            </Link>
           </nav>
         </div>
       </div>
