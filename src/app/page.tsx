@@ -78,13 +78,6 @@ export default async function HomePage() {
           <div className="relative mx-auto w-full max-w-lg">
             <div className="cred-glow pointer-events-none absolute -inset-6 rounded-[36px] bg-ec-yellow/20 blur-3xl" />
             <div className="float-soft relative">
-              {/* Perro asomando detrás de la cédula */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/portada-perro.png"
-                alt="Perro — Cedulación Pet"
-                className="pointer-events-none absolute -top-[11.5rem] left-1/2 z-0 w-44 -translate-x-1/2 drop-shadow-xl"
-              />
               {/* Cédula (proporción tipo cédula de ciudadanía, ~1.586:1) */}
               <div
                 className="relative z-10 flex flex-col overflow-hidden rounded-xl bg-white text-navy shadow-2xl ring-1 ring-black/10"
