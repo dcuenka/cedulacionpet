@@ -1,7 +1,7 @@
 // Identidad de marca del proyecto.
 export const BRAND = {
-  name: "Cedulación Pet",
-  shortName: "Cedulación Pet",
+  name: "Cedulación Pet Carnet",
+  shortName: "Cedulación Pet Carnet",
   tagline: "Registro Nacional de Mascotas del Ecuador",
   authority: "Sistema Nacional de Identificación y Registro de Mascotas",
   prefix: "CP", // prefijo del número de ficha interno: CP-2026-000123
