@@ -37,8 +37,9 @@ export default function LocalizarPage() {
         <div className="mt-6 rounded-lg bg-teal/5 px-4 py-3 text-sm text-slate-600">
           <p className="font-semibold text-navy">¿Eres el tutor?</p>
           <p className="mt-0.5">
-            Ingresa tu número de cédula para ver tus mascotas y{" "}
-            <strong>descargar su cédula y carnet</strong> cuando los necesites.
+            Ingresa tu número de cédula para ver tus mascotas y llevar su{" "}
+            <strong>identificación y carnet en el celular</strong>, listos para
+            mostrar al veterinario — sin papeles.
           </p>
         </div>
         <p className="mt-4 text-xs text-slate-400">

@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
+import { qrDataUrl, lookupCode } from "@/lib/qr";
+import CedulaCard from "@/components/CedulaCard";
+import ShareBar from "@/components/ShareBar";
+import InstallButton from "@/components/InstallButton";
 
 export const metadata: Metadata = { title: "Localización de mascota" };
 
@@ -109,6 +113,14 @@ export default async function LocalizarCodePage({
   }
 
   const wa = waLink(record.ownerPhone) || waLink(record.ownerPhoneAlt);
+  const petCode = lookupCode(record);
+  const qr = await qrDataUrl(petCode);
+  const hasHealth =
+    record.vaccines ||
+    record.lastVaccineDate ||
+    record.nextVaccineDate ||
+    record.lastDewormDate ||
+    record.nextDewormDate;
 
   return (
     <div className="mx-auto max-w-lg px-4 py-8">
@@ -131,99 +143,63 @@ export default async function LocalizarCodePage({
         </div>
       )}
 
-      <div className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-lg">
-        {/* Foto + nombre */}
-        <div className="flex items-center gap-4 bg-navy p-5 text-white">
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white/10">
-            {record.photoData ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={record.photoData} alt={record.petName} className="h-full w-full object-cover" />
-            ) : (
-              <span className="text-3xl">🐾</span>
+      {/* Identificación digital: esto es lo que el tutor muestra en el celular */}
+      <CedulaCard record={record} qr={qr} />
+
+      {/* Acciones: compartir / instalar app (no se imprime) */}
+      <div className="no-print mt-3 flex flex-wrap items-center justify-center gap-2">
+        <ShareBar petName={record.petName} />
+        <InstallButton className="rounded-md border border-navy/30 px-4 py-2 text-sm font-semibold text-navy transition hover:bg-navy/5" />
+      </div>
+      <p className="no-print mt-2 text-center text-xs text-slate-400">
+        Guarda esta página o instala la app para mostrar la identificación y el
+        carnet de {record.petName} desde tu celular, sin papeles.
+      </p>
+
+      {/* Carnet de salud y comportamiento (documento de apoyo para el veterinario) */}
+      {(hasHealth || record.training || record.aggressionHistory || record.diseases) && (
+        <div className="mt-4 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
+          <div className="bg-navy px-5 py-3">
+            <p className="text-sm font-black text-white">💉 Carnet de salud</p>
+            <p className="text-[11px] text-white/60">
+              Información para tu veterinario
+            </p>
+          </div>
+          <div className="p-5">
+            {record.aggressionHistory && (
+              <div className="mb-3 rounded-lg bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-800">
+                ⚠ Antecedentes de agresión — manéjala con precaución
+              </div>
             )}
-          </div>
-          <div>
-            <h2 className="text-2xl font-black">{record.petName}</h2>
-            <p className="text-sm text-white/70">
-              {record.species}
-              {record.breed ? ` · ${record.breed}` : ""}
-            </p>
-          </div>
-        </div>
-
-        {/* Datos visibles */}
-        <div className="grid grid-cols-2 gap-x-4 gap-y-3 p-5 text-sm">
-          <Item label="Sexo" value={record.sex} />
-          <Item label="Color" value={record.color} />
-          <Item label="Raza" value={record.breed} />
-          <Item label="Nacimiento" value={fmt(record.birthDate)} />
-          <Item label="Esterilizado" value={record.sterilized ? "Sí" : "No"} />
-          <Item label="Adiestramiento" value={record.training ? "Sí" : "No"} />
-          <div className="col-span-2">
-            <Item label="N.º de microchip" value={record.microchip || "No registra"} mono />
-          </div>
-          {record.aggressionHistory && (
-            <div className="col-span-2 rounded-lg bg-amber-50 px-3 py-2">
-              <Item label="⚠ Antecedentes de agresión" value="Sí — manéjala con precaución" />
+            <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+              <Item label="Esterilizado" value={record.sterilized ? "Sí" : "No"} />
+              <Item label="Adiestramiento" value={record.training ? "Sí" : "No"} />
+              {hasHealth && (
+                <>
+                  <Item label="Última vacuna" value={fmt(record.lastVaccineDate)} />
+                  <Item label="Próxima vacuna" value={fmt(record.nextVaccineDate)} />
+                  <Item label="Última desparasitación" value={fmt(record.lastDewormDate)} />
+                  <Item label="Próxima desparasitación" value={fmt(record.nextDewormDate)} />
+                </>
+              )}
             </div>
-          )}
-          {record.diseases && (
-            <div className="col-span-2">
-              <Item label="Enfermedades / notas de salud" value={record.diseases} />
-            </div>
-          )}
-        </div>
-
-        {/* Carnet de salud */}
-        {(record.vaccines ||
-          record.lastVaccineDate ||
-          record.nextVaccineDate ||
-          record.lastDewormDate ||
-          record.nextDewormDate) && (
-          <div className="border-t border-slate-100 bg-teal/5 p-5">
-            <p className="text-xs font-bold uppercase tracking-wider text-teal">
-              💉 Carnet de salud
-            </p>
             {record.vaccines && (
-              <p className="mt-2 text-sm text-navy">
-                <span className="font-semibold">Vacunas:</span> {record.vaccines}
+              <p className="mt-3 text-sm text-navy">
+                <span className="font-semibold">Vacunas aplicadas:</span> {record.vaccines}
               </p>
             )}
-            <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-              <Item label="Última vacuna" value={fmt(record.lastVaccineDate)} />
-              <Item label="Próxima vacuna" value={fmt(record.nextVaccineDate)} />
-              <Item label="Última desparasitación" value={fmt(record.lastDewormDate)} />
-              <Item label="Próxima desparasitación" value={fmt(record.nextDewormDate)} />
-            </div>
-          </div>
-        )}
-
-        {/* Documentos descargables (portal del tutor) */}
-        <div className="border-t border-slate-100 p-5">
-          <p className="text-xs font-bold uppercase tracking-wider text-teal">
-            Documentos de {record.petName}
-          </p>
-          <p className="mt-1 text-sm text-slate-500">
-            Descarga e imprime los documentos oficiales de tu mascota.
-          </p>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            <a
-              href={`/api/cedula/${encodeURIComponent(record.registrationNo)}`}
-              className="rounded-lg bg-teal px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-teal-600"
-            >
-              🪪 Cédula PDF
-            </a>
-            <a
-              href={`/api/carnet/${encodeURIComponent(record.registrationNo)}`}
-              className="rounded-lg bg-navy px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-navy-700"
-            >
-              📘 Carnet PDF
-            </a>
+            {record.diseases && (
+              <p className="mt-2 text-sm text-navy">
+                <span className="font-semibold">Enfermedades / notas:</span> {record.diseases}
+              </p>
+            )}
           </div>
         </div>
+      )}
 
-        {/* Contacto del tutor */}
-        <div className="border-t border-slate-100 bg-slate-50 p-5">
+      {/* Contacto del tutor */}
+      <div className="mt-4 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
+        <div className="bg-slate-50 p-5">
           <p className="text-xs font-bold uppercase tracking-wider text-teal">
             Contacto del tutor
           </p>
