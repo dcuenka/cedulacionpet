@@ -31,7 +31,7 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* Hero institucional */}
+      {/* Hero: carnet digital (principal) */}
       <section className="paw-watermark relative overflow-hidden bg-navy text-white">
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-24">
           <div>
@@ -44,17 +44,21 @@ export default async function HomePage() {
               {BRAND.authority}
             </span>
             <h1 className="mt-5 text-4xl font-black leading-tight md:text-5xl">
-              <span className="text-ec-yellow">Identificación</span> y registro nacional de tu mascota
+              El <span className="text-ec-yellow">carnet digital</span> e identificación de tu mascota, siempre contigo
             </h1>
             <p className="mt-4 max-w-lg text-lg text-white/70">
-              Registramos la ficha técnica completa de tu mascota, implantamos un{" "}
-              <strong className="text-white">microchip</strong> con número de serie único y
-              entregamos su <strong className="text-white">cédula física</strong>, su{" "}
-              <strong className="text-white">carnet de salud</strong> y un{" "}
-              <strong className="text-white">código QR</strong>. Si se pierde, quien la
-              encuentre puede escanear el QR o ingresar el número de serie y contactarte al
-              instante.
+              Registramos la ficha de tu mascota, implantamos un{" "}
+              <strong className="text-white">microchip</strong> y le damos su{" "}
+              <strong className="text-white">carnet digital</strong>: se abre al instante
+              escaneando el <strong className="text-white">QR</strong> o ingresando su número,
+              desde cualquier celular y sin instalar nada.
             </p>
+            <ul className="mt-6 space-y-2 text-white/85">
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Identificación: foto, datos y microchip</li>
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Salud: vacunas y desparasitación con fechas</li>
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Contacto del tutor para recuperarla si se pierde</li>
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Accesible 24/7 desde el navegador</li>
+            </ul>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/localizar"
@@ -68,120 +72,9 @@ export default async function HomePage() {
             </p>
           </div>
 
-          {/* Imagen principal: cédula (proporción real de cédula) + perro asomándose */}
-          <div className="relative mx-auto w-full max-w-lg">
-            <div className="cred-glow pointer-events-none absolute -inset-6 rounded-[36px] bg-ec-yellow/20 blur-3xl" />
-            <div className="float-soft relative">
-              {/* Cédula (proporción tipo cédula de ciudadanía, ~1.586:1) */}
-              <div
-                className="relative z-10 flex flex-col overflow-hidden rounded-xl bg-white text-navy shadow-2xl ring-1 ring-black/10"
-                style={{ aspectRatio: "1.586 / 1" }}
-              >
-                <div className="flex items-center gap-2 px-3 pt-2">
-                  <span className="flex h-4 w-6 flex-col overflow-hidden rounded-[2px] ring-1 ring-black/10">
-                    <span className="h-1/2 bg-ec-yellow" />
-                    <span className="h-1/4 bg-ec-blue" />
-                    <span className="h-1/4 bg-ec-red" />
-                  </span>
-                  <div>
-                    <p className="text-[10px] font-black uppercase leading-none tracking-wide">
-                      Cédula de Identidad Animal
-                    </p>
-                    <p className="mt-0.5 text-[6px] uppercase tracking-widest text-slate-400">
-                      {BRAND.name} · {BRAND.tagline}
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-1.5 flag-bar" />
-                <div
-                  className="flex flex-1 gap-3 bg-[#f8fbfc] px-3 py-2"
-                  style={{
-                    backgroundImage: "url(/ecuador-map.svg)",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    backgroundSize: "auto 82%",
-                  }}
-                >
-                  <div className="flex w-[27%] shrink-0 flex-col">
-                    <div className="flex-1 overflow-hidden rounded bg-slate-100 ring-1 ring-slate-200">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/perro-cedula.png" alt="SAMY" className="h-full w-full object-cover" />
-                    </div>
-                    <p className="mt-1 text-[6.5px]">
-                      <span className="text-slate-400">NUI.</span>{" "}
-                      <span className="font-mono font-bold text-navy">985141002233417</span>
-                    </p>
-                  </div>
-                  <div className="grid flex-1 content-start grid-cols-2 gap-x-3 gap-y-1">
-                    <div className="col-span-2">
-                      <CedField label="Nombre" value="SAMY" big />
-                    </div>
-                    <CedField label="Especie" value="Canina" />
-                    <CedField label="Condición" value="Registrada" />
-                    <CedField label="Sexo" value="Hembra" />
-                    <CedField label="Raza" value="Labrador" />
-                    <CedField label="Color" value="Dorado" />
-                    <CedField label="Nacionalidad" value="Ecuatoriana" />
-                    <CedField label="Nacimiento" value="15 MAR 2023" />
-                    <CedField label="Esterilizado" value="Sí" />
-                    <CedField label="No. Documento" value="0042" />
-                    <CedField label="Microchip N.º" value="985141002233417" />
-                  </div>
-                </div>
-                <div className="flex items-center justify-between border-t border-slate-100 bg-white px-3 py-1.5">
-                  <div>
-                    <p className="text-[6px] font-medium uppercase tracking-wide text-slate-400">
-                      Tutor responsable
-                    </p>
-                    <p className="text-[10px] font-bold text-slate-800">Andrés Vega</p>
-                    <p className="text-[6px] text-slate-400">
-                      Cédula: 0912345678 · Emisión 09 JUL 2026
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-4 w-6 rounded-sm bg-gradient-to-br from-amber-300 to-amber-500 ring-1 ring-amber-600/30" />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={demoQr} alt="QR" className="h-11 w-11" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Carnet Digital (punto principal) */}
-      <section className="bg-navy text-white">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2">
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-teal-100">
-              📱 Carnet Digital
-            </span>
-            <h2 className="mt-4 text-3xl font-black leading-tight md:text-4xl">
-              El <span className="text-teal">carnet digital</span> de tu mascota, siempre a la mano
-            </h2>
-            <p className="mt-4 text-lg text-white/70">
-              Además de la cédula física, cada mascota tiene su carnet digital: se abre al
-              instante escaneando el <strong className="text-white">QR</strong> o ingresando
-              su número, desde cualquier celular y sin instalar nada.
-            </p>
-            <ul className="mt-6 space-y-3 text-white/85">
-              <li className="flex gap-3"><span className="font-black text-teal">✔</span> Identificación: foto, datos y microchip</li>
-              <li className="flex gap-3"><span className="font-black text-teal">✔</span> Salud: vacunas y desparasitación con fechas</li>
-              <li className="flex gap-3"><span className="font-black text-teal">✔</span> Contacto del tutor para recuperarla si se pierde</li>
-              <li className="flex gap-3"><span className="font-black text-teal">✔</span> Accesible 24/7 desde el navegador</li>
-            </ul>
-            <Link
-              href="/localizar"
-              className="mt-8 inline-block rounded-lg bg-ec-yellow px-6 py-3 font-bold text-navy shadow-lg transition hover:brightness-95"
-            >
-              🔎 Consultar un carnet
-            </Link>
-          </div>
-
-          {/* Mock del carnet en celular */}
+          {/* Imagen principal: carnet digital en celular */}
           <div className="mx-auto w-full max-w-[260px]">
-            <div className="rounded-[2rem] border-[6px] border-slate-800 bg-slate-800 shadow-2xl">
+            <div className="float-soft rounded-[2rem] border-[6px] border-slate-800 bg-slate-800 shadow-2xl">
               <div className="overflow-hidden rounded-[1.6rem] bg-white text-navy">
                 <div className="flex items-center gap-3 bg-navy p-4 text-white">
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white/10">
@@ -212,6 +105,91 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Cédula física (complemento compacto) */}
+      <section className="border-b border-black/5 bg-white">
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 px-4 py-12 md:flex-row">
+          {/* Cédula de muestra (más pequeña) */}
+          <div className="w-full max-w-[360px] shrink-0">
+            <div
+              className="flex flex-col overflow-hidden rounded-xl bg-white text-navy shadow-xl ring-1 ring-black/10"
+              style={{ aspectRatio: "1.586 / 1" }}
+            >
+              <div className="flex items-center gap-2 px-3 pt-2">
+                <span className="flex h-4 w-6 flex-col overflow-hidden rounded-[2px] ring-1 ring-black/10">
+                  <span className="h-1/2 bg-ec-yellow" />
+                  <span className="h-1/4 bg-ec-blue" />
+                  <span className="h-1/4 bg-ec-red" />
+                </span>
+                <div>
+                  <p className="text-[10px] font-black uppercase leading-none tracking-wide">
+                    Cédula de Identidad Animal
+                  </p>
+                  <p className="mt-0.5 text-[6px] uppercase tracking-widest text-slate-400">
+                    {BRAND.name}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-1.5 flag-bar" />
+              <div
+                className="flex flex-1 gap-3 bg-[#f8fbfc] px-3 py-2"
+                style={{
+                  backgroundImage: "url(/ecuador-map.svg)",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  backgroundSize: "auto 82%",
+                }}
+              >
+                <div className="flex w-[27%] shrink-0 flex-col">
+                  <div className="flex-1 overflow-hidden rounded bg-slate-100 ring-1 ring-slate-200">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/perro-cedula.png" alt="SAMY" className="h-full w-full object-cover" />
+                  </div>
+                  <p className="mt-1 text-[6.5px]">
+                    <span className="text-slate-400">NUI.</span>{" "}
+                    <span className="font-mono font-bold text-navy">985141002233417</span>
+                  </p>
+                </div>
+                <div className="grid flex-1 content-start grid-cols-2 gap-x-3 gap-y-1">
+                  <div className="col-span-2">
+                    <CedField label="Nombre" value="SAMY" big />
+                  </div>
+                  <CedField label="Especie" value="Canina" />
+                  <CedField label="Sexo" value="Hembra" />
+                  <CedField label="Raza" value="Labrador" />
+                  <CedField label="Microchip N.º" value="985141002233417" />
+                </div>
+              </div>
+              <div className="flex items-center justify-between border-t border-slate-100 bg-white px-3 py-1.5">
+                <div>
+                  <p className="text-[6px] font-medium uppercase tracking-wide text-slate-400">
+                    Tutor responsable
+                  </p>
+                  <p className="text-[10px] font-bold text-slate-800">Andrés Vega</p>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="h-4 w-6 rounded-sm bg-gradient-to-br from-amber-300 to-amber-500 ring-1 ring-amber-600/30" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={demoQr} alt="QR" className="h-11 w-11" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Resumen compacto de la cédula física */}
+          <div>
+            <h2 className="text-2xl font-black text-navy">Y su cédula de identidad física</h2>
+            <p className="mt-2 text-slate-600">
+              Junto al carnet entregamos impresa la{" "}
+              <strong className="text-navy">Cédula de Identidad Animal</strong>: foto oficial,
+              número de microchip y el mismo código QR que abre el carnet digital.
+            </p>
+            <p className="mt-3 text-sm font-semibold text-slate-500">
+              📷 Foto oficial · 🔖 Microchip N.º · ▣ QR de verificación
+            </p>
           </div>
         </div>
       </section>
