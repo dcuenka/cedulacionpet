@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { BRAND } from "@/lib/brand";
 import Paw from "@/components/Paw";
+import PWARegister from "@/components/PWARegister";
+import InstallButton from "@/components/InstallButton";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -10,6 +12,20 @@ export const metadata: Metadata = {
     template: `%s · ${BRAND.name}`,
   },
   description: `${BRAND.tagline}. Identifica y registra a tu mascota con cédula oficial y código QR de verificación.`,
+  applicationName: BRAND.name,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Cedulación Pet",
+  },
+  icons: {
+    icon: "/icons/icon-192.png",
+    apple: "/icons/apple-touch-icon.png",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a337a",
 };
 
 function Header() {
@@ -33,6 +49,7 @@ function Header() {
             </span>
           </Link>
           <nav className="flex items-center gap-2 text-sm">
+            <InstallButton />
             <Link
               href="/localizar"
               className="rounded-md bg-ec-yellow px-4 py-2 font-semibold text-navy transition hover:brightness-95"
@@ -88,6 +105,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="flex min-h-screen flex-col antialiased">
+        <PWARegister />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
