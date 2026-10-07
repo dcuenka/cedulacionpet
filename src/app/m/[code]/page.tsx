@@ -6,6 +6,7 @@ import { qrDataUrl, lookupCode } from "@/lib/qr";
 import CedulaCard from "@/components/CedulaCard";
 import ShareBar from "@/components/ShareBar";
 import InstallButton from "@/components/InstallButton";
+import HealthEventSubmit from "@/components/HealthEventSubmit";
 
 export const metadata: Metadata = { title: "Localización de mascota" };
 
@@ -116,13 +117,15 @@ export default async function LocalizarCodePage({
   const wa = waLink(record.ownerPhone) || waLink(record.ownerPhoneAlt);
   const petCode = lookupCode(record);
   const qr = await qrDataUrl(petCode);
+  const validatedEvents = record.healthEvents.filter((e) => e.status === "validado");
+  const pendingEvents = record.healthEvents.filter((e) => e.status === "pendiente");
   const hasHealth =
     record.vaccines ||
     record.lastVaccineDate ||
     record.nextVaccineDate ||
     record.lastDewormDate ||
     record.nextDewormDate ||
-    record.healthEvents.length > 0;
+    validatedEvents.length > 0;
 
   return (
     <div className="mx-auto max-w-lg px-4 py-8">
@@ -196,13 +199,13 @@ export default async function LocalizarCodePage({
               </p>
             )}
 
-            {record.healthEvents.length > 0 && (
+            {validatedEvents.length > 0 && (
               <div className="mt-4">
                 <p className="text-xs font-bold uppercase tracking-wider text-teal">
                   Historial de procesos
                 </p>
                 <ul className="mt-2 space-y-2">
-                  {record.healthEvents.map((ev) => (
+                  {validatedEvents.map((ev) => (
                     <li
                       key={ev.id}
                       className="flex items-start gap-2 border-b border-slate-100 pb-2 text-sm last:border-0"
@@ -233,6 +236,31 @@ export default async function LocalizarCodePage({
           </div>
         </div>
       )}
+
+      {/* Reportes del tutor: pendientes + nuevo reporte */}
+      <div className="mt-4">
+        {pendingEvents.length > 0 && (
+          <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-amber-700">
+              ⏳ Pendiente de validación
+            </p>
+            <ul className="mt-2 space-y-1">
+              {pendingEvents.map((ev) => (
+                <li key={ev.id} className="text-sm text-amber-900">
+                  <span className="font-semibold">
+                    {ev.type === "vacuna" ? "Vacuna" : "Desparasitación"}
+                  </span>
+                  {ev.product ? ` · ${ev.product}` : ""} · {fmt(ev.date)}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-2 text-[11px] text-amber-700/80">
+              El equipo veterinario revisará este reporte antes de incluirlo en el carnet oficial.
+            </p>
+          </div>
+        )}
+        <HealthEventSubmit petRecordId={record.id} />
+      </div>
 
       {/* Contacto del tutor */}
       <div className="mt-4 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">

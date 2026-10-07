@@ -8,7 +8,7 @@ import { toggleLost } from "@/lib/actions/records";
 import { toggleStatusAction } from "@/lib/actions/admin";
 import CedulaCard from "@/components/CedulaCard";
 import HealthEventForm from "@/components/HealthEventForm";
-import { deleteHealthEvent } from "@/lib/actions/health";
+import { deleteHealthEvent, validateHealthEvent } from "@/lib/actions/health";
 
 export const metadata: Metadata = { title: "Ficha" };
 
@@ -183,7 +183,12 @@ export default async function FichaAdminPage({
               </thead>
               <tbody>
                 {r.healthEvents.map((ev) => (
-                  <tr key={ev.id} className="border-t border-slate-100 align-middle">
+                  <tr
+                    key={ev.id}
+                    className={`border-t border-slate-100 align-middle ${
+                      ev.status === "pendiente" ? "bg-amber-50/60" : ""
+                    }`}
+                  >
                     <td className="px-4 py-2 font-medium text-navy">{fmtDate(ev.date)}</td>
                     <td className="px-4 py-2">
                       <span
@@ -195,6 +200,11 @@ export default async function FichaAdminPage({
                       >
                         {ev.type === "vacuna" ? "Vacuna" : "Desparasitación"}
                       </span>
+                      {ev.status === "pendiente" && (
+                        <span className="ml-1 rounded bg-amber-200 px-1.5 py-0.5 text-[10px] font-bold text-amber-900">
+                          ⏳ PENDIENTE{ev.source === "tutor" ? " · TUTOR" : ""}
+                        </span>
+                      )}
                     </td>
                     <td className="px-4 py-2 text-slate-700">
                       {ev.product || "—"}
@@ -211,13 +221,23 @@ export default async function FichaAdminPage({
                       )}
                     </td>
                     <td className="px-4 py-2 text-right">
-                      <form action={deleteHealthEvent}>
-                        <input type="hidden" name="eventId" value={ev.id} />
-                        <input type="hidden" name="petRecordId" value={r.id} />
-                        <button className="text-xs text-slate-400 transition hover:text-red-500">
-                          Eliminar
-                        </button>
-                      </form>
+                      <div className="flex items-center justify-end gap-2">
+                        {ev.status === "pendiente" && (
+                          <form action={validateHealthEvent}>
+                            <input type="hidden" name="eventId" value={ev.id} />
+                            <button className="rounded bg-teal px-2.5 py-1 text-xs font-semibold text-white transition hover:bg-teal-600">
+                              Validar
+                            </button>
+                          </form>
+                        )}
+                        <form action={deleteHealthEvent}>
+                          <input type="hidden" name="eventId" value={ev.id} />
+                          <input type="hidden" name="petRecordId" value={r.id} />
+                          <button className="text-xs text-slate-400 transition hover:text-red-500">
+                            {ev.status === "pendiente" ? "Rechazar" : "Eliminar"}
+                          </button>
+                        </form>
+                      </div>
                     </td>
                   </tr>
                 ))}

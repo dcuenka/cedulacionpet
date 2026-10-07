@@ -81,8 +81,13 @@ model HealthEvent {
   mvz       String? // médico veterinario que lo aplicó
   photoData String? // foto de la etiqueta/carnet (base64), opcional
   notes     String?
+  // "validado" = registrado/confirmado por el equipo (oficial).
+  // "pendiente" = reportado por el tutor, a la espera de validación.
+  status    String   @default("validado")
+  source    String   @default("admin") // "admin" | "tutor"
   createdAt DateTime  @default(now())
 
   @@index([petRecordId])
+  @@index([status])
   @@index([date])
 }

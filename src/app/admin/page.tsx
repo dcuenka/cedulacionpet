@@ -37,7 +37,7 @@ export default async function AdminPage({
       }
     : {};
 
-  const [records, total, lost] = await Promise.all([
+  const [records, total, lost, pending] = await Promise.all([
     prisma.petRecord.findMany({
       where,
       orderBy: { createdAt: "desc" },
@@ -45,6 +45,7 @@ export default async function AdminPage({
     }),
     prisma.petRecord.count(),
     prisma.petRecord.count({ where: { lost: true } }),
+    prisma.healthEvent.count({ where: { status: "pendiente" } }),
   ]);
 
   return (
@@ -63,6 +64,17 @@ export default async function AdminPage({
           </p>
         </div>
         <div className="flex gap-2">
+          <Link
+            href="/admin/validaciones"
+            className="relative rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-navy transition hover:bg-slate-50"
+          >
+            ⏳ Validaciones
+            {pending > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 px-1 text-[11px] font-bold text-white">
+                {pending}
+              </span>
+            )}
+          </Link>
           <Link
             href="/admin/recordatorios"
             className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-navy transition hover:bg-slate-50"

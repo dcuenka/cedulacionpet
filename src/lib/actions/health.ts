@@ -18,30 +18,14 @@ function optDate(v: FormDataEntryValue | null): Date | null {
   return isNaN(d.getTime()) ? null : d;
 }
 
-// Registra un proceso realizado en una visita (vacuna o desparasitación).
-// Guarda el evento en el historial y actualiza los campos "última/próxima"
-// de la ficha para que la cédula y el carnet reflejen lo más reciente.
-export async function addHealthEvent(formData: FormData): Promise<void> {
-  if (!(await isAdmin())) return;
-
-  const petRecordId = str(formData.get("petRecordId"));
-  const type = str(formData.get("type")) === "desparasitacion" ? "desparasitacion" : "vacuna";
-  const date = optDate(formData.get("date")) || new Date();
-  const nextDate = optDate(formData.get("nextDate"));
-  const product = optStr(formData.get("product"));
-  const lot = optStr(formData.get("lot"));
-  const mvz = optStr(formData.get("mvz"));
-  const notes = optStr(formData.get("notes"));
-  let photoData = optStr(formData.get("photoData"));
-  if (photoData && photoData.length > 2_500_000) photoData = null; // foto demasiado pesada: se descarta
-
-  if (!petRecordId) return;
-
-  await prisma.healthEvent.create({
-    data: { petRecordId, type, date, nextDate, product, lot, mvz, notes, photoData },
-  });
-
-  // Sincroniza los campos "resumen" de la ficha con el último proceso.
+// Sincroniza los campos "resumen" de la ficha con el último proceso validado.
+async function syncSummary(
+  petRecordId: string,
+  type: string,
+  date: Date,
+  nextDate: Date | null,
+  product: string | null,
+) {
   if (type === "vacuna") {
     await prisma.petRecord.update({
       where: { id: petRecordId },
@@ -57,11 +41,66 @@ export async function addHealthEvent(formData: FormData): Promise<void> {
       data: { lastDewormDate: date, nextDewormDate: nextDate },
     });
   }
-
-  revalidatePath(`/admin/${petRecordId}`);
 }
 
-// Elimina un evento del historial (solo administradores).
+function readEvent(formData: FormData) {
+  return {
+    petRecordId: str(formData.get("petRecordId")),
+    type: str(formData.get("type")) === "desparasitacion" ? "desparasitacion" : "vacuna",
+    date: optDate(formData.get("date")) || new Date(),
+    nextDate: optDate(formData.get("nextDate")),
+    product: optStr(formData.get("product")),
+    lot: optStr(formData.get("lot")),
+    mvz: optStr(formData.get("mvz")),
+    notes: optStr(formData.get("notes")),
+    photoData: (() => {
+      const p = optStr(formData.get("photoData"));
+      return p && p.length > 2_500_000 ? null : p; // foto demasiado pesada: se descarta
+    })(),
+  };
+}
+
+// Registra un proceso realizado en una visita (solo admin) -> queda VALIDADO.
+export async function addHealthEvent(formData: FormData): Promise<void> {
+  if (!(await isAdmin())) return;
+  const e = readEvent(formData);
+  if (!e.petRecordId) return;
+
+  await prisma.healthEvent.create({
+    data: { ...e, status: "validado", source: "admin" },
+  });
+  await syncSummary(e.petRecordId, e.type, e.date, e.nextDate, e.product);
+  revalidatePath(`/admin/${e.petRecordId}`);
+}
+
+// El tutor reporta un proceso aplicado en otro lugar -> queda PENDIENTE.
+// No requiere admin y NO actualiza el resumen de la ficha hasta validarse.
+export async function submitHealthEvent(formData: FormData): Promise<void> {
+  const e = readEvent(formData);
+  if (!e.petRecordId) return;
+  // El reporte del tutor no lleva MVZ ni se considera oficial.
+  await prisma.healthEvent.create({
+    data: { ...e, mvz: null, status: "pendiente", source: "tutor" },
+  });
+  revalidatePath(`/admin/${e.petRecordId}`);
+  revalidatePath("/admin/validaciones");
+}
+
+// Valida un evento pendiente (solo admin) -> pasa a oficial y actualiza el resumen.
+export async function validateHealthEvent(formData: FormData): Promise<void> {
+  if (!(await isAdmin())) return;
+  const id = str(formData.get("eventId"));
+  if (!id) return;
+  const ev = await prisma.healthEvent.update({
+    where: { id },
+    data: { status: "validado" },
+  });
+  await syncSummary(ev.petRecordId, ev.type, ev.date, ev.nextDate, ev.product);
+  revalidatePath(`/admin/${ev.petRecordId}`);
+  revalidatePath("/admin/validaciones");
+}
+
+// Elimina / rechaza un evento (solo administradores).
 export async function deleteHealthEvent(formData: FormData): Promise<void> {
   if (!(await isAdmin())) return;
   const id = str(formData.get("eventId"));
@@ -69,4 +108,5 @@ export async function deleteHealthEvent(formData: FormData): Promise<void> {
   if (!id) return;
   await prisma.healthEvent.delete({ where: { id } });
   if (petRecordId) revalidatePath(`/admin/${petRecordId}`);
+  revalidatePath("/admin/validaciones");
 }
