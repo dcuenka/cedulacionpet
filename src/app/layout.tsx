@@ -34,12 +34,6 @@ function Header() {
           </Link>
           <nav className="flex items-center gap-2 text-sm">
             <Link
-              href="/admin"
-              className="rounded-md px-3 py-2 text-white/80 transition hover:bg-white/10 hover:text-white"
-            >
-              Acceso administrador
-            </Link>
-            <Link
               href="/localizar"
               className="rounded-md bg-ec-yellow px-4 py-2 font-semibold text-navy transition hover:brightness-95"
             >
@@ -75,14 +69,20 @@ function Footer() {
           <Link href="/localizar" className="hover:text-teal">
             Consultar mascota
           </Link>
-          <Link href="/admin" className="hover:text-teal">
-            Acceso administrador
-          </Link>
         </div>
       </div>
       <div className="flag-bar" />
-      <div className="bg-navy py-3 text-center text-[11px] text-white/70">
-        © {new Date().getFullYear()} {BRAND.name} · {BRAND.tagline}
+      <div className="bg-navy py-3 text-[11px] text-white/70">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4">
+          <span>© {new Date().getFullYear()} {BRAND.name} · {BRAND.tagline}</span>
+          <Link
+            href="/admin"
+            aria-label="Acceso administrador"
+            className="text-[10px] text-white/20 transition hover:text-white/60"
+          >
+            Admin
+          </Link>
+        </div>
       </div>
     </footer>
   );

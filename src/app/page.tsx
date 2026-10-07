@@ -62,12 +62,6 @@ export default async function HomePage() {
               >
                 🔎 Consultar / identificar mascota
               </Link>
-              <Link
-                href="/admin"
-                className="rounded-lg border border-white/25 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
-              >
-                Acceso administrador
-              </Link>
             </div>
             <p className="mt-6 text-sm text-white/50">
               <strong className="text-white">{total.toLocaleString("es-EC")}</strong> mascotas ya cuentan con su ficha e identificación.
@@ -254,9 +248,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Dos accesos */}
-      <section className="mx-auto max-w-6xl px-4 pb-20">
-        <div className="grid gap-6 md:grid-cols-2">
+      {/* Consulta pública */}
+      <section className="mx-auto max-w-2xl px-4 pb-20">
+        <div>
           <div className="rounded-2xl border border-black/5 bg-white p-8 shadow-sm">
             <p className="text-2xl">🔎</p>
             <h3 className="mt-3 text-lg font-bold text-navy">
@@ -271,20 +265,6 @@ export default async function HomePage() {
               className="mt-4 inline-block rounded-lg bg-navy px-6 py-2.5 font-semibold text-white transition hover:bg-navy-700"
             >
               Consultar mascota
-            </Link>
-          </div>
-          <div className="rounded-2xl border border-black/5 bg-white p-8 shadow-sm">
-            <p className="text-2xl">🛡️</p>
-            <h3 className="mt-3 text-lg font-bold text-navy">Equipo administrador</h3>
-            <p className="mt-2 text-sm text-slate-600">
-              Acceso exclusivo del equipo para crear y gestionar fichas, registrar
-              microchips y emitir cédulas. Requiere contraseña.
-            </p>
-            <Link
-              href="/admin"
-              className="mt-4 inline-block rounded-lg border border-slate-300 px-6 py-2.5 font-semibold text-navy transition hover:bg-slate-50"
-            >
-              Ingresar
             </Link>
           </div>
         </div>
