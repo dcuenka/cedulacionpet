@@ -34,6 +34,13 @@ export default function LocalizarPage() {
             Consultar
           </button>
         </form>
+        <div className="mt-6 rounded-lg bg-teal/5 px-4 py-3 text-sm text-slate-600">
+          <p className="font-semibold text-navy">¿Eres el tutor?</p>
+          <p className="mt-0.5">
+            Ingresa tu número de cédula para ver tus mascotas y{" "}
+            <strong>descargar su cédula y carnet</strong> cuando los necesites.
+          </p>
+        </div>
         <p className="mt-4 text-xs text-slate-400">
           Este acceso es solo de consulta. Únicamente el equipo administrador puede
           registrar o modificar información.

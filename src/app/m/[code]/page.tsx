@@ -198,6 +198,30 @@ export default async function LocalizarCodePage({
           </div>
         )}
 
+        {/* Documentos descargables (portal del tutor) */}
+        <div className="border-t border-slate-100 p-5">
+          <p className="text-xs font-bold uppercase tracking-wider text-teal">
+            Documentos de {record.petName}
+          </p>
+          <p className="mt-1 text-sm text-slate-500">
+            Descarga e imprime los documentos oficiales de tu mascota.
+          </p>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <a
+              href={`/api/cedula/${encodeURIComponent(record.registrationNo)}`}
+              className="rounded-lg bg-teal px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-teal-600"
+            >
+              🪪 Cédula PDF
+            </a>
+            <a
+              href={`/api/carnet/${encodeURIComponent(record.registrationNo)}`}
+              className="rounded-lg bg-navy px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-navy-700"
+            >
+              📘 Carnet PDF
+            </a>
+          </div>
+        </div>
+
         {/* Contacto del tutor */}
         <div className="border-t border-slate-100 bg-slate-50 p-5">
           <p className="text-xs font-bold uppercase tracking-wider text-teal">
