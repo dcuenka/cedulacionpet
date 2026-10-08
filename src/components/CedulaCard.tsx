@@ -54,11 +54,11 @@ function Field({
   big?: boolean;
 }) {
   return (
-    <div>
+    <div className="min-w-0">
       <p className="text-[9px] font-medium uppercase tracking-wider text-slate-400">
         {label}
       </p>
-      <p className={`font-bold text-slate-800 ${big ? "text-xl leading-tight" : "text-sm"}`}>
+      <p className={`break-words font-bold text-slate-800 ${big ? "text-lg leading-tight sm:text-xl" : "text-[11px] sm:text-sm"}`}>
         {value || "—"}
       </p>
     </div>
@@ -74,7 +74,7 @@ export default function CedulaCard({
 }) {
   const nui = record.microchip || record.certificateNo || record.registrationNo;
   return (
-    <div className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xl">
+    <div className="mx-auto max-w-[560px] overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xl">
       {/* Cabecera */}
       <div className="flex items-center gap-3 px-5 pt-4">
         <Flag />
@@ -91,7 +91,7 @@ export default function CedulaCard({
 
       {/* Cuerpo */}
       <div
-        className="grid gap-5 bg-[#f8fbfc] p-5 sm:grid-cols-[132px_1fr]"
+        className="grid grid-cols-[104px_1fr] gap-4 bg-[#f8fbfc] p-4 sm:grid-cols-[132px_1fr] sm:gap-5 sm:p-5"
         style={{
           backgroundImage: "url(/ecuador-map.svg)",
           backgroundRepeat: "no-repeat",
@@ -100,8 +100,8 @@ export default function CedulaCard({
         }}
       >
         {/* Foto + NUI */}
-        <div className="mx-auto sm:mx-0">
-          <div className="flex h-40 w-32 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
+        <div>
+          <div className="flex aspect-[3/4] w-full items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
             {record.photoData ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={record.photoData} alt={record.petName} className="h-full w-full object-cover" />
@@ -109,9 +109,9 @@ export default function CedulaCard({
               <span className="text-4xl">🐾</span>
             )}
           </div>
-          <p className="mt-2 text-sm">
+          <p className="mt-2 text-[10px] sm:text-sm">
             <span className="text-slate-400">NUI.</span>{" "}
-            <span className="font-mono font-bold text-navy">{nui}</span>
+            <span className="break-all font-mono font-bold text-navy">{nui}</span>
           </p>
           {record.status === "anulado" && (
             <span className="mt-2 inline-block rounded bg-red-100 px-2 py-0.5 text-xs font-bold text-red-700">

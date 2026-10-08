@@ -10,8 +10,8 @@ export const revalidate = 60;
 function CedField({ label, value, big }: { label: string; value: string; big?: boolean }) {
   return (
     <div>
-      <p className="text-[8px] font-medium uppercase tracking-wide text-slate-400">{label}</p>
-      <p className={`font-bold leading-tight text-slate-800 ${big ? "text-[22px]" : "text-[12px]"}`}>
+      <p className="text-[7px] font-medium uppercase tracking-wide text-slate-400">{label}</p>
+      <p className={`font-bold leading-tight text-slate-800 ${big ? "text-[17px]" : "text-[10px]"}`}>
         {value}
       </p>
     </div>
@@ -73,7 +73,7 @@ export default async function HomePage() {
           </div>
 
           {/* Imagen principal: carnet de vacunas abierto (tipo libro) */}
-          <div className="relative mx-auto w-full max-w-[520px]">
+          <div className="relative mx-auto w-full max-w-[420px]">
             <div className="cred-glow pointer-events-none absolute -inset-8 rounded-[40px] bg-ec-yellow/20 blur-3xl" />
             <div className="float-soft grid grid-cols-2 rounded-md ring-1 ring-[#6b1f29]/30 shadow-[0_40px_80px_-25px_rgba(0,0,0,0.6)] [perspective:1800px]">
               {/* Página izquierda: tabla de vacunación */}
@@ -140,28 +140,31 @@ export default async function HomePage() {
       {/* Cédula física (complemento) */}
       <section className="relative overflow-hidden border-b border-black/5 bg-gradient-to-b from-[#e8eff9] via-[#eef3fb] to-white">
         <div className="relative mx-auto flex max-w-5xl flex-col items-center gap-10 px-4 py-16 md:flex-row">
-          {/* Cédula de muestra (ampliada y con resplandor) */}
-          <div className="relative w-full max-w-[440px] shrink-0">
+          {/* Cédula de muestra (proporción real de cédula, con resplandor) */}
+          <div className="relative w-full max-w-[380px] shrink-0">
             <div className="pointer-events-none absolute -inset-5 rounded-[36px] bg-ec-yellow/25 blur-2xl" />
-            <div className="float-soft relative flex flex-col overflow-hidden rounded-2xl bg-white text-navy shadow-2xl ring-1 ring-black/10">
-              <div className="flex items-center gap-2.5 px-4 pt-3">
-                <span className="flex h-6 w-9 flex-col overflow-hidden rounded-[3px] ring-1 ring-black/10">
+            <div
+              className="float-soft relative flex flex-col overflow-hidden rounded-xl bg-white text-navy shadow-2xl ring-1 ring-black/10"
+              style={{ aspectRatio: "1.586 / 1" }}
+            >
+              <div className="flex items-center gap-2 px-3 pt-2">
+                <span className="flex h-5 w-8 flex-col overflow-hidden rounded-[3px] ring-1 ring-black/10">
                   <span className="h-1/2 bg-ec-yellow" />
                   <span className="h-1/4 bg-ec-blue" />
                   <span className="h-1/4 bg-ec-red" />
                 </span>
                 <div>
-                  <p className="text-[14px] font-black uppercase leading-none tracking-wide">
+                  <p className="text-[11px] font-black uppercase leading-none tracking-wide">
                     Cédula de Identidad Animal
                   </p>
-                  <p className="mt-0.5 text-[8px] uppercase tracking-widest text-slate-400">
+                  <p className="mt-0.5 text-[6.5px] uppercase tracking-widest text-slate-400">
                     {BRAND.name} · {BRAND.tagline}
                   </p>
                 </div>
               </div>
-              <div className="mt-2 flag-bar" />
+              <div className="mt-1.5 flag-bar" />
               <div
-                className="flex flex-1 gap-4 bg-[#f8fbfc] px-4 py-4"
+                className="flex flex-1 gap-3 bg-[#f8fbfc] px-3 py-2.5"
                 style={{
                   backgroundImage: "url(/ecuador-map.svg)",
                   backgroundRepeat: "no-repeat",
@@ -169,17 +172,17 @@ export default async function HomePage() {
                   backgroundSize: "auto 82%",
                 }}
               >
-                <div className="flex w-[30%] shrink-0 flex-col">
-                  <div className="aspect-[3/4] overflow-hidden rounded-lg bg-slate-100 ring-1 ring-slate-200">
+                <div className="flex w-[27%] shrink-0 flex-col">
+                  <div className="aspect-[3/4] overflow-hidden rounded bg-slate-100 ring-1 ring-slate-200">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/perro-cedula.png" alt="SAMY" className="h-full w-full object-cover" />
                   </div>
-                  <p className="mt-1.5 text-[9px]">
+                  <p className="mt-1 text-[7px]">
                     <span className="text-slate-400">NUI.</span>{" "}
                     <span className="font-mono font-bold text-navy">985141002233417</span>
                   </p>
                 </div>
-                <div className="grid flex-1 content-start grid-cols-2 gap-x-4 gap-y-2">
+                <div className="grid flex-1 content-start grid-cols-2 gap-x-3 gap-y-1.5">
                   <div className="col-span-2">
                     <CedField label="Nombre" value="SAMY" big />
                   </div>
@@ -187,25 +190,23 @@ export default async function HomePage() {
                   <CedField label="Sexo" value="Hembra" />
                   <CedField label="Raza" value="Labrador" />
                   <CedField label="Color" value="Dorado" />
-                  <CedField label="Nacimiento" value="15 MAR 2023" />
-                  <CedField label="Esterilizado" value="Sí" />
                   <div className="col-span-2">
                     <CedField label="Microchip N.º" value="985141002233417" />
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between border-t border-slate-100 bg-white px-4 py-3">
+              <div className="flex items-center justify-between border-t border-slate-100 bg-white px-3 py-2">
                 <div>
-                  <p className="text-[8px] font-medium uppercase tracking-wide text-slate-400">
+                  <p className="text-[6.5px] font-medium uppercase tracking-wide text-slate-400">
                     Tutor responsable
                   </p>
-                  <p className="text-[13px] font-bold text-slate-800">Andrés Vega</p>
-                  <p className="text-[8px] text-slate-400">Cédula: 0912345678</p>
+                  <p className="text-[11px] font-bold text-slate-800">Andrés Vega</p>
+                  <p className="text-[6.5px] text-slate-400">Cédula: 0912345678</p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="h-6 w-9 rounded-sm bg-gradient-to-br from-amber-300 to-amber-500 ring-1 ring-amber-600/30" />
+                <div className="flex items-center gap-1.5">
+                  <span className="h-5 w-8 rounded-sm bg-gradient-to-br from-amber-300 to-amber-500 ring-1 ring-amber-600/30" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={demoQr} alt="QR" className="h-16 w-16" />
+                  <img src={demoQr} alt="QR" className="h-12 w-12" />
                 </div>
               </div>
             </div>
