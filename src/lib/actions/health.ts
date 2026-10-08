@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/admin-auth";
+import { BRAND } from "@/lib/brand";
 
 function str(v: FormDataEntryValue | null): string {
   return typeof v === "string" ? v.trim() : "";
@@ -68,7 +69,7 @@ export async function addHealthEvent(formData: FormData): Promise<void> {
   if (!e.petRecordId) return;
 
   await prisma.healthEvent.create({
-    data: { ...e, status: "validado", source: "admin" },
+    data: { ...e, mvz: e.mvz || BRAND.name, status: "validado", source: "admin" },
   });
   await syncSummary(e.petRecordId, e.type, e.date, e.nextDate, e.product);
   revalidatePath(`/admin/${e.petRecordId}`);
@@ -92,9 +93,12 @@ export async function validateHealthEvent(formData: FormData): Promise<void> {
   if (!(await isAdmin())) return;
   const id = str(formData.get("eventId"));
   if (!id) return;
+  // Al aprobar, la autoría/firma es la ENTIDAD (no un médico individual),
+  // salvo que ya tenga un veterinario registrado.
+  const current = await prisma.healthEvent.findUnique({ where: { id }, select: { mvz: true } });
   const ev = await prisma.healthEvent.update({
     where: { id },
-    data: { status: "validado" },
+    data: { status: "validado", mvz: current?.mvz || BRAND.name },
   });
   await syncSummary(ev.petRecordId, ev.type, ev.date, ev.nextDate, ev.product);
   revalidatePath(`/admin/${ev.petRecordId}`);

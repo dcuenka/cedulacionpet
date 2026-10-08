@@ -142,9 +142,10 @@ export default function HealthEventForm({ petRecordId }: { petRecordId: string }
           />
         </label>
         <label className="text-sm">
-          <span className="text-slate-500">Veterinario (MVZ)</span>
+          <span className="text-slate-500">Firma (veterinario o entidad)</span>
           <input
             name="mvz"
+            placeholder="Vacío = Cedulación Pet Carnet"
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-navy outline-none focus:border-teal"
           />
         </label>
