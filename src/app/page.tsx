@@ -72,37 +72,64 @@ export default async function HomePage() {
             </p>
           </div>
 
-          {/* Imagen principal: carnet digital en celular */}
-          <div className="relative mx-auto w-full max-w-[320px]">
-            <div className="cred-glow pointer-events-none absolute -inset-6 rounded-[44px] bg-ec-yellow/25 blur-3xl" />
-            <div className="float-soft relative rounded-[2.4rem] border-[8px] border-slate-800 bg-slate-800 shadow-2xl">
-              <div className="overflow-hidden rounded-[1.9rem] bg-white text-navy">
-                <div className="flex items-center gap-3 bg-navy p-4 text-white">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white/10">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/perro-cedula.png" alt="SAMY" className="h-full w-full object-cover" />
-                  </span>
-                  <div>
-                    <p className="text-lg font-black leading-none">SAMY</p>
-                    <p className="text-[11px] text-white/70">Canina · Labrador</p>
+          {/* Imagen principal: carnet de vacunas abierto (tipo libro) */}
+          <div className="relative mx-auto w-full max-w-[520px]">
+            <div className="cred-glow pointer-events-none absolute -inset-8 rounded-[40px] bg-ec-yellow/20 blur-3xl" />
+            <div className="float-soft grid grid-cols-2 rounded-md ring-1 ring-[#6b1f29]/30 shadow-[0_40px_80px_-25px_rgba(0,0,0,0.6)] [perspective:1800px]">
+              {/* Página izquierda: tabla de vacunación */}
+              <div className="book-open-left relative rounded-l-md bg-[#f3ead9] p-4 text-left [box-shadow:inset_-24px_0_40px_-24px_rgba(90,40,20,0.6)]">
+                <p className="text-center text-[11px] font-black uppercase tracking-widest text-[#6b1f29]">
+                  Vacunación
+                </p>
+                <div className="mt-3 overflow-hidden rounded-sm border border-[#c9b79a]">
+                  <div className="grid grid-cols-[1fr_1.3fr_1fr] bg-[#6b1f29] text-[8px] font-bold uppercase tracking-wide text-[#f3ead9]">
+                    <span className="px-2 py-1.5">Fecha</span>
+                    <span className="border-l border-[#f3ead9]/30 px-2 py-1.5">Vacuna</span>
+                    <span className="border-l border-[#f3ead9]/30 px-2 py-1.5">Firma M.V.</span>
                   </div>
+                  {[
+                    { f: "06/10/2026", v: "Antirrábica" },
+                    { f: "06/10/2026", v: "Óctuple" },
+                    { f: "06/10/2027", v: "Refuerzo" },
+                    { f: "", v: "" },
+                    { f: "", v: "" },
+                  ].map((r, i) => (
+                    <div
+                      key={i}
+                      className="grid grid-cols-[1fr_1.3fr_1fr] border-t border-[#c9b79a] text-[9px] text-[#5a4631]"
+                    >
+                      <span className="px-2 py-2.5 font-semibold">{r.f || "D/M/A"}</span>
+                      <span className="border-l border-[#c9b79a] px-2 py-2.5">{r.v}</span>
+                      <span className="border-l border-[#c9b79a] px-2 py-2.5" />
+                    </div>
+                  ))}
                 </div>
-                <div className="grid grid-cols-2 gap-2 p-4 text-[11px]">
-                  <div><p className="uppercase text-slate-400">Sexo</p><p className="font-bold">Hembra</p></div>
-                  <div><p className="uppercase text-slate-400">Color</p><p className="font-bold">Dorado</p></div>
-                  <div className="col-span-2"><p className="uppercase text-slate-400">Microchip</p><p className="font-mono font-bold">985141002233417</p></div>
+              </div>
+
+              {/* Página derecha: mapa "Mis viajes por Ecuador" + QR */}
+              <div className="book-open-right relative rounded-r-md bg-[#f6efe2] p-4 text-center [box-shadow:inset_24px_0_40px_-24px_rgba(90,40,20,0.6)]">
+                <p className="text-lg font-black italic text-[#6b1f29]">Mis viajes por Ecuador</p>
+                <div
+                  className="mx-auto mt-1 h-36 w-full"
+                  style={{
+                    backgroundImage: "url(/ecuador-map.svg)",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundSize: "contain",
+                  }}
+                />
+                <div className="mt-1 flex items-center justify-center gap-3 text-[8px] text-[#5a4631]">
+                  <span>❤ Mi hogar</span>
+                  <span>📍 Visitados</span>
+                  <span>⭐ Por ir</span>
                 </div>
-                <div className="border-t border-slate-100 bg-teal/5 p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-teal">💉 Carnet de salud</p>
-                  <div className="mt-2 grid grid-cols-2 gap-2 text-[11px]">
-                    <div><p className="uppercase text-slate-400">Última vacuna</p><p className="font-bold">10 MAR 2026</p></div>
-                    <div><p className="uppercase text-slate-400">Próxima</p><p className="font-bold">10 MAR 2027</p></div>
-                    <div><p className="uppercase text-slate-400">Desparasitación</p><p className="font-bold">01 AGO 2026</p></div>
-                    <div><p className="uppercase text-slate-400">Próxima</p><p className="font-bold">01 NOV 2026</p></div>
+                <div className="mt-3 flex items-center justify-center gap-3">
+                  <div className="text-left">
+                    <p className="text-[9px] font-bold text-[#6b1f29]">¿Tienes alguna duda?</p>
+                    <p className="text-[8px] text-[#5a4631]">Escríbenos y te ayudamos</p>
                   </div>
-                </div>
-                <div className="flex items-center justify-center gap-2 bg-navy p-3 text-[11px] font-semibold text-white">
-                  📞 Contactar al tutor
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={demoQr} alt="QR" className="h-14 w-14 rounded-sm" />
                 </div>
               </div>
             </div>
@@ -195,74 +222,6 @@ export default async function HomePage() {
             <p className="mt-4 text-base font-semibold text-slate-500">
               📷 Foto oficial · 🔖 Microchip N.º · ▣ QR de verificación
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Carnet físico abierto (tipo pasaporte) */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#efe7dd] to-white py-16">
-        <div className="mx-auto max-w-4xl px-4 text-center">
-          <h2 className="text-3xl font-black text-[#6b1f29]">Y su carnet de vacunación físico</h2>
-          <p className="mx-auto mt-3 max-w-xl text-lg text-slate-600">
-            Un librito tipo pasaporte con el historial de vacunas y desparasitación,
-            sellado por el médico veterinario en cada visita.
-          </p>
-
-          <div className="mx-auto mt-10 max-w-3xl [perspective:1600px]">
-            <div className="grid grid-cols-2 overflow-hidden rounded-md ring-1 ring-black/10 shadow-[0_35px_70px_-20px_rgba(0,0,0,0.45)] [transform:rotateX(7deg)]">
-              {/* Página izquierda: tabla de vacunación */}
-              <div className="relative bg-[#f3ead9] p-4 text-left [box-shadow:inset_-22px_0_34px_-22px_rgba(90,40,20,0.55)]">
-                <p className="text-center text-[11px] font-black uppercase tracking-widest text-[#6b1f29]">
-                  Vacunación
-                </p>
-                <div className="mt-3 overflow-hidden rounded-sm border border-[#c9b79a]">
-                  <div className="grid grid-cols-[1.1fr_1.4fr_1fr] bg-[#6b1f29] text-[8px] font-bold uppercase tracking-wide text-[#f3ead9]">
-                    <span className="px-2 py-1">Fecha</span>
-                    <span className="border-l border-[#f3ead9]/30 px-2 py-1">Vacuna</span>
-                    <span className="border-l border-[#f3ead9]/30 px-2 py-1">Firma M.V.</span>
-                  </div>
-                  {["06/10/2026", "06/10/2027", "", ""].map((f, i) => (
-                    <div
-                      key={i}
-                      className="grid grid-cols-[1.1fr_1.4fr_1fr] border-t border-[#c9b79a] text-[8px] text-[#5a4631]"
-                    >
-                      <span className="px-2 py-2.5">{f || "D/M/A"}</span>
-                      <span className="border-l border-[#c9b79a] px-2 py-2.5">
-                        {i === 0 ? "Antirrábica" : i === 1 ? "Próxima" : ""}
-                      </span>
-                      <span className="border-l border-[#c9b79a] px-2 py-2.5" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Página derecha: mapa "Mis viajes por Ecuador" + QR */}
-              <div className="relative bg-[#f6efe2] p-4 text-center [box-shadow:inset_22px_0_34px_-22px_rgba(90,40,20,0.55)]">
-                <p className="font-black italic text-[#6b1f29]">Mis viajes por Ecuador</p>
-                <div
-                  className="mx-auto mt-1 h-28 w-full"
-                  style={{
-                    backgroundImage: "url(/ecuador-map.svg)",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    backgroundSize: "contain",
-                  }}
-                />
-                <div className="mt-1 flex items-center justify-center gap-3 text-[7px] text-[#5a4631]">
-                  <span>❤ Mi hogar</span>
-                  <span>📍 Visitados</span>
-                  <span>⭐ Por ir</span>
-                </div>
-                <div className="mt-3 flex items-center justify-center gap-3">
-                  <div className="text-left">
-                    <p className="text-[8px] font-bold text-[#6b1f29]">¿Tienes alguna duda?</p>
-                    <p className="text-[7px] text-[#5a4631]">Escríbenos y te ayudamos</p>
-                  </div>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={demoQr} alt="QR" className="h-12 w-12 rounded-sm" />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
