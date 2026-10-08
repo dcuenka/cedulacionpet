@@ -73,19 +73,19 @@ export default async function HomePage() {
           </div>
 
           {/* Imagen principal: carnet de vacunas abierto (tipo libro) */}
-          <div className="relative mx-auto w-full max-w-[420px]">
-            <div className="cred-glow pointer-events-none absolute -inset-8 rounded-[40px] bg-ec-yellow/20 blur-3xl" />
-            <div className="float-soft grid grid-cols-2 rounded-md ring-1 ring-[#6b1f29]/30 shadow-[0_40px_80px_-25px_rgba(0,0,0,0.6)] [perspective:1800px]">
+          <div className="relative mx-auto w-full max-w-[620px]">
+            <div className="cred-glow pointer-events-none absolute -inset-10 rounded-[48px] bg-ec-yellow/25 blur-3xl" />
+            <div className="float-soft grid grid-cols-2 rounded-lg ring-1 ring-[#6b1f29]/30 shadow-[0_45px_90px_-25px_rgba(0,0,0,0.65)] [perspective:2200px]">
               {/* Página izquierda: tabla de vacunación */}
-              <div className="book-open-left relative rounded-l-md bg-[#f3ead9] p-4 text-left [box-shadow:inset_-24px_0_40px_-24px_rgba(90,40,20,0.6)]">
-                <p className="text-center text-[11px] font-black uppercase tracking-widest text-[#6b1f29]">
+              <div className="book-open-left relative rounded-l-lg bg-[#f3ead9] p-5 text-left [box-shadow:inset_-28px_0_46px_-26px_rgba(90,40,20,0.6)]">
+                <p className="text-center text-[15px] font-black uppercase tracking-widest text-[#6b1f29]">
                   Vacunación
                 </p>
-                <div className="mt-3 overflow-hidden rounded-sm border border-[#c9b79a]">
-                  <div className="grid grid-cols-[1fr_1.3fr_1fr] bg-[#6b1f29] text-[8px] font-bold uppercase tracking-wide text-[#f3ead9]">
-                    <span className="px-2 py-1.5">Fecha</span>
-                    <span className="border-l border-[#f3ead9]/30 px-2 py-1.5">Vacuna</span>
-                    <span className="border-l border-[#f3ead9]/30 px-2 py-1.5">Firma M.V.</span>
+                <div className="mt-4 overflow-hidden rounded border border-[#c9b79a]">
+                  <div className="grid grid-cols-[1fr_1.3fr_1fr] bg-[#6b1f29] text-[10px] font-bold uppercase tracking-wide text-[#f3ead9]">
+                    <span className="px-2 py-2">Fecha</span>
+                    <span className="border-l border-[#f3ead9]/30 px-2 py-2">Vacuna</span>
+                    <span className="border-l border-[#f3ead9]/30 px-2 py-2">Firma M.V.</span>
                   </div>
                   {[
                     { f: "06/10/2026", v: "Antirrábica" },
@@ -96,21 +96,21 @@ export default async function HomePage() {
                   ].map((r, i) => (
                     <div
                       key={i}
-                      className="grid grid-cols-[1fr_1.3fr_1fr] border-t border-[#c9b79a] text-[9px] text-[#5a4631]"
+                      className="grid grid-cols-[1fr_1.3fr_1fr] border-t border-[#c9b79a] text-[12px] text-[#5a4631]"
                     >
-                      <span className="px-2 py-2.5 font-semibold">{r.f || "D/M/A"}</span>
-                      <span className="border-l border-[#c9b79a] px-2 py-2.5">{r.v}</span>
-                      <span className="border-l border-[#c9b79a] px-2 py-2.5" />
+                      <span className="px-2 py-4 font-semibold">{r.f || "D/M/A"}</span>
+                      <span className="border-l border-[#c9b79a] px-2 py-4">{r.v}</span>
+                      <span className="border-l border-[#c9b79a] px-2 py-4" />
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Página derecha: mapa "Mis viajes por Ecuador" + QR */}
-              <div className="book-open-right relative rounded-r-md bg-[#f6efe2] p-4 text-center [box-shadow:inset_24px_0_40px_-24px_rgba(90,40,20,0.6)]">
-                <p className="text-lg font-black italic text-[#6b1f29]">Mis viajes por Ecuador</p>
+              <div className="book-open-right relative flex flex-col rounded-r-lg bg-[#f6efe2] p-5 text-center [box-shadow:inset_28px_0_46px_-26px_rgba(90,40,20,0.6)]">
+                <p className="text-2xl font-black italic text-[#6b1f29]">Mis viajes por Ecuador</p>
                 <div
-                  className="mx-auto mt-1 h-36 w-full"
+                  className="mx-auto mt-2 h-56 w-full flex-1"
                   style={{
                     backgroundImage: "url(/ecuador-map.svg)",
                     backgroundRepeat: "no-repeat",
@@ -118,18 +118,18 @@ export default async function HomePage() {
                     backgroundSize: "contain",
                   }}
                 />
-                <div className="mt-1 flex items-center justify-center gap-3 text-[8px] text-[#5a4631]">
+                <div className="mt-2 flex items-center justify-center gap-4 text-[11px] text-[#5a4631]">
                   <span>❤ Mi hogar</span>
                   <span>📍 Visitados</span>
                   <span>⭐ Por ir</span>
                 </div>
-                <div className="mt-3 flex items-center justify-center gap-3">
+                <div className="mt-4 flex items-center justify-center gap-4">
                   <div className="text-left">
-                    <p className="text-[9px] font-bold text-[#6b1f29]">¿Tienes alguna duda?</p>
-                    <p className="text-[8px] text-[#5a4631]">Escríbenos y te ayudamos</p>
+                    <p className="text-[12px] font-bold text-[#6b1f29]">¿Tienes alguna duda?</p>
+                    <p className="text-[10px] text-[#5a4631]">Escríbenos y te ayudamos</p>
                   </div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={demoQr} alt="QR" className="h-14 w-14 rounded-sm" />
+                  <img src={demoQr} alt="QR" className="h-24 w-24 rounded-sm" />
                 </div>
               </div>
             </div>
@@ -143,10 +143,7 @@ export default async function HomePage() {
           {/* Cédula de muestra (proporción real de cédula, con resplandor) */}
           <div className="relative w-full max-w-[380px] shrink-0">
             <div className="pointer-events-none absolute -inset-5 rounded-[36px] bg-ec-yellow/25 blur-2xl" />
-            <div
-              className="float-soft relative flex flex-col overflow-hidden rounded-xl bg-white text-navy shadow-2xl ring-1 ring-black/10"
-              style={{ aspectRatio: "1.586 / 1" }}
-            >
+            <div className="float-soft relative flex flex-col overflow-hidden rounded-xl bg-white text-navy shadow-2xl ring-1 ring-black/10">
               <div className="flex items-center gap-2 px-3 pt-2">
                 <span className="flex h-5 w-8 flex-col overflow-hidden rounded-[3px] ring-1 ring-black/10">
                   <span className="h-1/2 bg-ec-yellow" />
