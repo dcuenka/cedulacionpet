@@ -8,6 +8,7 @@ import { toggleLost } from "@/lib/actions/records";
 import { toggleStatusAction } from "@/lib/actions/admin";
 import CedulaCard from "@/components/CedulaCard";
 import HealthEventForm from "@/components/HealthEventForm";
+import PetPhotoManager from "@/components/PetPhotoManager";
 import { deleteHealthEvent, validateHealthEvent } from "@/lib/actions/health";
 
 export const metadata: Metadata = { title: "Ficha" };
@@ -35,7 +36,10 @@ export default async function FichaAdminPage({
   const { id } = await params;
   const r = await prisma.petRecord.findUnique({
     where: { id },
-    include: { healthEvents: { orderBy: { date: "desc" } } },
+    include: {
+      healthEvents: { orderBy: { date: "desc" } },
+      photos: { orderBy: { createdAt: "desc" } },
+    },
   });
   if (!r) notFound();
 
@@ -249,6 +253,12 @@ export default async function FichaAdminPage({
             Aún no hay procesos registrados. Usa el formulario de arriba en cada visita.
           </p>
         )}
+      </div>
+
+      {/* Archivo fotográfico */}
+      <div className="mt-8">
+        <h2 className="mb-3 font-bold text-navy">📸 Archivo fotográfico</h2>
+        <PetPhotoManager petRecordId={r.id} photos={r.photos} />
       </div>
     </div>
   );

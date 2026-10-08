@@ -60,6 +60,7 @@ model PetRecord {
   updatedAt  DateTime @updatedAt
 
   healthEvents HealthEvent[]
+  photos       PetPhoto[]
 
   @@index([ownerId])
   @@index([microchip])
@@ -90,4 +91,18 @@ model HealthEvent {
   @@index([petRecordId])
   @@index([status])
   @@index([date])
+}
+
+// Archivo fotográfico de la mascota: fotos de respaldo que el tutor y el
+// equipo pueden consultar en la aplicación (documentos, exámenes, la mascota).
+model PetPhoto {
+  id          String    @id @default(cuid())
+  petRecordId String
+  pet         PetRecord @relation(fields: [petRecordId], references: [id], onDelete: Cascade)
+
+  photoData String // imagen en base64 (data URL)
+  caption   String? // descripción opcional
+  createdAt DateTime @default(now())
+
+  @@index([petRecordId])
 }

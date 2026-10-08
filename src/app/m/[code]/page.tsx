@@ -7,6 +7,7 @@ import CedulaPresenter from "@/components/CedulaPresenter";
 import ShareBar from "@/components/ShareBar";
 import InstallButton from "@/components/InstallButton";
 import HealthEventSubmit from "@/components/HealthEventSubmit";
+import PhotoAlbum from "@/components/PhotoAlbum";
 
 export const metadata: Metadata = { title: "Localización de mascota" };
 
@@ -46,7 +47,10 @@ export default async function LocalizarCodePage({
       ],
     },
     orderBy: { createdAt: "desc" },
-    include: { healthEvents: { orderBy: { date: "desc" } } },
+    include: {
+      healthEvents: { orderBy: { date: "desc" } },
+      photos: { orderBy: { createdAt: "desc" } },
+    },
   });
 
   // Varias mascotas registradas a nombre del mismo tutor: se elige cuál ver.
@@ -261,6 +265,9 @@ export default async function LocalizarCodePage({
         )}
         <HealthEventSubmit petRecordId={record.id} />
       </div>
+
+      {/* Archivo fotográfico (respaldo) */}
+      <PhotoAlbum photos={record.photos} />
 
       {/* Contacto del tutor */}
       <div className="mt-4 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
