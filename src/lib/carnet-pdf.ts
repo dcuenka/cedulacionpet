@@ -35,6 +35,7 @@ type CarnetData = {
     date: Date;
     nextDate?: Date | null;
     product?: string | null;
+    weight?: string | null;
     mvz?: string | null;
   }[];
   mvz?: string | null;
@@ -207,14 +208,46 @@ export async function buildCarnetPdf(data: CarnetData): Promise<Uint8Array> {
     }
   }
 
-  // Desparasitación
-  ry -= 20;
-  centerText(p3, "Desparasitación", ry, 9, bold, BURGUNDY);
-  ry -= 16;
-  const lastDew = dewEvents[0]?.date ?? data.lastDewormDate;
-  const nextDew = dewEvents[0]?.nextDate ?? data.nextDewormDate;
-  field(p3, 24, ry, "Última:", fmtDate(lastDew));
-  field(p3, 165, ry, "Próxima:", fmtDate(nextDew));
+  // Desparasitación Interna (tabla: Fecha | Peso | Producto | Firma)
+  ry -= 18;
+  centerText(p3, "Desparasitación Interna", ry, 9, bold, BURGUNDY);
+  ry -= 10;
+  const dc1 = tx + 50; // fin Fecha
+  const dc2 = tx + 78; // fin Peso
+  const dc3 = tx + tw - 44; // fin Producto (deja Firma a la derecha)
+  p3.drawText("Fecha", { x: tx + 4, y: ry, size: 6, font: bold, color: BURGUNDY });
+  p3.drawText("Peso", { x: dc1 + 3, y: ry, size: 6, font: bold, color: BURGUNDY });
+  p3.drawText("Producto", { x: dc2 + 3, y: ry, size: 6, font: bold, color: BURGUNDY });
+  p3.drawText("Firma", { x: dc3 + 3, y: ry, size: 6, font: bold, color: BURGUNDY });
+
+  const dRows: { fecha: string; peso: string; prod: string }[] = [];
+  for (const ev of dewEvents.slice(0, 3)) {
+    dRows.push({
+      fecha: fmtDate(ev.date),
+      peso: ev.weight ? `${ev.weight}` : "",
+      prod: (ev.product || "").slice(0, 22),
+    });
+  }
+  if (dRows.length === 0 && (data.lastDewormDate || data.nextDewormDate)) {
+    if (data.lastDewormDate) dRows.push({ fecha: fmtDate(data.lastDewormDate), peso: "", prod: "" });
+    if (data.nextDewormDate) dRows.push({ fecha: fmtDate(data.nextDewormDate), peso: "", prod: "PRÓXIMA" });
+  }
+  while (dRows.length < 3) dRows.push({ fecha: "", peso: "", prod: "" });
+
+  const dRowH = 22;
+  let dy = ry - 6;
+  for (const r of dRows) {
+    dy -= dRowH;
+    p3.drawRectangle({ x: tx, y: dy, width: tw, height: dRowH, borderColor: LINE, borderWidth: 0.5 });
+    for (const cx of [dc1, dc2, dc3]) {
+      p3.drawLine({ start: { x: cx, y: dy }, end: { x: cx, y: dy + dRowH }, thickness: 0.5, color: LINE });
+    }
+    const ty = dy + dRowH - 10;
+    if (r.fecha) p3.drawText(r.fecha, { x: tx + 3, y: ty, size: 6.5, font: bold, color: INK });
+    else p3.drawText("D/M/A", { x: tx + 3, y: ty, size: 5.5, font, color: LABEL });
+    if (r.peso) p3.drawText(r.peso, { x: dc1 + 3, y: ty, size: 6.5, font, color: INK });
+    if (r.prod) p3.drawText(r.prod, { x: dc2 + 3, y: ty, size: 6.5, font, color: INK });
+  }
 
   return pdf.save();
 }

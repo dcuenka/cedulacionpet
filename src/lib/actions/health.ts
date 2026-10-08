@@ -50,6 +50,7 @@ function readEvent(formData: FormData) {
     date: optDate(formData.get("date")) || new Date(),
     nextDate: optDate(formData.get("nextDate")),
     product: optStr(formData.get("product")),
+    weight: optStr(formData.get("weight")),
     lot: optStr(formData.get("lot")),
     mvz: optStr(formData.get("mvz")),
     notes: optStr(formData.get("notes")),

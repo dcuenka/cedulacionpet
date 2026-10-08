@@ -126,6 +126,15 @@ export default function HealthEventForm({ petRecordId }: { petRecordId: string }
           />
         </label>
         <label className="text-sm">
+          <span className="text-slate-500">Peso (kg)</span>
+          <input
+            name="weight"
+            inputMode="decimal"
+            placeholder="Ej: 15"
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-navy outline-none focus:border-teal"
+          />
+        </label>
+        <label className="text-sm">
           <span className="text-slate-500">Lote (opcional)</span>
           <input
             name="lot"

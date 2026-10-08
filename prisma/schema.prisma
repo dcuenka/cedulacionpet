@@ -79,8 +79,9 @@ model HealthEvent {
   product   String? // nombre de la vacuna / producto
   date      DateTime // fecha en que se aplicó
   nextDate  DateTime? // próxima dosis / refuerzo
+  weight    String? // peso de la mascota al momento (ej. "15" kg)
   lot       String? // lote del producto
-  mvz       String? // médico veterinario que lo aplicó
+  mvz       String? // médico veterinario que lo aplicó (firma)
   photoData String? // foto de la etiqueta/carnet (base64), opcional
   notes     String?
   // "validado" = registrado/confirmado por el equipo (oficial).

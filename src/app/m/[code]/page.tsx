@@ -125,6 +125,8 @@ export default async function LocalizarCodePage({
   const qr = await qrDataUrl(petCode);
   const validatedEvents = record.healthEvents.filter((e) => e.status === "validado");
   const pendingEvents = record.healthEvents.filter((e) => e.status === "pendiente");
+  const vacunas = validatedEvents.filter((e) => e.type === "vacuna");
+  const desparas = validatedEvents.filter((e) => e.type === "desparasitacion");
   const hasHealth =
     record.vaccines ||
     record.lastVaccineDate ||
@@ -176,68 +178,101 @@ export default async function LocalizarCodePage({
               Información para tu veterinario
             </p>
           </div>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             {record.aggressionHistory && (
               <div className="mb-3 rounded-lg bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-800">
                 ⚠ Antecedentes de agresión — manéjala con precaución
               </div>
             )}
-            <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-              <Item label="Esterilizado" value={record.sterilized ? "Sí" : "No"} />
-              <Item label="Adiestramiento" value={record.training ? "Sí" : "No"} />
-              {hasHealth && (
-                <>
-                  <Item label="Última vacuna" value={fmt(record.lastVaccineDate)} />
-                  <Item label="Próxima vacuna" value={fmt(record.nextVaccineDate)} />
-                  <Item label="Última desparasitación" value={fmt(record.lastDewormDate)} />
-                  <Item label="Próxima desparasitación" value={fmt(record.nextDewormDate)} />
-                </>
-              )}
+
+            {/* Vacunación */}
+            <p className="mb-2 text-center text-xs font-black uppercase tracking-widest text-navy">
+              Vacunación
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[440px] border-collapse text-sm">
+                <thead>
+                  <tr className="bg-slate-100 text-left text-[11px] uppercase tracking-wide text-slate-500">
+                    <th className="border border-slate-200 px-2 py-2">Fecha</th>
+                    <th className="border border-slate-200 px-2 py-2">Vacuna</th>
+                    <th className="border border-slate-200 px-2 py-2">Peso</th>
+                    <th className="border border-slate-200 px-2 py-2">Firma Médico Veterinario</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {vacunas.length > 0 ? (
+                    vacunas.map((ev) => (
+                      <tr key={ev.id} className="text-navy">
+                        <td className="border border-slate-200 px-2 py-2 font-semibold">{fmt(ev.date)}</td>
+                        <td className="border border-slate-200 px-2 py-2">{ev.product || "—"}</td>
+                        <td className="border border-slate-200 px-2 py-2">{ev.weight ? `${ev.weight} kg` : "—"}</td>
+                        <td className="border border-slate-200 px-2 py-2">{ev.mvz || "—"}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="border border-slate-200 px-2 py-4 text-center text-slate-400">
+                        Sin registros
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
-            {record.vaccines && (
-              <p className="mt-3 text-sm text-navy">
-                <span className="font-semibold">Vacunas aplicadas:</span> {record.vaccines}
+            {record.nextVaccineDate && (
+              <p className="mt-1 text-xs font-semibold text-teal">
+                Próxima vacuna: {fmt(record.nextVaccineDate)}
               </p>
             )}
+
+            {/* Desparasitación Interna */}
+            <p className="mb-2 mt-5 text-center text-xs font-black uppercase tracking-widest text-navy">
+              Desparasitación Interna
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[440px] border-collapse text-sm">
+                <thead>
+                  <tr className="bg-slate-100 text-left text-[11px] uppercase tracking-wide text-slate-500">
+                    <th className="border border-slate-200 px-2 py-2">Fecha de desparasitación</th>
+                    <th className="border border-slate-200 px-2 py-2">Peso</th>
+                    <th className="border border-slate-200 px-2 py-2">Producto</th>
+                    <th className="border border-slate-200 px-2 py-2">Firma Médico Veterinario</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {desparas.length > 0 ? (
+                    desparas.map((ev) => (
+                      <tr key={ev.id} className="text-navy">
+                        <td className="border border-slate-200 px-2 py-2 font-semibold">{fmt(ev.date)}</td>
+                        <td className="border border-slate-200 px-2 py-2">{ev.weight ? `${ev.weight} kg` : "—"}</td>
+                        <td className="border border-slate-200 px-2 py-2">{ev.product || "—"}</td>
+                        <td className="border border-slate-200 px-2 py-2">{ev.mvz || "—"}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="border border-slate-200 px-2 py-4 text-center text-slate-400">
+                        Sin registros
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+            {record.nextDewormDate && (
+              <p className="mt-1 text-xs font-semibold text-teal">
+                Próxima desparasitación: {fmt(record.nextDewormDate)}
+              </p>
+            )}
+
+            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+              <Item label="Esterilizado" value={record.sterilized ? "Sí" : "No"} />
+              <Item label="Adiestramiento" value={record.training ? "Sí" : "No"} />
+            </div>
             {record.diseases && (
               <p className="mt-2 text-sm text-navy">
                 <span className="font-semibold">Enfermedades / notas:</span> {record.diseases}
               </p>
-            )}
-
-            {validatedEvents.length > 0 && (
-              <div className="mt-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-teal">
-                  Historial de procesos
-                </p>
-                <ul className="mt-2 space-y-2">
-                  {validatedEvents.map((ev) => (
-                    <li
-                      key={ev.id}
-                      className="flex items-start gap-2 border-b border-slate-100 pb-2 text-sm last:border-0"
-                    >
-                      <span
-                        className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold ${
-                          ev.type === "vacuna"
-                            ? "bg-teal/10 text-teal"
-                            : "bg-amber-100 text-amber-800"
-                        }`}
-                      >
-                        {ev.type === "vacuna" ? "VACUNA" : "DESPARAS."}
-                      </span>
-                      <span className="text-navy">
-                        <span className="font-semibold">{fmt(ev.date)}</span>
-                        {ev.product ? ` · ${ev.product}` : ""}
-                        {ev.nextDate ? (
-                          <span className="block text-xs text-slate-500">
-                            Próxima: {fmt(ev.nextDate)}
-                          </span>
-                        ) : null}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             )}
           </div>
         </div>
