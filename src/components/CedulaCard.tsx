@@ -120,25 +120,25 @@ export default function CedulaCard({
           )}
         </div>
 
-        {/* Campos */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-3 self-start">
-          <Field label="Nombre" value={record.petName} big />
-          <Field label="Condición" value="REGISTRADA" />
+        {/* Campos esenciales (como una cédula real) */}
+        <div className="grid grid-cols-2 gap-x-5 gap-y-2 self-start">
+          <div className="col-span-2">
+            <Field label="Nombre" value={record.petName} big />
+          </div>
           <Field label="Especie" value={record.species} />
           <Field label="Sexo" value={record.sex} />
           <Field label="Raza" value={record.breed} />
           <Field label="Color" value={record.color} />
-          <Field label="Nacionalidad" value="ECUATORIANA" />
+          <Field label="Nacimiento" value={fmt(record.birthDate)} />
           <Field label="Esterilizado" value={record.sterilized ? "Sí" : "No"} />
-          <Field label="Fecha de nacimiento" value={fmt(record.birthDate)} />
-          <Field label="No. Documento" value={record.certificateNo || record.registrationNo} />
-          <Field label="Procedencia" value={[record.city, record.province].filter(Boolean).join(", ") || "Ecuador"} />
-          <Field label="Microchip N.º" value={record.microchip || "No registra"} />
+          <div className="col-span-2">
+            <Field label="Microchip N.º" value={record.microchip || "No registra"} />
+          </div>
         </div>
       </div>
 
       {/* Pie: tutor + chip + QR */}
-      <div className="flex items-end justify-between gap-4 border-t border-slate-100 px-5 py-4">
+      <div className="flex items-end justify-between gap-4 border-t border-slate-100 px-4 py-3">
         <div>
           <p className="text-[9px] font-medium uppercase tracking-wider text-slate-400">
             Tutor responsable
@@ -148,10 +148,10 @@ export default function CedulaCard({
             {record.ownerIdType}: {record.ownerId} · Emisión {fmt(record.createdAt)}
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <span className="h-6 w-8 rounded-sm bg-gradient-to-br from-amber-300 to-amber-500 ring-1 ring-amber-600/40" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={qr} alt="Código QR" className="h-20 w-20" />
+          <img src={qr} alt="Código QR" className="h-16 w-16" />
         </div>
       </div>
     </div>

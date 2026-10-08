@@ -8,6 +8,7 @@ import ShareBar from "@/components/ShareBar";
 import InstallButton from "@/components/InstallButton";
 import HealthEventSubmit from "@/components/HealthEventSubmit";
 import PhotoAlbum from "@/components/PhotoAlbum";
+import Recetas from "@/components/Recetas";
 
 export const metadata: Metadata = { title: "Localización de mascota" };
 
@@ -50,6 +51,7 @@ export default async function LocalizarCodePage({
     include: {
       healthEvents: { orderBy: { date: "desc" } },
       photos: { orderBy: { createdAt: "desc" } },
+      prescriptions: { orderBy: { date: "desc" } },
     },
   });
 
@@ -268,6 +270,11 @@ export default async function LocalizarCodePage({
 
       {/* Archivo fotográfico (respaldo) */}
       <PhotoAlbum photos={record.photos} />
+
+      {/* Recetas médicas */}
+      <div className="mt-4">
+        <Recetas petRecordId={record.id} items={record.prescriptions} />
+      </div>
 
       {/* Contacto del tutor */}
       <div className="mt-4 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">

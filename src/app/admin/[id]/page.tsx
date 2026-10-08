@@ -9,6 +9,7 @@ import { toggleStatusAction } from "@/lib/actions/admin";
 import CedulaCard from "@/components/CedulaCard";
 import HealthEventForm from "@/components/HealthEventForm";
 import PetPhotoManager from "@/components/PetPhotoManager";
+import Recetas from "@/components/Recetas";
 import { deleteHealthEvent, validateHealthEvent } from "@/lib/actions/health";
 
 export const metadata: Metadata = { title: "Ficha" };
@@ -39,6 +40,7 @@ export default async function FichaAdminPage({
     include: {
       healthEvents: { orderBy: { date: "desc" } },
       photos: { orderBy: { createdAt: "desc" } },
+      prescriptions: { orderBy: { date: "desc" } },
     },
   });
   if (!r) notFound();
@@ -259,6 +261,12 @@ export default async function FichaAdminPage({
       <div className="mt-8">
         <h2 className="mb-3 font-bold text-navy">📸 Archivo fotográfico</h2>
         <PetPhotoManager petRecordId={r.id} photos={r.photos} />
+      </div>
+
+      {/* Recetas médicas */}
+      <div className="mt-8">
+        <h2 className="mb-3 font-bold text-navy">📋 Recetas médicas</h2>
+        <Recetas petRecordId={r.id} items={r.prescriptions} canDelete />
       </div>
     </div>
   );

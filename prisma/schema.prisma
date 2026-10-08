@@ -59,8 +59,9 @@ model PetRecord {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  healthEvents HealthEvent[]
-  photos       PetPhoto[]
+  healthEvents  HealthEvent[]
+  photos        PetPhoto[]
+  prescriptions Prescription[]
 
   @@index([ownerId])
   @@index([microchip])
@@ -105,4 +106,21 @@ model PetPhoto {
   createdAt DateTime @default(now())
 
   @@index([petRecordId])
+}
+
+// Archivo de recetas: el tutor fotografía la receta médica y queda el
+// historial gráfico de lo que le recetaron en cada visita.
+model Prescription {
+  id          String    @id @default(cuid())
+  petRecordId String
+  pet         PetRecord @relation(fields: [petRecordId], references: [id], onDelete: Cascade)
+
+  photoData String // foto de la receta (base64)
+  note      String? // detalle / observaciones opcionales
+  date      DateTime  @default(now()) // fecha de la receta
+  source    String    @default("tutor") // tutor | admin
+  createdAt DateTime  @default(now())
+
+  @@index([petRecordId])
+  @@index([date])
 }
