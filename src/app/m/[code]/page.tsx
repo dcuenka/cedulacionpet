@@ -3,7 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
 import { qrDataUrl, lookupCode } from "@/lib/qr";
-import CedulaCard from "@/components/CedulaCard";
+import CedulaPresenter from "@/components/CedulaPresenter";
 import ShareBar from "@/components/ShareBar";
 import InstallButton from "@/components/InstallButton";
 import HealthEventSubmit from "@/components/HealthEventSubmit";
@@ -149,7 +149,7 @@ export default async function LocalizarCodePage({
       )}
 
       {/* Identificación digital: esto es lo que el tutor muestra en el celular */}
-      <CedulaCard record={record} qr={qr} />
+      <CedulaPresenter record={record} qr={qr} />
 
       {/* Acciones: compartir / instalar app (no se imprime) */}
       <div className="no-print mt-3 flex flex-wrap items-center justify-center gap-2">

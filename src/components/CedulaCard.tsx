@@ -90,7 +90,15 @@ export default function CedulaCard({
       <div className="mt-3 flag-bar" />
 
       {/* Cuerpo */}
-      <div className="grid gap-5 bg-[#f8fbfc] p-5 sm:grid-cols-[132px_1fr]">
+      <div
+        className="grid gap-5 bg-[#f8fbfc] p-5 sm:grid-cols-[132px_1fr]"
+        style={{
+          backgroundImage: "url(/ecuador-map.svg)",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "auto 80%",
+        }}
+      >
         {/* Foto + NUI */}
         <div className="mx-auto sm:mx-0">
           <div className="flex h-40 w-32 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
