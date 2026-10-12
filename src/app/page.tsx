@@ -206,13 +206,15 @@ export default async function HomePage() {
             <div className="relative overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/tommy.jpg" alt="Estudio biométrico de la mascota" className="h-full w-full object-cover" />
-              {/* Overlay de escaneo biométrico */}
+              {/* Overlay biométrico tenue (líneas casi invisibles en la cara) */}
               <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full">
-                <g stroke="#ffd100" strokeWidth="1.1" fill="none" opacity="0.95">
+                {/* marco de escaneo muy sutil */}
+                <g stroke="#ffffff" strokeWidth="0.5" fill="none" opacity="0.3">
                   <path d="M6 16 V6 H16" /><path d="M84 6 H94 V16" />
                   <path d="M94 84 V94 H84" /><path d="M16 94 H6 V84" />
                 </g>
-                <g stroke="#38d0c4" strokeWidth="0.5" opacity="0.85" fill="none">
+                {/* malla facial casi invisible */}
+                <g stroke="#ffffff" strokeWidth="0.3" opacity="0.2" fill="none">
                   <polyline points="38,33 50,29 62,33" />
                   <polyline points="33,46 50,53 67,46" />
                   <line x1="38" y1="33" x2="33" y2="46" />
@@ -221,20 +223,18 @@ export default async function HomePage() {
                   <line x1="38" y1="33" x2="50" y2="53" />
                   <line x1="62" y1="33" x2="50" y2="53" />
                 </g>
-                <g fill="#ffd100">
-                  <circle cx="38" cy="33" r="1.1" /><circle cx="62" cy="33" r="1.1" />
-                  <circle cx="50" cy="29" r="1.1" /><circle cx="33" cy="46" r="1.1" />
-                  <circle cx="67" cy="46" r="1.1" /><circle cx="42" cy="39" r="1" />
-                  <circle cx="58" cy="39" r="1" />
+                <g fill="#ffffff" opacity="0.35">
+                  <circle cx="38" cy="33" r="0.6" /><circle cx="62" cy="33" r="0.6" />
+                  <circle cx="50" cy="29" r="0.6" /><circle cx="33" cy="46" r="0.6" />
+                  <circle cx="67" cy="46" r="0.6" /><circle cx="42" cy="39" r="0.55" />
+                  <circle cx="58" cy="39" r="0.55" />
                 </g>
-                <g fill="none" stroke="#38d0c4" strokeWidth="0.7">
-                  <circle cx="50" cy="53" r="5.5" />
-                  <circle cx="50" cy="53" r="3.2" opacity="0.7" />
+                {/* trufa, muy tenue */}
+                <g fill="none" stroke="#ffffff" strokeWidth="0.35" opacity="0.28">
+                  <circle cx="50" cy="53" r="5" />
+                  <circle cx="50" cy="53" r="2.8" />
                 </g>
-                <circle cx="50" cy="53" r="1.3" fill="#ffd100" />
               </svg>
-              <span className="absolute left-2 top-2 rounded bg-black/55 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-ec-yellow">Rostro</span>
-              <span className="absolute bottom-2 right-2 rounded bg-black/55 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-teal-200">Trufa · Señas</span>
             </div>
             <p className="mt-2 text-center text-xs text-white/50">Rostro · trufa (nariz) · señas particulares</p>
           </div>
