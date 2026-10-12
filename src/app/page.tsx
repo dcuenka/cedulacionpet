@@ -24,18 +24,18 @@ export default async function HomePage() {
   const demoPet = {
     registrationNo: "CP-2026-000042",
     certificateNo: "1375.19.239",
-    petName: "SAMY",
+    petName: "TOMMY",
     species: "Canina",
-    breed: "Labrador",
-    sex: "Hembra",
-    color: "Dorado",
+    breed: "Shih Tzu",
+    sex: "Macho",
+    color: "Blanco/Gris",
     birthDate: new Date("2023-03-15"),
     microchip: "985141002233417",
     sterilized: true,
-    photoData: "/perro-cedula.png",
-    ownerName: "Andrés Vega",
+    photoData: "/tommy.jpg",
+    ownerName: "Jennifer Itziar",
     ownerIdType: "Cédula",
-    ownerId: "0912345678",
+    ownerId: "1753904059",
     city: "Quito",
     province: "Pichincha",
     status: "activo",
@@ -101,25 +101,27 @@ export default async function HomePage() {
                   Vacunación
                 </p>
                 <div className="mt-4 overflow-hidden rounded border border-[#c9b79a]">
-                  <div className="grid grid-cols-[1fr_1.3fr_1fr] bg-[#6b1f29] text-[10px] font-bold uppercase tracking-wide text-[#f3ead9]">
-                    <span className="px-2 py-2">Fecha</span>
-                    <span className="border-l border-[#f3ead9]/30 px-2 py-2">Vacuna</span>
-                    <span className="border-l border-[#f3ead9]/30 px-2 py-2">Firma M.V.</span>
+                  <div className="grid grid-cols-[0.95fr_1.3fr_0.7fr_1fr] bg-[#6b1f29] text-[9px] font-bold uppercase tracking-wide text-[#f3ead9]">
+                    <span className="px-1.5 py-2.5">Fecha</span>
+                    <span className="border-l border-[#f3ead9]/30 px-1.5 py-2.5">Vacuna</span>
+                    <span className="border-l border-[#f3ead9]/30 px-1.5 py-2.5">Peso</span>
+                    <span className="border-l border-[#f3ead9]/30 px-1.5 py-2.5">Firma M.V.</span>
                   </div>
                   {[
-                    { f: "06/10/2026", v: "Antirrábica" },
-                    { f: "06/10/2026", v: "Óctuple" },
-                    { f: "06/10/2027", v: "Refuerzo" },
-                    { f: "", v: "" },
-                    { f: "", v: "" },
+                    { f: "06/10/2026", v: "Antirrábica", p: "5 kg" },
+                    { f: "06/10/2026", v: "Óctuple", p: "5 kg" },
+                    { f: "06/10/2027", v: "Refuerzo", p: "—" },
+                    { f: "", v: "", p: "" },
+                    { f: "", v: "", p: "" },
                   ].map((r, i) => (
                     <div
                       key={i}
-                      className="grid grid-cols-[1fr_1.3fr_1fr] border-t border-[#c9b79a] text-[12px] text-[#5a4631]"
+                      className="grid grid-cols-[0.95fr_1.3fr_0.7fr_1fr] border-t border-[#c9b79a] text-[10px] text-[#5a4631]"
                     >
-                      <span className="px-2 py-4 font-semibold">{r.f || "D/M/A"}</span>
-                      <span className="border-l border-[#c9b79a] px-2 py-4">{r.v}</span>
-                      <span className="border-l border-[#c9b79a] px-2 py-4" />
+                      <span className="px-1.5 py-3 font-semibold">{r.f || "D/M/A"}</span>
+                      <span className="border-l border-[#c9b79a] px-1.5 py-3">{r.v}</span>
+                      <span className="border-l border-[#c9b79a] px-1.5 py-3">{r.p}</span>
+                      <span className="border-l border-[#c9b79a] px-1.5 py-3" />
                     </div>
                   ))}
                 </div>

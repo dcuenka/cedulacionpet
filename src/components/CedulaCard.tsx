@@ -92,7 +92,7 @@ export default function CedulaCard({
         }}
       />
 
-      <div className="relative px-4 pb-3 pt-3">
+      <div className="relative px-3.5 pb-2.5 pt-2.5">
         {/* Encabezado */}
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-start gap-2">
@@ -117,10 +117,10 @@ export default function CedulaCard({
           </div>
         </div>
 
-        <div className="mt-2 h-[2px] w-full rounded bg-gradient-to-r from-ec-yellow via-ec-blue to-ec-red" />
+        <div className="mt-1.5 h-[2px] w-full rounded bg-gradient-to-r from-ec-yellow via-ec-blue to-ec-red" />
 
         {/* Cuerpo: foto | campos | columna derecha */}
-        <div className="mt-2.5 grid grid-cols-[84px_1fr_92px] gap-3 sm:grid-cols-[104px_1fr_104px]">
+        <div className="mt-2 grid grid-cols-[80px_1fr_84px] gap-3 sm:grid-cols-[94px_1fr_94px]">
           {/* Foto */}
           <div>
             <div className="aspect-[3/4] w-full overflow-hidden rounded border border-slate-300 bg-white">
@@ -134,40 +134,37 @@ export default function CedulaCard({
           </div>
 
           {/* Campos principales */}
-          <div className="min-w-0 space-y-1.5">
+          <div className="min-w-0 space-y-1">
             <Field label="Nombre" value={record.petName} big />
             <div className="grid grid-cols-2 gap-2">
               <Field label="Especie" value={record.species} />
               <Field label="Raza" value={record.breed} />
             </div>
             <Field label="Nacionalidad" value="ECUATORIANA" />
-            <div className="grid grid-cols-2 gap-2">
-              <Field label="Fecha de nacimiento" value={fmt(record.birthDate)} />
-              <Field label="Color" value={record.color} />
-            </div>
+            <Field label="Fecha de nacimiento" value={fmt(record.birthDate)} />
             <Field label="Lugar de nacimiento" value={lugar} />
           </div>
 
           {/* Columna derecha: foto fantasma + datos */}
-          <div className="flex flex-col items-end gap-1.5 text-right">
-            <div className="h-16 w-14 overflow-hidden rounded border border-slate-200 bg-white/60 opacity-60">
+          <div className="flex flex-col items-end gap-1 text-right">
+            <div className="h-14 w-12 overflow-hidden rounded border border-slate-200 bg-white/60 opacity-60">
               {record.photoData ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={record.photoData} alt="" className="h-full w-full object-cover grayscale" />
               ) : null}
             </div>
             <Field label="Sexo" value={record.sex} />
+            <Field label="Color" value={record.color} />
             <Field label="N° Documento" value={documento} />
-            <Field label="Esterilizado" value={record.sterilized ? "Sí" : "No"} />
           </div>
         </div>
 
-        {/* Pie: NUI + tutor + chip + QR */}
-        <div className="mt-2 flex items-end justify-between gap-3 border-t border-slate-200/70 pt-2">
+        {/* Pie: microchip + tutor + chip + QR */}
+        <div className="mt-1.5 flex items-end justify-between gap-3 border-t border-slate-200/70 pt-1.5">
           <div className="min-w-0">
             <p className="text-[10px] sm:text-[11px]">
-              <span className="text-slate-400">NUI.</span>{" "}
-              <span className="break-all font-mono font-bold text-navy">{nui}</span>
+              <span className="text-slate-400">MicroChip:</span>{" "}
+              <span className="break-all font-mono font-bold text-navy">{record.microchip || nui}</span>
             </p>
             <p className="mt-0.5 truncate text-[7px] uppercase tracking-wide text-slate-500">
               Tutor: <span className="font-semibold text-slate-700">{record.ownerName}</span> · {record.ownerIdType} {record.ownerId}
