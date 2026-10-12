@@ -57,6 +57,8 @@ function SubmitBtn() {
 
 export default function HealthEventForm({ petRecordId }: { petRecordId: string }) {
   const [photo, setPhoto] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiMsg, setAiMsg] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -65,8 +67,38 @@ export default function HealthEventForm({ petRecordId }: { petRecordId: string }
     if (!file) return;
     try {
       setPhoto(await shrinkImage(file));
+      setAiMsg("");
     } catch {
       alert("No se pudo procesar la imagen.");
+    }
+  }
+
+  async function analyzeWithAI() {
+    if (!photo) return;
+    setAiLoading(true);
+    setAiMsg("");
+    try {
+      const { extractHealthFromPhoto } = await import("@/lib/actions/ai-extract");
+      const r = await extractHealthFromPhoto(photo);
+      const form = formRef.current;
+      if (r.error || !form) {
+        setAiMsg(r.error || "No se pudo leer la imagen.");
+        return;
+      }
+      const set = (name: string, value?: string | null) => {
+        const el = form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null;
+        if (el && value) el.value = value;
+      };
+      if (r.type) set("type", r.type);
+      set("product", r.product);
+      set("date", r.date);
+      set("weight", r.weight);
+      set("mvz", r.mvz);
+      setAiMsg("✓ Datos leídos. Revísalos y corrige si hace falta antes de guardar.");
+    } catch {
+      setAiMsg("No se pudo leer la imagen.");
+    } finally {
+      setAiLoading(false);
     }
   }
 
@@ -181,7 +213,18 @@ export default function HealthEventForm({ petRecordId }: { petRecordId: string }
             </button>
           </div>
         )}
+        {photo && (
+          <button
+            type="button"
+            onClick={analyzeWithAI}
+            disabled={aiLoading}
+            className="rounded-lg bg-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-navy-700 disabled:opacity-60"
+          >
+            {aiLoading ? "Leyendo…" : "✨ Leer foto con IA"}
+          </button>
+        )}
       </div>
+      {aiMsg && <p className="mt-2 text-xs font-medium text-teal">{aiMsg}</p>}
 
       <div className="mt-4">
         <SubmitBtn />
