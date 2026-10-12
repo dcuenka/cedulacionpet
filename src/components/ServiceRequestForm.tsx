@@ -209,6 +209,17 @@ export default function ServiceRequestForm() {
         </div>
       </section>
 
+      {/* Comprobante de pago */}
+      <section className="rounded-xl border border-black/5 bg-white p-5 shadow-sm">
+        <h2 className="font-bold text-navy">Comprobante de pago</h2>
+        <p className="mt-0.5 text-xs text-slate-500">
+          Adjunta la foto del pago realizado (transferencia o depósito) para agilizar tu trámite.
+        </p>
+        <div className="mt-3">
+          <PhotoField name="paymentPhoto" label="Foto del pago realizado" hint="Transferencia, depósito o recibo." />
+        </div>
+      </section>
+
       {/* Mensaje */}
       <section className="rounded-xl border border-black/5 bg-white p-5 shadow-sm">
         <label className="text-sm">

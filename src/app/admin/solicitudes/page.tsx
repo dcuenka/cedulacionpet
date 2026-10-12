@@ -122,6 +122,13 @@ export default async function SolicitudesPage() {
                         <figcaption className="text-[10px] text-slate-400">Carnet</figcaption>
                       </figure>
                     )}
+                    {r.paymentPhoto && (
+                      <figure className="text-center">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={r.paymentPhoto} alt="Pago" className="h-24 w-24 rounded-lg object-cover ring-1 ring-emerald-300" />
+                        <figcaption className="text-[10px] font-semibold text-emerald-600">💳 Pago</figcaption>
+                      </figure>
+                    )}
                   </div>
                 </div>
 

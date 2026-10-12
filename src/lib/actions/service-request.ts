@@ -56,6 +56,7 @@ export async function createServiceRequest(formData: FormData): Promise<void> {
       hasChip: str(formData.get("hasChip")) === "on" || !!microchip,
       petPhoto: optPhoto(formData.get("petPhoto")),
       carnetPhoto: optPhoto(formData.get("carnetPhoto")),
+      paymentPhoto: optPhoto(formData.get("paymentPhoto")),
       message: optStr(formData.get("message")),
     },
   });

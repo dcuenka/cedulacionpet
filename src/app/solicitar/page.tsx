@@ -42,12 +42,15 @@ export default async function SolicitarPage({
           <span className="h-full w-1/3 bg-ec-blue" />
           <span className="h-full w-1/3 bg-ec-red" />
         </span>
-        <h1 className="mt-3 text-2xl font-black">Solicita el servicio en tu provincia</h1>
+        <h1 className="mt-3 text-2xl font-black">Solicita el servicio en todo el Ecuador</h1>
         <p className="mt-1 text-sm text-white/70">
-          ¿Eres de otra provincia o es tu primera vez? Déjanos tus datos y los de
-          tu mascota —puedes adjuntar su foto y la del carnet de vacunas— y te
-          contactamos para darte el servicio.
+          Déjanos los datos de tu mascota y los tuyos —puedes adjuntar su foto, la
+          del carnet de vacunas y el comprobante de pago— y te contactamos para
+          darte el servicio.
         </p>
+        <span className="mt-3 inline-flex items-center gap-2 rounded-full bg-ec-yellow px-3 py-1 text-xs font-bold text-navy">
+          ⏱ Aprobación en máximo 24 horas
+        </span>
       </div>
 
       {error && (
