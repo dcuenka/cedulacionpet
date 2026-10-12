@@ -58,30 +58,40 @@ export default async function HomePage() {
               {BRAND.authority}
             </span>
             <h1 className="mt-5 text-4xl font-black leading-tight md:text-5xl">
-              El <span className="text-ec-yellow">carnet digital</span> e identificación de tu mascota, siempre contigo
+              La <span className="text-ec-yellow">cédula</span> y el{" "}
+              <span className="text-ec-yellow">carnet digital</span> de tu mascota
             </h1>
             <p className="mt-4 max-w-lg text-lg text-white/70">
-              Registramos la ficha de tu mascota, implantamos un{" "}
-              <strong className="text-white">microchip</strong> y le damos su{" "}
-              <strong className="text-white">carnet digital</strong>: se abre al instante
-              escaneando el <strong className="text-white">QR</strong> o ingresando su número,
-              desde cualquier celular y sin instalar nada.
+              Le damos su <strong className="text-white">cédula digital</strong>, su{" "}
+              <strong className="text-white">carnet de salud</strong> y un{" "}
+              <strong className="text-white">código QR</strong> para identificarla,
+              recuperarla si se pierde y llevar sus vacunas al día — todo desde el
+              celular, sin instalar nada.
             </p>
             <ul className="mt-6 space-y-2 text-white/85">
-              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Identificación: foto, datos y microchip</li>
-              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Salud: vacunas y desparasitación con fechas</li>
-              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Contacto del tutor para recuperarla si se pierde</li>
-              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Accesible 24/7 desde el navegador</li>
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Cédula digital con foto, datos y QR de verificación</li>
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Carnet de salud: vacunas y desparasitación, siempre actualizado</li>
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Si se pierde, quien la encuentre contacta al tutor al instante</li>
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> <strong className="text-white">Con o sin microchip</strong> — el microchip es opcional</li>
             </ul>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/localizar"
+                href="/solicitar"
                 className="rounded-lg bg-ec-yellow px-6 py-3 font-bold text-navy shadow-lg transition hover:brightness-95"
               >
-                🔎 Consultar / identificar mascota
+                📝 Solicitar el servicio
+              </Link>
+              <Link
+                href="/localizar"
+                className="rounded-lg border border-white/40 px-6 py-3 font-bold text-white transition hover:bg-white/10"
+              >
+                🔎 Consultar mascota
               </Link>
             </div>
-            <p className="mt-6 text-sm text-white/50">
+            <p className="mt-5 text-sm text-white/60">
+              ⏱ Aprobación en máximo 24 horas · 🇪🇨 En todo el Ecuador
+            </p>
+            <p className="mt-2 text-sm text-white/50">
               <strong className="text-white">{registered.toLocaleString("es-EC")}+</strong> mascotas ya cuentan con su ficha e identificación.
             </p>
           </div>
@@ -172,14 +182,15 @@ export default async function HomePage() {
 
           {/* Resumen de la cédula digital */}
           <div>
-            <h2 className="text-3xl font-black text-navy">Y su cédula digital</h2>
+            <h2 className="text-3xl font-black text-navy">Su cédula digital</h2>
             <p className="mt-3 text-lg text-slate-600">
               Cada mascota tiene su{" "}
-              <strong className="text-navy">Cédula de Identidad Animal</strong> digital: foto oficial,
-              número de microchip y un código QR de verificación, siempre a la mano en el celular.
+              <strong className="text-navy">Cédula de Identidad Animal</strong> digital: foto,
+              datos y un código QR de verificación, siempre a la mano en el celular. El{" "}
+              <strong className="text-navy">microchip es opcional</strong>: se incluye su número solo si lo tiene.
             </p>
             <p className="mt-4 text-base font-semibold text-slate-500">
-              📷 Foto oficial · 🔖 Microchip N.º · ▣ QR de verificación
+              📷 Foto · ▣ QR de verificación · 🔖 Microchip (opcional)
             </p>
           </div>
         </div>
@@ -192,18 +203,18 @@ export default async function HomePage() {
           {[
             {
               n: "1",
-              t: "Creamos la ficha",
-              d: "Registramos los datos de la mascota (ficha técnica y de salud) y del tutor responsable en la plataforma.",
+              t: "Solicitas el servicio",
+              d: "Llenas la ficha con los datos de tu mascota y los tuyos; puedes adjuntar su foto y su carnet de vacunas. Aprobación en máximo 24 horas.",
             },
             {
               n: "2",
-              t: "Microchip, cédula y carnet",
-              d: "Implantamos el microchip, leemos su número de serie y lo registramos. Entregamos la cédula física, el carnet de salud y el código QR.",
+              t: "Recibe su identidad digital",
+              d: "Le entregamos su cédula digital, su carnet de salud y el código QR. Si lo deseas, también implantamos un microchip (opcional).",
             },
             {
               n: "3",
-              t: "Recuperación",
-              d: "Si la mascota se pierde, quien la encuentre escanea el QR o ingresa el número de serie y contacta al tutor.",
+              t: "Siempre al día y protegida",
+              d: "Actualizas sus vacunas y datos cuando quieras y, si se pierde, quien la encuentre escanea el QR y te contacta al instante.",
             },
           ].map((s) => (
             <div key={s.n} className="rounded-xl border border-black/5 bg-white p-6 shadow-sm">
@@ -217,25 +228,43 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Consulta pública */}
-      <section className="mx-auto max-w-2xl px-4 pb-20">
-        <div>
-          <div className="rounded-2xl border border-black/5 bg-white p-8 shadow-sm">
-            <p className="text-2xl">🔎</p>
-            <h3 className="mt-3 text-lg font-bold text-navy">
-              ¿Encontraste una mascota?
-            </h3>
-            <p className="mt-2 text-sm text-slate-600">
-              Tutores, veterinarios y cualquier persona puede consultar una ficha
-              ingresando el número de serie del microchip o escaneando el QR.
-            </p>
+      {/* Cierre comercial: contratar el servicio */}
+      <section className="relative overflow-hidden bg-navy text-white">
+        <div className="flag-bar" />
+        <div className="mx-auto max-w-4xl px-4 py-16 text-center">
+          <h2 className="text-3xl font-black md:text-4xl">
+            Dale a tu mascota su <span className="text-ec-yellow">identidad digital</span> hoy
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-white/70">
+            Cédula digital, carnet de salud y código QR — con o sin microchip.
+            En todo el Ecuador, con aprobación en máximo 24 horas.
+          </p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link
-              href="/localizar"
-              className="mt-4 inline-block rounded-lg bg-navy px-6 py-2.5 font-semibold text-white transition hover:bg-navy-700"
+              href="/solicitar"
+              className="rounded-lg bg-ec-yellow px-7 py-3.5 font-bold text-navy shadow-lg transition hover:brightness-95"
             >
-              Consultar mascota
+              📝 Solicitar el servicio
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Consulta pública (buscador) */}
+      <section className="mx-auto max-w-2xl px-4 py-14">
+        <div className="rounded-2xl border border-black/5 bg-white p-6 text-center shadow-sm">
+          <h3 className="text-base font-bold text-navy">
+            🔎 ¿Encontraste una mascota o quieres verificar una ficha?
+          </h3>
+          <p className="mx-auto mt-1 max-w-md text-sm text-slate-600">
+            Consulta por cédula del tutor, número de microchip o escaneando el código QR.
+          </p>
+          <Link
+            href="/localizar"
+            className="mt-4 inline-block rounded-lg border border-slate-300 px-6 py-2.5 font-semibold text-navy transition hover:bg-slate-50"
+          >
+            Consultar mascota
+          </Link>
         </div>
       </section>
     </div>
