@@ -36,7 +36,7 @@ function fmt(d?: Date | null) {
 
 function Flag() {
   return (
-    <span className="flex h-5 w-8 flex-col overflow-hidden rounded-sm ring-1 ring-black/10">
+    <span className="flex h-6 w-9 flex-col overflow-hidden rounded-[2px] ring-1 ring-black/10">
       <span className="h-1/2 w-full bg-ec-yellow" />
       <span className="h-1/4 w-full bg-ec-blue" />
       <span className="h-1/4 w-full bg-ec-red" />
@@ -44,6 +44,7 @@ function Flag() {
   );
 }
 
+// Campo etiqueta + valor, al estilo de la cédula ecuatoriana.
 function Field({
   label,
   value,
@@ -55,10 +56,12 @@ function Field({
 }) {
   return (
     <div className="min-w-0">
-      <p className="text-[9px] font-medium uppercase tracking-wider text-slate-400">
-        {label}
-      </p>
-      <p className={`break-words font-bold text-slate-800 ${big ? "text-lg leading-tight sm:text-xl" : "text-[11px] sm:text-sm"}`}>
+      <p className="text-[7px] font-medium uppercase tracking-wide text-slate-500">{label}</p>
+      <p
+        className={`break-words font-bold uppercase leading-tight text-slate-800 ${
+          big ? "text-[15px] sm:text-[17px]" : "text-[10px] sm:text-[11px]"
+        }`}
+      >
         {value || "—"}
       </p>
     </div>
@@ -73,85 +76,111 @@ export default function CedulaCard({
   qr: string;
 }) {
   const nui = record.microchip || record.certificateNo || record.registrationNo;
-  return (
-    <div className="mx-auto max-w-[560px] overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xl">
-      {/* Cabecera */}
-      <div className="flex items-center gap-3 px-5 pt-4">
-        <Flag />
-        <div>
-          <p className="text-sm font-black uppercase tracking-wide text-navy">
-            Cédula de Identidad Animal
-          </p>
-          <p className="text-[10px] uppercase tracking-widest text-slate-400">
-            {BRAND.name} · {BRAND.tagline}
-          </p>
-        </div>
-      </div>
-      <div className="mt-3 flag-bar" />
+  const documento = record.certificateNo || record.registrationNo;
+  const lugar = [record.city, record.province].filter(Boolean).join(" · ") || "Ecuador";
 
-      {/* Cuerpo */}
+  return (
+    <div className="relative mx-auto max-w-[560px] overflow-hidden rounded-xl bg-[#eef4f1] text-slate-800 shadow-xl ring-1 ring-black/10">
+      {/* Fondo de seguridad: mapa del Ecuador muy tenue */}
       <div
-        className="grid grid-cols-[104px_1fr] gap-4 bg-[#f8fbfc] p-4 sm:grid-cols-[132px_1fr] sm:gap-5 sm:p-5"
+        className="pointer-events-none absolute inset-0 opacity-[0.07]"
         style={{
           backgroundImage: "url(/ecuador-map.svg)",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "auto 80%",
+          backgroundPosition: "right center",
+          backgroundSize: "auto 90%",
         }}
-      >
-        {/* Foto + NUI */}
-        <div>
-          <div className="flex aspect-[3/4] w-full items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
-            {record.photoData ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={record.photoData} alt={record.petName} className="h-full w-full object-cover" />
-            ) : (
-              <span className="text-4xl">🐾</span>
-            )}
+      />
+
+      <div className="relative px-4 pb-3 pt-3">
+        {/* Encabezado */}
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-start gap-2">
+            <p className="text-[8px] font-black uppercase leading-[1.1] tracking-wide text-emerald-700">
+              Cédula de<br />Identidad<br />Animal
+            </p>
+            <Flag />
+            <div className="pt-0.5">
+              <p className="text-[11px] font-black uppercase leading-none tracking-wide text-navy sm:text-[12px]">
+                Registro Nacional de Mascotas
+              </p>
+              <p className="mt-0.5 text-[6.5px] uppercase tracking-wide text-slate-500">
+                República del Ecuador · {BRAND.name}
+              </p>
+            </div>
           </div>
-          <p className="mt-2 text-[10px] sm:text-sm">
-            <span className="text-slate-400">NUI.</span>{" "}
-            <span className="break-all font-mono font-bold text-navy">{nui}</span>
-          </p>
-          {record.status === "anulado" && (
-            <span className="mt-2 inline-block rounded bg-red-100 px-2 py-0.5 text-xs font-bold text-red-700">
-              ANULADA
-            </span>
-          )}
+          <div className="text-right">
+            <p className="text-[6.5px] uppercase tracking-wide text-slate-500">Condición</p>
+            <p className={`text-[10px] font-black ${record.status === "anulado" ? "text-red-600" : "text-emerald-700"}`}>
+              {record.status === "anulado" ? "ANULADA" : "REGISTRADA"}
+            </p>
+          </div>
         </div>
 
-        {/* Campos esenciales (como una cédula real) */}
-        <div className="grid grid-cols-2 gap-x-5 gap-y-2 self-start">
-          <div className="col-span-2">
+        <div className="mt-2 h-[2px] w-full rounded bg-gradient-to-r from-ec-yellow via-ec-blue to-ec-red" />
+
+        {/* Cuerpo: foto | campos | columna derecha */}
+        <div className="mt-2.5 grid grid-cols-[84px_1fr_92px] gap-3 sm:grid-cols-[104px_1fr_104px]">
+          {/* Foto */}
+          <div>
+            <div className="aspect-[3/4] w-full overflow-hidden rounded border border-slate-300 bg-white">
+              {record.photoData ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={record.photoData} alt={record.petName} className="h-full w-full object-cover" />
+              ) : (
+                <span className="flex h-full items-center justify-center text-3xl">🐾</span>
+              )}
+            </div>
+          </div>
+
+          {/* Campos principales */}
+          <div className="min-w-0 space-y-1.5">
             <Field label="Nombre" value={record.petName} big />
+            <div className="grid grid-cols-2 gap-2">
+              <Field label="Especie" value={record.species} />
+              <Field label="Raza" value={record.breed} />
+            </div>
+            <Field label="Nacionalidad" value="ECUATORIANA" />
+            <div className="grid grid-cols-2 gap-2">
+              <Field label="Fecha de nacimiento" value={fmt(record.birthDate)} />
+              <Field label="Color" value={record.color} />
+            </div>
+            <Field label="Lugar de nacimiento" value={lugar} />
           </div>
-          <Field label="Especie" value={record.species} />
-          <Field label="Sexo" value={record.sex} />
-          <Field label="Raza" value={record.breed} />
-          <Field label="Color" value={record.color} />
-          <Field label="Nacimiento" value={fmt(record.birthDate)} />
-          <Field label="Esterilizado" value={record.sterilized ? "Sí" : "No"} />
-          <div className="col-span-2">
-            <Field label="Microchip N.º" value={record.microchip || "No registra"} />
-          </div>
-        </div>
-      </div>
 
-      {/* Pie: tutor + chip + QR */}
-      <div className="flex items-end justify-between gap-4 border-t border-slate-100 px-4 py-3">
-        <div>
-          <p className="text-[9px] font-medium uppercase tracking-wider text-slate-400">
-            Tutor responsable
-          </p>
-          <p className="text-sm font-bold text-slate-800">{record.ownerName}</p>
-          <p className="text-xs text-slate-500">
-            {record.ownerIdType}: {record.ownerId} · Emisión {fmt(record.createdAt)}
-          </p>
+          {/* Columna derecha: foto fantasma + datos */}
+          <div className="flex flex-col items-end gap-1.5 text-right">
+            <div className="h-16 w-14 overflow-hidden rounded border border-slate-200 bg-white/60 opacity-60">
+              {record.photoData ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={record.photoData} alt="" className="h-full w-full object-cover grayscale" />
+              ) : null}
+            </div>
+            <Field label="Sexo" value={record.sex} />
+            <Field label="N° Documento" value={documento} />
+            <Field label="Esterilizado" value={record.sterilized ? "Sí" : "No"} />
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="h-6 w-8 rounded-sm bg-gradient-to-br from-amber-300 to-amber-500 ring-1 ring-amber-600/40" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={qr} alt="Código QR" className="h-16 w-16" />
+
+        {/* Pie: NUI + tutor + chip + QR */}
+        <div className="mt-2 flex items-end justify-between gap-3 border-t border-slate-200/70 pt-2">
+          <div className="min-w-0">
+            <p className="text-[10px] sm:text-[11px]">
+              <span className="text-slate-400">NUI.</span>{" "}
+              <span className="break-all font-mono font-bold text-navy">{nui}</span>
+            </p>
+            <p className="mt-0.5 truncate text-[7px] uppercase tracking-wide text-slate-500">
+              Tutor: <span className="font-semibold text-slate-700">{record.ownerName}</span> · {record.ownerIdType} {record.ownerId}
+            </p>
+            <p className="text-[7px] uppercase tracking-wide text-slate-400">
+              Emisión {fmt(record.createdAt)}
+            </p>
+          </div>
+          <div className="flex shrink-0 items-center gap-1.5">
+            <span className="h-6 w-8 rounded-sm bg-gradient-to-br from-amber-300 to-amber-500 ring-1 ring-amber-600/40" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={qr} alt="Código QR" className="h-14 w-14" />
+          </div>
         </div>
       </div>
     </div>

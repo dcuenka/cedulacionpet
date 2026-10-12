@@ -1,22 +1,11 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
+import CedulaCard from "@/components/CedulaCard";
 import { qrDataUrl } from "@/lib/qr";
 
 // Revalida el contador cada 60 s en producción (no queda congelado del build).
 export const revalidate = 60;
-
-// Campo compacto para la cédula de muestra de la portada.
-function CedField({ label, value, big }: { label: string; value: string; big?: boolean }) {
-  return (
-    <div>
-      <p className="text-[7px] font-medium uppercase tracking-wide text-slate-400">{label}</p>
-      <p className={`font-bold leading-tight text-slate-800 ${big ? "text-[17px]" : "text-[10px]"}`}>
-        {value}
-      </p>
-    </div>
-  );
-}
 
 export default async function HomePage() {
   // Cifra comercial: base de 20.000 + las mascotas reales registradas.
@@ -30,6 +19,28 @@ export default async function HomePage() {
 
   // QR de muestra para la cédula de la portada (datos ficticios).
   const demoQr = await qrDataUrl("985141002233417");
+
+  // Mascota de muestra para la cédula de la portada.
+  const demoPet = {
+    registrationNo: "CP-2026-000042",
+    certificateNo: "1375.19.239",
+    petName: "SAMY",
+    species: "Canina",
+    breed: "Labrador",
+    sex: "Hembra",
+    color: "Dorado",
+    birthDate: new Date("2023-03-15"),
+    microchip: "985141002233417",
+    sterilized: true,
+    photoData: "/perro-cedula.png",
+    ownerName: "Andrés Vega",
+    ownerIdType: "Cédula",
+    ownerId: "0912345678",
+    city: "Quito",
+    province: "Pichincha",
+    status: "activo",
+    createdAt: new Date("2026-07-09"),
+  };
 
   return (
     <div>
@@ -146,72 +157,11 @@ export default async function HomePage() {
       {/* Cédula física (complemento) */}
       <section className="relative overflow-hidden border-b border-black/5 bg-gradient-to-b from-[#e8eff9] via-[#eef3fb] to-white">
         <div className="relative mx-auto flex max-w-5xl flex-col items-center gap-10 px-4 py-16 md:flex-row">
-          {/* Cédula de muestra (proporción real de cédula, con resplandor) */}
-          <div className="relative w-full max-w-[380px] shrink-0">
+          {/* Cédula de muestra (misma estructura que la del tutor) */}
+          <div className="relative w-full max-w-[460px] shrink-0">
             <div className="pointer-events-none absolute -inset-5 rounded-[36px] bg-ec-yellow/25 blur-2xl" />
-            <div className="float-soft relative flex flex-col overflow-hidden rounded-xl bg-white text-navy shadow-2xl ring-1 ring-black/10">
-              <div className="flex items-center gap-2 px-3 pt-2">
-                <span className="flex h-5 w-8 flex-col overflow-hidden rounded-[3px] ring-1 ring-black/10">
-                  <span className="h-1/2 bg-ec-yellow" />
-                  <span className="h-1/4 bg-ec-blue" />
-                  <span className="h-1/4 bg-ec-red" />
-                </span>
-                <div>
-                  <p className="text-[11px] font-black uppercase leading-none tracking-wide">
-                    Cédula de Identidad Animal
-                  </p>
-                  <p className="mt-0.5 text-[6.5px] uppercase tracking-widest text-slate-400">
-                    {BRAND.name} · {BRAND.tagline}
-                  </p>
-                </div>
-              </div>
-              <div className="mt-1.5 flag-bar" />
-              <div
-                className="flex flex-1 gap-3 bg-[#f8fbfc] px-3 py-2.5"
-                style={{
-                  backgroundImage: "url(/ecuador-map.svg)",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                  backgroundSize: "auto 82%",
-                }}
-              >
-                <div className="flex w-[27%] shrink-0 flex-col">
-                  <div className="aspect-[3/4] overflow-hidden rounded bg-slate-100 ring-1 ring-slate-200">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/perro-cedula.png" alt="SAMY" className="h-full w-full object-cover" />
-                  </div>
-                  <p className="mt-1 text-[7px]">
-                    <span className="text-slate-400">NUI.</span>{" "}
-                    <span className="font-mono font-bold text-navy">985141002233417</span>
-                  </p>
-                </div>
-                <div className="grid flex-1 content-start grid-cols-2 gap-x-3 gap-y-1.5">
-                  <div className="col-span-2">
-                    <CedField label="Nombre" value="SAMY" big />
-                  </div>
-                  <CedField label="Especie" value="Canina" />
-                  <CedField label="Sexo" value="Hembra" />
-                  <CedField label="Raza" value="Labrador" />
-                  <CedField label="Color" value="Dorado" />
-                  <div className="col-span-2">
-                    <CedField label="Microchip N.º" value="985141002233417" />
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between border-t border-slate-100 bg-white px-3 py-2">
-                <div>
-                  <p className="text-[6.5px] font-medium uppercase tracking-wide text-slate-400">
-                    Tutor responsable
-                  </p>
-                  <p className="text-[11px] font-bold text-slate-800">Andrés Vega</p>
-                  <p className="text-[6.5px] text-slate-400">Cédula: 0912345678</p>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="h-5 w-8 rounded-sm bg-gradient-to-br from-amber-300 to-amber-500 ring-1 ring-amber-600/30" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={demoQr} alt="QR" className="h-12 w-12" />
-                </div>
-              </div>
+            <div className="float-soft relative">
+              <CedulaCard record={demoPet} qr={demoQr} />
             </div>
           </div>
 
