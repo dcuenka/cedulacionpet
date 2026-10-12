@@ -106,6 +106,61 @@ function PhotoField({
   );
 }
 
+// Datos de la cuenta para el pago (botón que despliega la información).
+function PaymentInfo() {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  async function copyAccount() {
+    try {
+      await navigator.clipboard.writeText("2100342325");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* sin portapapeles */
+    }
+  }
+  return (
+    <div className="mb-4">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="rounded-lg bg-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-navy-700"
+      >
+        💳 Ver datos para el pago
+      </button>
+      {open && (
+        <div className="mt-3 rounded-xl border border-teal/30 bg-teal/5 p-4 text-sm text-navy">
+          <p className="font-bold">Datos para la transferencia / depósito</p>
+          <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
+            <dt className="text-slate-500">Banco</dt>
+            <dd className="font-semibold">Banco del Pichincha</dd>
+            <dt className="text-slate-500">Tipo de cuenta</dt>
+            <dd className="font-semibold">Cuenta Corriente</dd>
+            <dt className="text-slate-500">N.º de cuenta</dt>
+            <dd className="flex items-center gap-2 font-mono font-bold">
+              2100342325
+              <button
+                type="button"
+                onClick={copyAccount}
+                className="rounded border border-slate-300 bg-white px-2 py-0.5 text-[11px] font-semibold text-navy hover:bg-slate-50"
+              >
+                {copied ? "✓ Copiado" : "Copiar"}
+              </button>
+            </dd>
+            <dt className="text-slate-500">RUC</dt>
+            <dd className="font-semibold">179321366001</dd>
+            <dt className="text-slate-500">Titular</dt>
+            <dd className="font-semibold">VETPLAN S.A.S.</dd>
+          </dl>
+          <p className="mt-3 text-xs text-slate-500">
+            Después de pagar, adjunta aquí la foto del comprobante.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 const inputCls =
   "mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-navy outline-none focus:border-teal focus:ring-2 focus:ring-teal/20";
 
@@ -213,9 +268,10 @@ export default function ServiceRequestForm() {
       <section className="rounded-xl border border-black/5 bg-white p-5 shadow-sm">
         <h2 className="font-bold text-navy">Comprobante de pago</h2>
         <p className="mt-0.5 text-xs text-slate-500">
-          Adjunta la foto del pago realizado (transferencia o depósito) para agilizar tu trámite.
+          Realiza el pago a nuestra cuenta y adjunta la foto del comprobante para agilizar tu trámite.
         </p>
         <div className="mt-3">
+          <PaymentInfo />
           <PhotoField name="paymentPhoto" label="Foto del pago realizado" hint="Transferencia, depósito o recibo." />
         </div>
       </section>
