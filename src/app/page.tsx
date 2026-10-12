@@ -81,13 +81,6 @@ export default async function HomePage() {
                 🔎 Consultar / identificar mascota
               </Link>
             </div>
-            {/* Compartir la aplicación */}
-            <div className="mt-4">
-              <ShareApp />
-              <p className="mt-2 text-xs text-white/50">
-                Invita a otros tutores a identificar a su mascota.
-              </p>
-            </div>
             <p className="mt-6 text-sm text-white/50">
               <strong className="text-white">{registered.toLocaleString("es-EC")}+</strong> mascotas ya cuentan con su ficha e identificación.
             </p>
@@ -155,6 +148,14 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Compartir la app (al final de la presentación) */}
+        <div className="relative mx-auto max-w-6xl px-4 pb-14 text-center">
+          <p className="mb-3 text-sm text-white/70">
+            ¿Te gusta? Comparte {BRAND.name} e invita a otros tutores a identificar a su mascota.
+          </p>
+          <ShareApp className="justify-center" />
         </div>
       </section>
 

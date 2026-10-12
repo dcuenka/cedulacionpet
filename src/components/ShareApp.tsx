@@ -15,19 +15,23 @@ export default function ShareApp({ className = "" }: { className?: string }) {
     return `Registra e identifica a tu mascota con ${BRAND.name} — cédula digital, carnet de vacunas y QR.\n${appUrl()}`;
   }
 
-  function whatsapp() {
-    window.open(`https://wa.me/?text=${encodeURIComponent(message())}`, "_blank", "noopener,noreferrer");
-  }
-
   async function share() {
-    const data = { title: BRAND.name, text: `Registra e identifica a tu mascota con ${BRAND.name}.`, url: appUrl() };
+    // Menú nativo (elige WhatsApp u otro contacto); si no hay, WhatsApp; si no, copiar.
     if (typeof navigator.share === "function") {
       try {
-        await navigator.share(data);
+        await navigator.share({
+          title: BRAND.name,
+          text: `Registra e identifica a tu mascota con ${BRAND.name}.`,
+          url: appUrl(),
+        });
         return;
       } catch {
         /* cancelado */
       }
+    }
+    if (/android|iphone|ipad|ipod/i.test(navigator.userAgent)) {
+      window.open(`https://wa.me/?text=${encodeURIComponent(message())}`, "_blank", "noopener,noreferrer");
+      return;
     }
     try {
       await navigator.clipboard.writeText(appUrl());
@@ -41,16 +45,10 @@ export default function ShareApp({ className = "" }: { className?: string }) {
   return (
     <div className={`flex flex-wrap items-center gap-2 ${className}`}>
       <button
-        onClick={whatsapp}
-        className="rounded-lg bg-[#25D366] px-5 py-3 font-bold text-white shadow-lg transition hover:brightness-95"
-      >
-        💬 Compartir la app
-      </button>
-      <button
         onClick={share}
-        className="rounded-lg border border-white/40 px-5 py-3 font-bold text-white transition hover:bg-white/10"
+        className="rounded-lg bg-[#25D366] px-6 py-3 font-bold text-white shadow-lg transition hover:brightness-95"
       >
-        {copied ? "✓ Enlace copiado" : "📤 Compartir"}
+        {copied ? "✓ Enlace copiado" : "📲 Compartir la app"}
       </button>
     </div>
   );
