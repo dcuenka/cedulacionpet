@@ -6,6 +6,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { generateRegistrationNumber } from "@/lib/registration";
 import { isAdmin } from "@/lib/admin-auth";
+import { computeEmbedding } from "@/lib/image-embedding";
 
 export type RecordState = { error?: string } | undefined;
 
@@ -95,9 +96,10 @@ export async function createRecord(
   if (err) return { error: err };
 
   const registrationNo = await generateRegistrationNumber();
+  const embedding = f.photoData ? await computeEmbedding(f.photoData) : null;
 
   try {
-    await prisma.petRecord.create({ data: { registrationNo, ...f } });
+    await prisma.petRecord.create({ data: { registrationNo, ...f, ...(embedding ? { embedding } : {}) } });
   } catch (e) {
     const ue = uniqueError(e);
     if (ue) return { error: ue };
@@ -129,8 +131,10 @@ export async function updateRecord(
   const err = validate(f);
   if (err) return { error: err };
 
+  const embedding = f.photoData ? await computeEmbedding(f.photoData) : null;
+
   try {
-    await prisma.petRecord.update({ where: { id }, data: f });
+    await prisma.petRecord.update({ where: { id }, data: { ...f, ...(embedding ? { embedding } : {}) } });
   } catch (e) {
     const ue = uniqueError(e);
     if (ue) return { error: ue };

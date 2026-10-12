@@ -257,12 +257,20 @@ export default async function HomePage() {
               <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Señas particulares registradas (manchas, cicatrices)</li>
               <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Base lista para la búsqueda por foto (próximamente con IA)</li>
             </ul>
-            <Link
-              href="/solicitar"
-              className="mt-8 inline-block rounded-lg bg-ec-yellow px-6 py-3 font-bold text-navy shadow-lg transition hover:brightness-95"
-            >
-              📝 Solicitar el servicio
-            </Link>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/solicitar"
+                className="rounded-lg bg-ec-yellow px-6 py-3 font-bold text-navy shadow-lg transition hover:brightness-95"
+              >
+                📝 Solicitar el servicio
+              </Link>
+              <Link
+                href="/buscar-foto"
+                className="rounded-lg border border-white/40 px-6 py-3 font-bold text-white transition hover:bg-white/10"
+              >
+                🔎 Buscar por foto
+              </Link>
+            </div>
           </div>
         </div>
       </section>

@@ -34,7 +34,13 @@ export default function LocalizarPage() {
             Consultar
           </button>
         </form>
-        <div className="mt-6 rounded-lg bg-teal/5 px-4 py-3 text-sm text-slate-600">
+        <a
+          href="/buscar-foto"
+          className="mt-4 flex items-center justify-center gap-2 rounded-lg border border-navy/20 bg-navy/5 px-4 py-3 text-sm font-semibold text-navy transition hover:bg-navy/10"
+        >
+          🧬 ¿La encontraste? Busca por foto (parecido)
+        </a>
+        <div className="mt-4 rounded-lg bg-teal/5 px-4 py-3 text-sm text-slate-600">
           <p className="font-semibold text-navy">¿Eres el tutor?</p>
           <p className="mt-0.5">
             Ingresa tu número de cédula para ver tus mascotas y llevar su{" "}

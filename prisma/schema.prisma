@@ -52,6 +52,8 @@ model PetRecord {
   city          String?
 
   // --- Datos internos ---
+  // Firma visual (color/patrón) de la foto, para la búsqueda por parecido.
+  embedding  Json?
   mvz        String? // Médico veterinario (MVZ) responsable
   clientType String   @default("interno") // interno | externo
   status     String   @default("activo") // activo | anulado
