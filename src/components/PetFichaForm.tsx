@@ -149,7 +149,13 @@ function dateValue(d?: Date | string | null): string {
   return dt.toISOString().slice(0, 10);
 }
 
-export default function PetFichaForm({ record }: { record?: FichaDefaults }) {
+export default function PetFichaForm({
+  record,
+  fromRequest,
+}: {
+  record?: FichaDefaults;
+  fromRequest?: string;
+}) {
   const editing = Boolean(record?.id);
   const action = editing ? updateRecord.bind(null, record!.id!) : createRecord;
 
@@ -171,6 +177,7 @@ export default function PetFichaForm({ record }: { record?: FichaDefaults }) {
   return (
     <form action={formAction} className="space-y-6">
       <input type="hidden" name="photoData" value={photo} />
+      {fromRequest && <input type="hidden" name="fromRequest" value={fromRequest} />}
 
       {/* Números de registro */}
       <section className="rounded-xl border-2 border-teal/40 bg-teal/5 p-6 shadow-sm">

@@ -126,6 +126,13 @@ export default async function SolicitudesPage() {
                 </div>
 
                 <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
+                  <Link
+                    href={`/admin/nueva?from=${r.id}`}
+                    className="rounded-lg bg-teal px-3 py-1.5 text-xs font-bold text-white transition hover:bg-teal-600"
+                  >
+                    ➕ Crear ficha
+                  </Link>
+                  <span className="mx-1 h-4 w-px bg-slate-200" />
                   {["nueva", "contactado", "atendida", "descartada"].map((s) => (
                     <form key={s} action={updateServiceRequestStatus}>
                       <input type="hidden" name="id" value={r.id} />

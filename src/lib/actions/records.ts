@@ -103,6 +103,16 @@ export async function createRecord(
     throw e;
   }
 
+  // Si la ficha se creó a partir de una solicitud, la marcamos como atendida.
+  const fromRequest = str(formData.get("fromRequest"));
+  if (fromRequest) {
+    try {
+      await prisma.serviceRequest.update({ where: { id: fromRequest }, data: { status: "atendida" } });
+    } catch {
+      /* la solicitud pudo haberse eliminado; no bloquea la creación */
+    }
+  }
+
   redirect(`/cedula/${registrationNo}`);
 }
 
