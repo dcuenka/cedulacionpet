@@ -160,7 +160,7 @@ export default async function HomePage() {
       <section className="relative overflow-hidden border-b border-black/5 bg-gradient-to-b from-[#e8eff9] via-[#eef3fb] to-white">
         <div className="relative mx-auto flex max-w-5xl flex-col items-center gap-10 px-4 py-16 md:flex-row">
           {/* Cédula de muestra (misma estructura que la del tutor) */}
-          <div className="relative w-full max-w-[460px] shrink-0">
+          <div className="relative w-full max-w-[450px] shrink-0">
             <div className="pointer-events-none absolute -inset-5 rounded-[36px] bg-ec-yellow/25 blur-2xl" />
             <div className="float-soft relative">
               <CedulaCard record={demoPet} qr={demoQr} />

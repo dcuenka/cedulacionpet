@@ -134,7 +134,7 @@ export default function CedulaCard({
           </div>
 
           {/* Campos principales */}
-          <div className="min-w-0 space-y-1">
+          <div className="min-w-0 space-y-1.5">
             <Field label="Nombre" value={record.petName} big />
             <div className="grid grid-cols-2 gap-2">
               <Field label="Especie" value={record.species} />
@@ -146,7 +146,7 @@ export default function CedulaCard({
           </div>
 
           {/* Columna derecha: foto fantasma + datos */}
-          <div className="flex flex-col items-end gap-1 text-right">
+          <div className="flex flex-col items-end gap-1.5 text-right">
             <div className="h-14 w-12 overflow-hidden rounded border border-slate-200 bg-white/60 opacity-60">
               {record.photoData ? (
                 // eslint-disable-next-line @next/next/no-img-element
