@@ -51,6 +51,12 @@ function Header() {
           <nav className="flex items-center gap-2 text-sm">
             <InstallButton />
             <Link
+              href="/solicitar"
+              className="rounded-md border border-ec-yellow/60 px-3 py-2 font-semibold text-ec-yellow transition hover:bg-white/10"
+            >
+              Solicitar servicio
+            </Link>
+            <Link
               href="/localizar"
               className="rounded-md bg-ec-yellow px-4 py-2 font-semibold text-navy transition hover:brightness-95"
             >

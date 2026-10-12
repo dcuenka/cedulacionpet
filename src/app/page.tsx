@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
 import CedulaCard from "@/components/CedulaCard";
+import ShareApp from "@/components/ShareApp";
 import { qrDataUrl } from "@/lib/qr";
 
 // Revalida el contador cada 60 s en producción (no queda congelado del build).
@@ -79,12 +80,13 @@ export default async function HomePage() {
               >
                 🔎 Consultar / identificar mascota
               </Link>
-              <Link
-                href="/solicitar"
-                className="rounded-lg border border-white/40 px-6 py-3 font-bold text-white transition hover:bg-white/10"
-              >
-                📝 Solicitar el servicio
-              </Link>
+            </div>
+            {/* Compartir la aplicación */}
+            <div className="mt-4">
+              <ShareApp />
+              <p className="mt-2 text-xs text-white/50">
+                Invita a otros tutores a identificar a su mascota.
+              </p>
             </div>
             <p className="mt-6 text-sm text-white/50">
               <strong className="text-white">{registered.toLocaleString("es-EC")}+</strong> mascotas ya cuentan con su ficha e identificación.
