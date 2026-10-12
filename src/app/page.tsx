@@ -167,13 +167,13 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Resumen de la cédula física */}
+          {/* Resumen de la cédula digital */}
           <div>
-            <h2 className="text-3xl font-black text-navy">Y su cédula de identidad física</h2>
+            <h2 className="text-3xl font-black text-navy">Y su cédula digital</h2>
             <p className="mt-3 text-lg text-slate-600">
-              Junto al carnet entregamos impresa la{" "}
-              <strong className="text-navy">Cédula de Identidad Animal</strong>: foto oficial,
-              número de microchip y el mismo código QR que abre el carnet digital.
+              Cada mascota tiene su{" "}
+              <strong className="text-navy">Cédula de Identidad Animal</strong> digital: foto oficial,
+              número de microchip y un código QR de verificación, siempre a la mano en el celular.
             </p>
             <p className="mt-4 text-base font-semibold text-slate-500">
               📷 Foto oficial · 🔖 Microchip N.º · ▣ QR de verificación
