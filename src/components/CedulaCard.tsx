@@ -59,7 +59,7 @@ function Field({
       <p className="text-[7px] font-medium uppercase tracking-wide text-slate-500">{label}</p>
       <p
         className={`break-words font-bold uppercase leading-tight text-slate-800 ${
-          big ? "text-[15px] sm:text-[17px]" : "text-[10px] sm:text-[11px]"
+          big ? "text-[17px]" : "text-[11px]"
         }`}
       >
         {value || "—"}
@@ -80,7 +80,7 @@ export default function CedulaCard({
   const lugar = [record.city, record.province].filter(Boolean).join(" · ") || "Ecuador";
 
   return (
-    <div className="relative mx-auto max-w-[560px] overflow-hidden rounded-xl bg-[#eef4f1] text-slate-800 shadow-xl ring-1 ring-black/10">
+    <div className="relative mx-auto max-w-[460px] overflow-hidden rounded-xl bg-[#eef4f1] text-slate-800 shadow-xl ring-1 ring-black/10">
       {/* Fondo de seguridad: mapa del Ecuador muy tenue */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.07]"
@@ -101,7 +101,7 @@ export default function CedulaCard({
             </p>
             <Flag />
             <div className="pt-0.5">
-              <p className="text-[11px] font-black uppercase leading-none tracking-wide text-navy sm:text-[12px]">
+              <p className="text-[12px] font-black uppercase leading-none tracking-wide text-navy">
                 Registro Nacional de Mascotas
               </p>
               <p className="mt-0.5 text-[6.5px] uppercase tracking-wide text-slate-500">
@@ -120,7 +120,7 @@ export default function CedulaCard({
         <div className="mt-1.5 h-[2px] w-full rounded bg-gradient-to-r from-ec-yellow via-ec-blue to-ec-red" />
 
         {/* Cuerpo: foto | campos | columna derecha */}
-        <div className="mt-2 grid grid-cols-[80px_1fr_84px] gap-3 sm:grid-cols-[94px_1fr_94px]">
+        <div className="mt-2 grid grid-cols-[94px_1fr_94px] gap-3">
           {/* Foto */}
           <div>
             <div className="aspect-[3/4] w-full overflow-hidden rounded border border-slate-300 bg-white">
@@ -162,7 +162,7 @@ export default function CedulaCard({
         {/* Pie: microchip + tutor + chip + QR */}
         <div className="mt-1.5 flex items-end justify-between gap-3 border-t border-slate-200/70 pt-1.5">
           <div className="min-w-0">
-            <p className="text-[10px] sm:text-[11px]">
+            <p className="text-[11px]">
               <span className="text-slate-400">MicroChip:</span>{" "}
               <span className="break-all font-mono font-bold text-navy">{record.microchip || nui}</span>
             </p>

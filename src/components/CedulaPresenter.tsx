@@ -5,12 +5,18 @@ import CedulaCard from "./CedulaCard";
 
 type Props = React.ComponentProps<typeof CedulaCard>;
 
-// Ancho de diseño de la cédula: a este ancho la tarjeta tiene proporción
-// de cédula real. Se escala para encajar en cualquier pantalla.
-const DESIGN_W = 500;
+// Ancho de diseño de la cédula: a este ancho la tarjeta tiene la proporción
+// de la cédula real (~1.586:1). Se escala para encajar en cualquier pantalla.
+const DESIGN_W = 450;
 
 export default function CedulaPresenter({ record, qr }: Props) {
   const [open, setOpen] = useState(false);
+
+  function whatsapp() {
+    const url = window.location.href;
+    const text = `Cédula de identidad de ${record.petName} · Cedulación Pet Carnet\n${url}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+  }
 
   async function share() {
     const url = window.location.href;
@@ -54,7 +60,13 @@ export default function CedulaPresenter({ record, qr }: Props) {
           onClick={() => setOpen(false)}
         >
           <LandscapeCard record={record} qr={qr} />
-          <div className="flex items-center justify-center gap-2" onClick={(e) => e.stopPropagation()}>
+          <div className="flex flex-wrap items-center justify-center gap-2" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={whatsapp}
+              className="rounded-lg bg-[#25D366] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-95"
+            >
+              💬 WhatsApp
+            </button>
             <button
               onClick={share}
               className="rounded-lg bg-ec-yellow px-5 py-2.5 text-sm font-bold text-navy transition hover:brightness-95"

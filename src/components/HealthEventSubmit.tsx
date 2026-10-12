@@ -61,6 +61,7 @@ export default function HealthEventSubmit({ petRecordId }: { petRecordId: string
   const [aiLoading, setAiLoading] = useState(false);
   const [aiMsg, setAiMsg] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const galRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -177,21 +178,22 @@ export default function HealthEventSubmit({ petRecordId }: { petRecordId: string
         </label>
       </div>
 
-      <div className="mt-3 flex items-center gap-3">
-        <input
-          ref={fileRef}
-          type="file"
-          accept="image/*"
-          capture="environment"
-          onChange={onFile}
-          className="hidden"
-        />
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <input ref={fileRef} type="file" accept="image/*" capture="environment" onChange={onFile} className="hidden" />
+        <input ref={galRef} type="file" accept="image/*" onChange={onFile} className="hidden" />
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-navy transition hover:bg-slate-50"
+          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-navy transition hover:bg-slate-50"
         >
-          📷 Tomar / subir foto
+          📷 Tomar foto
+        </button>
+        <button
+          type="button"
+          onClick={() => galRef.current?.click()}
+          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-navy transition hover:bg-slate-50"
+        >
+          🖼️ Cargar foto
         </button>
         {photo && (
           <div className="flex items-center gap-2">

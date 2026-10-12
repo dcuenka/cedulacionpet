@@ -2,10 +2,17 @@
 
 import { useState } from "react";
 
-// Comparte/guarda el enlace de la ficha digital (identificación + carnet).
-// Usa el menú nativo del celular (Web Share); si no está, copia el enlace.
+// Comparte el enlace de la ficha digital (identificación + carnet):
+// - WhatsApp: lo envía directamente a un contacto.
+// - Compartir: menú nativo del celular (o copiar el enlace como respaldo).
 export default function ShareBar({ petName }: { petName: string }) {
   const [copied, setCopied] = useState(false);
+
+  function whatsapp() {
+    const url = window.location.href;
+    const text = `Identificación y carnet digital de ${petName} · Cedulación Pet Carnet\n${url}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+  }
 
   async function share() {
     const url = window.location.href;
@@ -27,16 +34,24 @@ export default function ShareBar({ petName }: { petName: string }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      /* sin permisos de portapapeles: no hacemos nada */
+      /* sin permisos de portapapeles */
     }
   }
 
   return (
-    <button
-      onClick={share}
-      className="rounded-md bg-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-navy-700"
-    >
-      {copied ? "✓ Enlace copiado" : "📤 Compartir / guardar"}
-    </button>
+    <div className="flex flex-wrap items-center gap-2">
+      <button
+        onClick={whatsapp}
+        className="rounded-md bg-[#25D366] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-95"
+      >
+        💬 Enviar por WhatsApp
+      </button>
+      <button
+        onClick={share}
+        className="rounded-md bg-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-navy-700"
+      >
+        {copied ? "✓ Enlace copiado" : "📤 Compartir"}
+      </button>
+    </div>
   );
 }

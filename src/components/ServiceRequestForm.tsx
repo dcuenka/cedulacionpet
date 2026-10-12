@@ -65,7 +65,8 @@ function PhotoField({
   hint: string;
 }) {
   const [photo, setPhoto] = useState("");
-  const ref = useRef<HTMLInputElement>(null);
+  const camRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -75,19 +76,21 @@ function PhotoField({
       alert("No se pudo procesar la imagen.");
     }
   }
+  const btn =
+    "rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-navy transition hover:bg-slate-50";
   return (
     <div>
       <p className="text-sm font-medium text-slate-600">{label}</p>
       <p className="text-xs text-slate-400">{hint}</p>
       <input type="hidden" name={name} value={photo} />
-      <input ref={ref} type="file" accept="image/*" capture="environment" onChange={onFile} className="hidden" />
-      <div className="mt-2 flex items-center gap-3">
-        <button
-          type="button"
-          onClick={() => ref.current?.click()}
-          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-navy transition hover:bg-slate-50"
-        >
-          📷 Tomar / subir foto
+      <input ref={camRef} type="file" accept="image/*" capture="environment" onChange={onFile} className="hidden" />
+      <input ref={fileRef} type="file" accept="image/*" onChange={onFile} className="hidden" />
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        <button type="button" onClick={() => camRef.current?.click()} className={btn}>
+          📷 Tomar foto
+        </button>
+        <button type="button" onClick={() => fileRef.current?.click()} className={btn}>
+          🖼️ Cargar foto
         </button>
         {photo && (
           <>
