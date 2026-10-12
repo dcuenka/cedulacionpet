@@ -19,12 +19,14 @@ function CedField({ label, value, big }: { label: string; value: string; big?: b
 }
 
 export default async function HomePage() {
+  // Cifra comercial: base de 20.000 + las mascotas reales registradas.
   let total = 0;
   try {
     total = await prisma.petRecord.count();
   } catch {
     total = 0;
   }
+  const registered = 20000 + total;
 
   // QR de muestra para la cédula de la portada (datos ficticios).
   const demoQr = await qrDataUrl("985141002233417");
@@ -74,14 +76,14 @@ export default async function HomePage() {
               </Link>
             </div>
             <p className="mt-6 text-sm text-white/50">
-              <strong className="text-white">{total.toLocaleString("es-EC")}</strong> mascotas ya cuentan con su ficha e identificación.
+              <strong className="text-white">{registered.toLocaleString("es-EC")}+</strong> mascotas ya cuentan con su ficha e identificación.
             </p>
           </div>
 
           {/* Imagen principal: carnet de vacunas abierto (tipo libro) */}
           <div className="relative mx-auto w-full max-w-[620px]">
             <div className="cred-glow pointer-events-none absolute -inset-10 rounded-[48px] bg-ec-yellow/25 blur-3xl" />
-            <div className="float-soft grid grid-cols-2 rounded-lg ring-1 ring-[#6b1f29]/30 shadow-[0_45px_90px_-25px_rgba(0,0,0,0.65)] [perspective:2200px]">
+            <div className="float-soft grid grid-cols-[1.75fr_1fr] rounded-lg ring-1 ring-[#6b1f29]/30 shadow-[0_45px_90px_-25px_rgba(0,0,0,0.65)] [perspective:2200px]">
               {/* Página izquierda: tabla de vacunación */}
               <div className="book-open-left relative rounded-l-lg bg-[#f3ead9] p-5 text-left [box-shadow:inset_-28px_0_46px_-26px_rgba(90,40,20,0.6)]">
                 <p className="text-center text-[15px] font-black uppercase tracking-widest text-[#6b1f29]">
@@ -112,11 +114,11 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              {/* Página derecha: mapa "Mis viajes por Ecuador" + QR */}
-              <div className="book-open-right relative flex flex-col rounded-r-lg bg-[#f6efe2] p-5 text-center [box-shadow:inset_28px_0_46px_-26px_rgba(90,40,20,0.6)]">
-                <p className="text-2xl font-black italic text-[#6b1f29]">Mis viajes por Ecuador</p>
+              {/* Página derecha: "Mis viajes por Ecuador" — girada como si se cerrara */}
+              <div className="relative flex origin-left flex-col rounded-r-lg bg-[#f6efe2] p-3 text-center [box-shadow:inset_28px_0_46px_-26px_rgba(90,40,20,0.6)] [transform:rotateY(-52deg)]">
+                <p className="text-sm font-black italic leading-tight text-[#6b1f29]">Mis viajes por Ecuador</p>
                 <div
-                  className="mx-auto mt-2 h-56 w-full flex-1"
+                  className="mx-auto mt-1 h-32 w-full flex-1"
                   style={{
                     backgroundImage: "url(/ecuador-map.svg)",
                     backgroundRepeat: "no-repeat",
@@ -124,19 +126,17 @@ export default async function HomePage() {
                     backgroundSize: "contain",
                   }}
                 />
-                <div className="mt-2 flex items-center justify-center gap-4 text-[11px] text-[#5a4631]">
+                <div className="mt-1 flex items-center justify-center gap-2 text-[8px] text-[#5a4631]">
                   <span>❤ Mi hogar</span>
                   <span>📍 Visitados</span>
-                  <span>⭐ Por ir</span>
                 </div>
-                <div className="mt-4 flex items-center justify-center gap-4">
-                  <div className="text-left">
-                    <p className="text-[12px] font-bold text-[#6b1f29]">¿Tienes alguna duda?</p>
-                    <p className="text-[10px] text-[#5a4631]">Escríbenos y te ayudamos</p>
-                  </div>
+                <div className="mt-2 flex items-center justify-center gap-2">
+                  <p className="text-[9px] font-bold leading-tight text-[#6b1f29]">¿Dudas?</p>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={demoQr} alt="QR" className="h-24 w-24 rounded-sm" />
+                  <img src={demoQr} alt="QR" className="h-12 w-12 rounded-sm" />
                 </div>
+                {/* Sombra de pliegue (borde que se cierra) */}
+                <div className="pointer-events-none absolute inset-0 rounded-r-lg bg-gradient-to-l from-black/30 to-transparent" />
               </div>
             </div>
           </div>
