@@ -14,9 +14,14 @@ export async function addPetPhoto(formData: FormData): Promise<void> {
   const petRecordId = str(formData.get("petRecordId"));
   const photoData = str(formData.get("photoData"));
   const caption = str(formData.get("caption")) || null;
+  const kind = str(formData.get("kind")) || "album";
   if (!petRecordId || !photoData.startsWith("data:image")) return;
   if (photoData.length > 2_500_000) return; // imagen demasiado pesada
-  await prisma.petPhoto.create({ data: { petRecordId, photoData, caption } });
+  // En el estudio biométrico solo hay una foto por toma: reemplazamos la anterior.
+  if (kind !== "album") {
+    await prisma.petPhoto.deleteMany({ where: { petRecordId, kind } });
+  }
+  await prisma.petPhoto.create({ data: { petRecordId, photoData, caption, kind } });
   revalidatePath(`/admin/${petRecordId}`);
 }
 

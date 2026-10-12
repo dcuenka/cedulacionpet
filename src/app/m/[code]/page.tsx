@@ -50,7 +50,7 @@ export default async function LocalizarCodePage({
     orderBy: { createdAt: "desc" },
     include: {
       healthEvents: { orderBy: { date: "desc" } },
-      photos: { orderBy: { createdAt: "desc" } },
+      photos: { where: { kind: "album" }, orderBy: { createdAt: "desc" } },
       prescriptions: { orderBy: { date: "desc" } },
     },
   });

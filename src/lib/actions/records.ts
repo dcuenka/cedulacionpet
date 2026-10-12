@@ -35,6 +35,7 @@ function readFields(formData: FormData) {
     birthDate: optDate(formData.get("birthDate")),
     sex: str(formData.get("sex")),
     color: optStr(formData.get("color")),
+    distinctiveMarks: optStr(formData.get("distinctiveMarks")),
     sterilized: str(formData.get("sterilized")) === "on",
     training: str(formData.get("training")) === "on",
     aggressionHistory: str(formData.get("aggressionHistory")) === "on",

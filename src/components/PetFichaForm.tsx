@@ -27,6 +27,7 @@ export type FichaDefaults = {
   birthDate?: Date | string | null;
   sex?: string;
   color?: string | null;
+  distinctiveMarks?: string | null;
   sterilized?: boolean;
   training?: boolean;
   aggressionHistory?: boolean;
@@ -264,6 +265,10 @@ export default function PetFichaForm({
           <label>
             <Label>Color</Label>
             <input name="color" defaultValue={d.color || ""} className={inputCls} placeholder="Blanco y gris" />
+          </label>
+          <label className="sm:col-span-2">
+            <Label>Señas particulares</Label>
+            <input name="distinctiveMarks" defaultValue={d.distinctiveMarks || ""} className={inputCls} placeholder="Manchas, cicatrices, marcas distintivas" />
           </label>
           <label>
             <Label>Alimentación</Label>

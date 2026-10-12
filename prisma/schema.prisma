@@ -27,6 +27,7 @@ model PetRecord {
   birthDate         DateTime?
   sex               String // Macho, Hembra
   color             String?
+  distinctiveMarks  String? // señas particulares (manchas, cicatrices) para identificación
   sterilized        Boolean  @default(false) // Esterilizado
   training          Boolean  @default(false) // Adiestramiento
   aggressionHistory Boolean  @default(false) // Antecedentes de agresión
@@ -104,9 +105,13 @@ model PetPhoto {
 
   photoData String // imagen en base64 (data URL)
   caption   String? // descripción opcional
+  // "album" = archivo general. Para el estudio biométrico: "bio-frente",
+  // "bio-perfil-izq", "bio-perfil-der", "bio-nariz", "bio-cuerpo".
+  kind      String   @default("album")
   createdAt DateTime @default(now())
 
   @@index([petRecordId])
+  @@index([kind])
 }
 
 // Archivo de recetas: el tutor fotografía la receta médica y queda el

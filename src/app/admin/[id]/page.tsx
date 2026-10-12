@@ -9,6 +9,7 @@ import { toggleStatusAction } from "@/lib/actions/admin";
 import CedulaCard from "@/components/CedulaCard";
 import HealthEventForm from "@/components/HealthEventForm";
 import PetPhotoManager from "@/components/PetPhotoManager";
+import BiometricStudy from "@/components/BiometricStudy";
 import Recetas from "@/components/Recetas";
 import { deleteHealthEvent, validateHealthEvent } from "@/lib/actions/health";
 
@@ -257,10 +258,22 @@ export default async function FichaAdminPage({
         )}
       </div>
 
+      {/* Estudio biométrico */}
+      <div className="mt-8">
+        <h2 className="mb-3 font-bold text-navy">🧬 Estudio biométrico (recuperación por pérdida)</h2>
+        <BiometricStudy
+          petRecordId={r.id}
+          photos={r.photos.filter((p) => p.kind.startsWith("bio-"))}
+        />
+      </div>
+
       {/* Archivo fotográfico */}
       <div className="mt-8">
         <h2 className="mb-3 font-bold text-navy">📸 Archivo fotográfico</h2>
-        <PetPhotoManager petRecordId={r.id} photos={r.photos} />
+        <PetPhotoManager
+          petRecordId={r.id}
+          photos={r.photos.filter((p) => p.kind === "album")}
+        />
       </div>
 
       {/* Recetas médicas */}

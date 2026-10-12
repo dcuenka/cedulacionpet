@@ -196,6 +196,77 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Estudio biométrico (anuncio comercial) */}
+      <section className="relative overflow-hidden bg-navy text-white">
+        <div className="flag-bar" />
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2">
+          {/* Imagen con escaneo biométrico */}
+          <div className="relative mx-auto w-full max-w-[360px]">
+            <div className="cred-glow pointer-events-none absolute -inset-6 rounded-[32px] bg-teal/30 blur-3xl" />
+            <div className="relative overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/tommy.jpg" alt="Estudio biométrico de la mascota" className="h-full w-full object-cover" />
+              {/* Overlay de escaneo biométrico */}
+              <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full">
+                <g stroke="#ffd100" strokeWidth="1.1" fill="none" opacity="0.95">
+                  <path d="M6 16 V6 H16" /><path d="M84 6 H94 V16" />
+                  <path d="M94 84 V94 H84" /><path d="M16 94 H6 V84" />
+                </g>
+                <g stroke="#38d0c4" strokeWidth="0.5" opacity="0.85" fill="none">
+                  <polyline points="38,33 50,29 62,33" />
+                  <polyline points="33,46 50,53 67,46" />
+                  <line x1="38" y1="33" x2="33" y2="46" />
+                  <line x1="62" y1="33" x2="67" y2="46" />
+                  <line x1="50" y1="29" x2="50" y2="53" />
+                  <line x1="38" y1="33" x2="50" y2="53" />
+                  <line x1="62" y1="33" x2="50" y2="53" />
+                </g>
+                <g fill="#ffd100">
+                  <circle cx="38" cy="33" r="1.1" /><circle cx="62" cy="33" r="1.1" />
+                  <circle cx="50" cy="29" r="1.1" /><circle cx="33" cy="46" r="1.1" />
+                  <circle cx="67" cy="46" r="1.1" /><circle cx="42" cy="39" r="1" />
+                  <circle cx="58" cy="39" r="1" />
+                </g>
+                <g fill="none" stroke="#38d0c4" strokeWidth="0.7">
+                  <circle cx="50" cy="53" r="5.5" />
+                  <circle cx="50" cy="53" r="3.2" opacity="0.7" />
+                </g>
+                <circle cx="50" cy="53" r="1.3" fill="#ffd100" />
+              </svg>
+              <span className="absolute left-2 top-2 rounded bg-black/55 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-ec-yellow">Rostro</span>
+              <span className="absolute bottom-2 right-2 rounded bg-black/55 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-teal-200">Trufa · Señas</span>
+            </div>
+            <p className="mt-2 text-center text-xs text-white/50">Rostro · trufa (nariz) · señas particulares</p>
+          </div>
+
+          {/* Texto comercial */}
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-teal/40 bg-teal/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-teal-100">
+              🧬 Nuevo · Biometría
+            </span>
+            <h2 className="mt-4 text-3xl font-black leading-tight md:text-4xl">
+              Si se pierde, la <span className="text-ec-yellow">reconocemos</span>
+            </h2>
+            <p className="mt-4 max-w-lg text-lg text-white/70">
+              Hacemos un <strong className="text-white">estudio fotográfico biométrico</strong> de
+              tu mascota —rostro, trufa (nariz) y señas particulares— que queda guardado para
+              ayudar a <strong className="text-white">identificarla y recuperarla</strong> si se pierde.
+            </p>
+            <ul className="mt-6 space-y-2 text-white/85">
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Fotos estandarizadas: frente, perfiles, nariz y cuerpo</li>
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Señas particulares registradas (manchas, cicatrices)</li>
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Base lista para la búsqueda por foto (próximamente con IA)</li>
+            </ul>
+            <Link
+              href="/solicitar"
+              className="mt-8 inline-block rounded-lg bg-ec-yellow px-6 py-3 font-bold text-navy shadow-lg transition hover:brightness-95"
+            >
+              📝 Solicitar el servicio
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Cómo funciona */}
       <section className="mx-auto max-w-6xl px-4 py-16">
         <h2 className="text-center text-2xl font-bold text-navy">Cómo funciona</h2>
