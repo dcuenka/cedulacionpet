@@ -12,6 +12,12 @@ function optStr(v: FormDataEntryValue | null): string | null {
   const s = str(v);
   return s.length ? s : null;
 }
+function optDate(v: FormDataEntryValue | null): Date | null {
+  const s = str(v);
+  if (!s) return null;
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? null : d;
+}
 function optPhoto(v: FormDataEntryValue | null): string | null {
   const s = str(v);
   if (!s.startsWith("data:image")) return null;
@@ -29,11 +35,13 @@ export async function createServiceRequest(formData: FormData): Promise<void> {
     redirect("/solicitar?error=1");
   }
 
+  const microchip = optStr(formData.get("microchip"));
   await prisma.serviceRequest.create({
     data: {
       ownerName,
       phone,
       province,
+      phoneAlt: optStr(formData.get("phoneAlt")),
       ownerId: optStr(formData.get("ownerId")),
       email: optStr(formData.get("email")),
       city: optStr(formData.get("city")),
@@ -41,7 +49,11 @@ export async function createServiceRequest(formData: FormData): Promise<void> {
       petName: optStr(formData.get("petName")),
       species: optStr(formData.get("species")),
       breed: optStr(formData.get("breed")),
-      hasChip: str(formData.get("hasChip")) === "on",
+      sex: optStr(formData.get("sex")),
+      color: optStr(formData.get("color")),
+      birthDate: optDate(formData.get("birthDate")),
+      microchip,
+      hasChip: str(formData.get("hasChip")) === "on" || !!microchip,
       petPhoto: optPhoto(formData.get("petPhoto")),
       carnetPhoto: optPhoto(formData.get("carnetPhoto")),
       message: optStr(formData.get("message")),

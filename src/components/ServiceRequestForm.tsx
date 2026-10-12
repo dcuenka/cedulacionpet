@@ -128,6 +128,10 @@ export default function ServiceRequestForm() {
             <span className="text-slate-500">Teléfono / WhatsApp *</span>
             <input name="phone" required inputMode="tel" className={inputCls} />
           </label>
+          <label className="text-sm">
+            <span className="text-slate-500">Teléfono adicional</span>
+            <input name="phoneAlt" inputMode="tel" className={inputCls} />
+          </label>
           <label className="text-sm sm:col-span-2">
             <span className="text-slate-500">Correo electrónico</span>
             <input name="email" type="email" className={inputCls} />
@@ -173,9 +177,29 @@ export default function ServiceRequestForm() {
             <span className="text-slate-500">Raza</span>
             <input name="breed" className={inputCls} />
           </label>
+          <label className="text-sm">
+            <span className="text-slate-500">Sexo</span>
+            <select name="sex" defaultValue="" className={inputCls}>
+              <option value="">Selecciona…</option>
+              <option value="Macho">Macho</option>
+              <option value="Hembra">Hembra</option>
+            </select>
+          </label>
+          <label className="text-sm">
+            <span className="text-slate-500">Color</span>
+            <input name="color" className={inputCls} />
+          </label>
+          <label className="text-sm">
+            <span className="text-slate-500">Fecha de nacimiento</span>
+            <input type="date" name="birthDate" className={inputCls} />
+          </label>
+          <label className="text-sm">
+            <span className="text-slate-500">N.º de microchip (si lo tiene)</span>
+            <input name="microchip" inputMode="numeric" placeholder="N.º de serie" className={inputCls} />
+          </label>
           <label className="flex items-center gap-2 pt-6 text-sm text-slate-600">
             <input type="checkbox" name="hasChip" className="h-4 w-4 rounded border-slate-300" />
-            Ya tiene microchip
+            Tiene microchip (sin número a la mano)
           </label>
         </div>
 

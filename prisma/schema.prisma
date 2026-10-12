@@ -132,19 +132,24 @@ model ServiceRequest {
   id        String @id @default(cuid())
 
   // Tutor / solicitante
-  ownerName String // nombre completo
-  ownerId   String? // cédula (opcional)
-  phone     String // teléfono / WhatsApp
-  email     String?
-  province  String // provincia del Ecuador
-  city      String?
-  address   String?
+  ownerName     String // nombre completo
+  ownerId       String? // cédula (opcional)
+  phone         String // teléfono / WhatsApp
+  phoneAlt      String? // teléfono adicional
+  email         String?
+  province      String // provincia del Ecuador
+  city          String?
+  address       String?
 
-  // Mascota (opcional en esta etapa)
-  petName String?
-  species String?
-  breed   String?
-  hasChip Boolean @default(false)
+  // Mascota
+  petName   String?
+  species   String?
+  breed     String?
+  sex       String?
+  color     String?
+  birthDate DateTime?
+  microchip String? // número de serie del microchip (si lo tiene)
+  hasChip   Boolean   @default(false)
 
   // Fotos para actualización de datos (base64)
   petPhoto    String? // foto de la mascota
