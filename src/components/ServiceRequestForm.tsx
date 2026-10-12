@@ -1,0 +1,204 @@
+"use client";
+
+import { useRef, useState } from "react";
+import { useFormStatus } from "react-dom";
+import { createServiceRequest } from "@/lib/actions/service-request";
+
+const PROVINCIAS = [
+  "Azuay", "Bolívar", "Cañar", "Carchi", "Chimborazo", "Cotopaxi", "El Oro",
+  "Esmeraldas", "Galápagos", "Guayas", "Imbabura", "Loja", "Los Ríos", "Manabí",
+  "Morona Santiago", "Napo", "Orellana", "Pastaza", "Pichincha", "Santa Elena",
+  "Santo Domingo de los Tsáchilas", "Sucumbíos", "Tungurahua", "Zamora Chinchipe",
+];
+
+function shrinkImage(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const max = 1200;
+        let { width, height } = img;
+        if (width > height && width > max) {
+          height = (height * max) / width;
+          width = max;
+        } else if (height > max) {
+          width = (width * max) / height;
+          height = max;
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return reject(new Error("no ctx"));
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.8));
+      };
+      img.onerror = reject;
+      img.src = reader.result as string;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function SubmitBtn() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="w-full rounded-lg bg-ec-yellow px-6 py-3 font-bold text-navy shadow-lg transition hover:brightness-95 disabled:opacity-60"
+    >
+      {pending ? "Enviando…" : "Enviar solicitud"}
+    </button>
+  );
+}
+
+function PhotoField({
+  name,
+  label,
+  hint,
+}: {
+  name: string;
+  label: string;
+  hint: string;
+}) {
+  const [photo, setPhoto] = useState("");
+  const ref = useRef<HTMLInputElement>(null);
+  async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      setPhoto(await shrinkImage(file));
+    } catch {
+      alert("No se pudo procesar la imagen.");
+    }
+  }
+  return (
+    <div>
+      <p className="text-sm font-medium text-slate-600">{label}</p>
+      <p className="text-xs text-slate-400">{hint}</p>
+      <input type="hidden" name={name} value={photo} />
+      <input ref={ref} type="file" accept="image/*" capture="environment" onChange={onFile} className="hidden" />
+      <div className="mt-2 flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => ref.current?.click()}
+          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-navy transition hover:bg-slate-50"
+        >
+          📷 Tomar / subir foto
+        </button>
+        {photo && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={photo} alt={label} className="h-14 w-14 rounded object-cover ring-1 ring-slate-200" />
+            <button type="button" onClick={() => setPhoto("")} className="text-xs text-slate-400 hover:text-red-500">
+              Quitar
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const inputCls =
+  "mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-navy outline-none focus:border-teal focus:ring-2 focus:ring-teal/20";
+
+export default function ServiceRequestForm() {
+  return (
+    <form action={createServiceRequest} className="space-y-6">
+      {/* Datos del tutor */}
+      <section className="rounded-xl border border-black/5 bg-white p-5 shadow-sm">
+        <h2 className="font-bold text-navy">Tus datos</h2>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <label className="text-sm sm:col-span-2">
+            <span className="text-slate-500">Nombre completo *</span>
+            <input name="ownerName" required className={inputCls} />
+          </label>
+          <label className="text-sm">
+            <span className="text-slate-500">Cédula</span>
+            <input name="ownerId" inputMode="numeric" className={inputCls} />
+          </label>
+          <label className="text-sm">
+            <span className="text-slate-500">Teléfono / WhatsApp *</span>
+            <input name="phone" required inputMode="tel" className={inputCls} />
+          </label>
+          <label className="text-sm sm:col-span-2">
+            <span className="text-slate-500">Correo electrónico</span>
+            <input name="email" type="email" className={inputCls} />
+          </label>
+          <label className="text-sm">
+            <span className="text-slate-500">Provincia *</span>
+            <select name="province" required defaultValue="" className={inputCls}>
+              <option value="" disabled>Selecciona…</option>
+              {PROVINCIAS.map((p) => (
+                <option key={p} value={p}>{p}</option>
+              ))}
+            </select>
+          </label>
+          <label className="text-sm">
+            <span className="text-slate-500">Ciudad</span>
+            <input name="city" className={inputCls} />
+          </label>
+          <label className="text-sm sm:col-span-2">
+            <span className="text-slate-500">Dirección</span>
+            <input name="address" className={inputCls} />
+          </label>
+        </div>
+      </section>
+
+      {/* Datos de la mascota */}
+      <section className="rounded-xl border border-black/5 bg-white p-5 shadow-sm">
+        <h2 className="font-bold text-navy">Tu mascota</h2>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <label className="text-sm">
+            <span className="text-slate-500">Nombre de la mascota</span>
+            <input name="petName" className={inputCls} />
+          </label>
+          <label className="text-sm">
+            <span className="text-slate-500">Especie</span>
+            <select name="species" defaultValue="" className={inputCls}>
+              <option value="">Selecciona…</option>
+              <option value="Canina">Perro</option>
+              <option value="Felina">Gato</option>
+              <option value="Otra">Otra</option>
+            </select>
+          </label>
+          <label className="text-sm">
+            <span className="text-slate-500">Raza</span>
+            <input name="breed" className={inputCls} />
+          </label>
+          <label className="flex items-center gap-2 pt-6 text-sm text-slate-600">
+            <input type="checkbox" name="hasChip" className="h-4 w-4 rounded border-slate-300" />
+            Ya tiene microchip
+          </label>
+        </div>
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <PhotoField name="petPhoto" label="Foto de la mascota" hint="Para la ficha e identificación." />
+          <PhotoField name="carnetPhoto" label="Foto del carnet de vacunas" hint="Para actualizar su historial de salud." />
+        </div>
+      </section>
+
+      {/* Mensaje */}
+      <section className="rounded-xl border border-black/5 bg-white p-5 shadow-sm">
+        <label className="text-sm">
+          <span className="text-slate-500">¿Qué necesitas? (opcional)</span>
+          <textarea
+            name="message"
+            rows={3}
+            placeholder="Cuéntanos qué servicio necesitas o cómo nos conociste."
+            className={inputCls}
+          />
+        </label>
+      </section>
+
+      <SubmitBtn />
+      <p className="text-center text-xs text-slate-400">
+        Al enviar, nuestro equipo te contactará para darte el servicio en tu provincia.
+      </p>
+    </form>
+  );
+}

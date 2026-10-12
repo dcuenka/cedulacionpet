@@ -66,6 +66,12 @@ export default async function HomePage() {
               >
                 🔎 Consultar / identificar mascota
               </Link>
+              <Link
+                href="/solicitar"
+                className="rounded-lg border border-white/40 px-6 py-3 font-bold text-white transition hover:bg-white/10"
+              >
+                📝 Solicitar el servicio
+              </Link>
             </div>
             <p className="mt-6 text-sm text-white/50">
               <strong className="text-white">{total.toLocaleString("es-EC")}</strong> mascotas ya cuentan con su ficha e identificación.
