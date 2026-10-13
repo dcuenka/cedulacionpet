@@ -204,40 +204,33 @@ export default async function HomePage() {
           {/* Imagen con escaneo biométrico */}
           <div className="relative mx-auto w-full max-w-[360px]">
             <div className="cred-glow pointer-events-none absolute -inset-6 rounded-[32px] bg-teal/30 blur-3xl" />
-            <div className="relative overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl">
+            <div className="relative aspect-[2/1] overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/tommy.jpg" alt="Estudio biométrico de la mascota" className="h-full w-full object-cover" />
-              {/* Overlay biométrico tenue (líneas casi invisibles en la cara) */}
-              <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full">
-                {/* marco de escaneo muy sutil */}
-                <g stroke="#ffffff" strokeWidth="0.5" fill="none" opacity="0.3">
-                  <path d="M6 16 V6 H16" /><path d="M84 6 H94 V16" />
-                  <path d="M94 84 V94 H84" /><path d="M16 94 H6 V84" />
+              <img src="/biometria.jpg" alt="Reconocimiento biométrico de la mascota" className="h-full w-full object-cover object-center" />
+              {/* Overlay de escaneo biométrico, muy sutil sobre la cara del perro */}
+              <svg viewBox="0 0 100 50" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full">
+                {/* marco de escaneo tenue */}
+                <g stroke="#ffffff" strokeWidth="0.35" fill="none" opacity="0.28">
+                  <path d="M4 8 V4 H8" /><path d="M92 4 H96 V8" />
+                  <path d="M96 42 V46 H92" /><path d="M8 46 H4 V42" />
                 </g>
-                {/* malla facial casi invisible */}
-                <g stroke="#ffffff" strokeWidth="0.3" opacity="0.2" fill="none">
-                  <polyline points="38,33 50,29 62,33" />
-                  <polyline points="33,46 50,53 67,46" />
-                  <line x1="38" y1="33" x2="33" y2="46" />
-                  <line x1="62" y1="33" x2="67" y2="46" />
-                  <line x1="50" y1="29" x2="50" y2="53" />
-                  <line x1="38" y1="33" x2="50" y2="53" />
-                  <line x1="62" y1="33" x2="50" y2="53" />
+                {/* retícula + malla casi invisible sobre la cara del perro (derecha) */}
+                <g stroke="#ffffff" strokeWidth="0.25" fill="none" opacity="0.26">
+                  <circle cx="71" cy="16" r="8" />
+                  <circle cx="71" cy="16" r="4.5" />
+                  <line x1="71" y1="5" x2="71" y2="27" />
+                  <line x1="60" y1="16" x2="82" y2="16" />
+                  <polyline points="66,12 71,10 76,12" />
+                  <polyline points="66,20 71,23 76,20" />
                 </g>
-                <g fill="#ffffff" opacity="0.35">
-                  <circle cx="38" cy="33" r="0.6" /><circle cx="62" cy="33" r="0.6" />
-                  <circle cx="50" cy="29" r="0.6" /><circle cx="33" cy="46" r="0.6" />
-                  <circle cx="67" cy="46" r="0.6" /><circle cx="42" cy="39" r="0.55" />
-                  <circle cx="58" cy="39" r="0.55" />
-                </g>
-                {/* trufa, muy tenue */}
-                <g fill="none" stroke="#ffffff" strokeWidth="0.35" opacity="0.28">
-                  <circle cx="50" cy="53" r="5" />
-                  <circle cx="50" cy="53" r="2.8" />
+                <g fill="#ffffff" opacity="0.3">
+                  <circle cx="66" cy="12" r="0.4" /><circle cx="76" cy="12" r="0.4" />
+                  <circle cx="71" cy="10" r="0.4" /><circle cx="71" cy="16" r="0.45" />
+                  <circle cx="71" cy="23" r="0.4" />
                 </g>
               </svg>
             </div>
-            <p className="mt-2 text-center text-xs text-white/50">Rostro · trufa (nariz) · señas particulares</p>
+            <p className="mt-2 text-center text-xs text-white/50">Reconocimiento y recuperación por foto</p>
           </div>
 
           {/* Texto comercial */}
