@@ -133,6 +133,20 @@ model Prescription {
   @@index([date])
 }
 
+// Reporte de hallazgo: alguien encontró una mascota y sube su foto para que
+// el equipo la verifique internamente (coincidencias por parecido) y responda.
+model FoundReport {
+  id        String   @id @default(cuid())
+  photoData String // foto de la mascota encontrada (base64)
+  phone     String? // contacto de quien la encontró (opcional)
+  note      String? // dónde/cómo la encontró (opcional)
+  status    String   @default("nueva") // nueva | revisada | descartada
+  createdAt DateTime @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}
+
 // Solicitud de servicio: personas nuevas / de otras provincias que piden el
 // servicio desde el formulario público. El equipo las contacta y atiende.
 model ServiceRequest {

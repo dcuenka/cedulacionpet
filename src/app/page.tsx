@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { BRAND } from "@/lib/brand";
 import CedulaCard from "@/components/CedulaCard";
 import ShareApp from "@/components/ShareApp";
+import VerificarForm from "@/components/VerificarForm";
 import { qrDataUrl } from "@/lib/qr";
 
 // Revalida el contador cada 60 s en producción (no queda congelado del build).
@@ -255,21 +256,19 @@ export default async function HomePage() {
             <ul className="mt-6 space-y-2 text-white/85">
               <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Fotos estandarizadas: frente, perfiles, nariz y cuerpo</li>
               <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Señas particulares registradas (manchas, cicatrices)</li>
-              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Base lista para la búsqueda por foto (próximamente con IA)</li>
+              <li className="flex gap-3"><span className="font-black text-ec-yellow">✔</span> Búsqueda por foto: verificamos coincidencias para encontrarla</li>
             </ul>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8">
               <Link
                 href="/solicitar"
-                className="rounded-lg bg-ec-yellow px-6 py-3 font-bold text-navy shadow-lg transition hover:brightness-95"
+                className="inline-block rounded-lg bg-ec-yellow px-6 py-3 font-bold text-navy shadow-lg transition hover:brightness-95"
               >
                 📝 Solicitar el servicio
               </Link>
-              <Link
-                href="/buscar-foto"
-                className="rounded-lg border border-white/40 px-6 py-3 font-bold text-white transition hover:bg-white/10"
-              >
-                🔎 Buscar por foto
-              </Link>
+            </div>
+            {/* Verificación por foto (el equipo verifica internamente) */}
+            <div className="mt-5">
+              <VerificarForm />
             </div>
           </div>
         </div>
