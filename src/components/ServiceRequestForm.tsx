@@ -4,6 +4,21 @@ import { useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { createServiceRequest } from "@/lib/actions/service-request";
 
+const RAZAS = [
+  "Mestizo / Criollo",
+  // Perros
+  "Labrador Retriever", "Golden Retriever", "Pastor Alemán", "Poodle / Caniche",
+  "French Poodle", "Shih Tzu", "Pug", "Chihuahua", "Bulldog Francés", "Bulldog Inglés",
+  "Pitbull", "American Bully", "Rottweiler", "Schnauzer", "Yorkshire Terrier", "Beagle",
+  "Bóxer", "Cocker Spaniel", "Dálmata", "Doberman", "Husky Siberiano", "Maltés",
+  "Pomerania", "Border Collie", "Dogo Argentino", "Gran Danés", "San Bernardo",
+  "Basset Hound", "Jack Russell Terrier", "Salchicha (Dachshund)", "Akita", "Weimaraner",
+  "Pekinés", "Bichón Frisé", "Chow Chow", "Samoyedo",
+  // Gatos
+  "Gato Siamés", "Gato Persa", "Gato Angora", "Maine Coon", "Bengalí", "British Shorthair",
+  "Esfinge (Sphynx)", "Ragdoll", "Azul Ruso", "Gato doméstico (común)",
+];
+
 const PROVINCIAS = [
   "Azuay", "Bolívar", "Cañar", "Carchi", "Chimborazo", "Cotopaxi", "El Oro",
   "Esmeraldas", "Galápagos", "Guayas", "Imbabura", "Loja", "Los Ríos", "Manabí",
@@ -230,7 +245,12 @@ export default function ServiceRequestForm() {
           </label>
           <label className="text-sm">
             <span className="text-slate-500">Raza</span>
-            <input name="breed" className={inputCls} />
+            <input name="breed" list="razas" placeholder="Elige o escribe la raza" className={inputCls} />
+            <datalist id="razas">
+              {RAZAS.map((r) => (
+                <option key={r} value={r} />
+              ))}
+            </datalist>
           </label>
           <label className="text-sm">
             <span className="text-slate-500">Sexo</span>
