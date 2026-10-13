@@ -256,6 +256,37 @@ export default function ServiceRequestForm() {
             <input type="checkbox" name="hasChip" className="h-4 w-4 rounded border-slate-300" />
             Tiene microchip (sin número a la mano)
           </label>
+          <label className="text-sm">
+            <span className="text-slate-500">Alimentación</span>
+            <select name="feeding" defaultValue="" className={inputCls}>
+              <option value="">Selecciona…</option>
+              <option value="Balanceado">Balanceado</option>
+              <option value="Casera">Casera</option>
+              <option value="Mixta">Mixta</option>
+            </select>
+          </label>
+          <label className="text-sm sm:col-span-2">
+            <span className="text-slate-500">Señas particulares</span>
+            <input name="distinctiveMarks" placeholder="Manchas, cicatrices, marcas distintivas" className={inputCls} />
+          </label>
+          <label className="text-sm sm:col-span-2">
+            <span className="text-slate-500">Enfermedades / notas de salud</span>
+            <input name="diseases" placeholder="Ninguna / detalle" className={inputCls} />
+          </label>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 pt-1 text-sm text-slate-600 sm:col-span-2">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" name="sterilized" className="h-4 w-4 rounded border-slate-300" />
+              Esterilizado/a
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" name="training" className="h-4 w-4 rounded border-slate-300" />
+              Con adiestramiento
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" name="aggressionHistory" className="h-4 w-4 rounded border-slate-300" />
+              Antecedentes de agresión
+            </label>
+          </div>
         </div>
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2">

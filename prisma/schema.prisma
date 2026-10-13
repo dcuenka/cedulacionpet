@@ -152,11 +152,17 @@ model ServiceRequest {
   petName   String?
   species   String?
   breed     String?
-  sex       String?
-  color     String?
-  birthDate DateTime?
-  microchip String? // número de serie del microchip (si lo tiene)
-  hasChip   Boolean   @default(false)
+  sex               String?
+  color             String?
+  birthDate         DateTime?
+  microchip         String? // número de serie del microchip (si lo tiene)
+  hasChip           Boolean   @default(false)
+  distinctiveMarks  String? // señas particulares
+  sterilized        Boolean   @default(false)
+  training          Boolean   @default(false)
+  aggressionHistory Boolean   @default(false)
+  feeding           String? // Balanceado | Casera | Mixta
+  diseases          String? // enfermedades / notas de salud
 
   // Fotos para actualización de datos (base64)
   petPhoto     String? // foto de la mascota
