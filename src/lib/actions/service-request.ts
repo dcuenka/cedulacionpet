@@ -63,6 +63,11 @@ export async function createServiceRequest(formData: FormData): Promise<void> {
       petPhoto: optPhoto(formData.get("petPhoto")),
       carnetPhoto: optPhoto(formData.get("carnetPhoto")),
       paymentPhoto: optPhoto(formData.get("paymentPhoto")),
+      bioFront: optPhoto(formData.get("bioFront")),
+      bioNose: optPhoto(formData.get("bioNose")),
+      bioRight: optPhoto(formData.get("bioRight")),
+      bioLeft: optPhoto(formData.get("bioLeft")),
+      bioMark: optPhoto(formData.get("bioMark")),
       message: optStr(formData.get("message")),
     },
   });

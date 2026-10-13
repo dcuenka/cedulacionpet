@@ -38,10 +38,10 @@ type Photo = { id: string; photoData: string; kind: string };
 
 const SLOTS: { kind: string; label: string; hint: string }[] = [
   { kind: "bio-frente", label: "Frente (cara)", hint: "De frente, ojos visibles" },
-  { kind: "bio-perfil-izq", label: "Perfil izquierdo", hint: "Lado izquierdo de la cara" },
-  { kind: "bio-perfil-der", label: "Perfil derecho", hint: "Lado derecho de la cara" },
   { kind: "bio-nariz", label: "Nariz / trufa", hint: "Primer plano nítido" },
-  { kind: "bio-cuerpo", label: "Cuerpo completo", hint: "De pie, cuerpo entero" },
+  { kind: "bio-perfil-der", label: "Lado derecho", hint: "Perfil derecho de la cara" },
+  { kind: "bio-perfil-izq", label: "Lado izquierdo", hint: "Perfil izquierdo de la cara" },
+  { kind: "bio-rasgo", label: "Rasgo distintivo", hint: "Mancha, cicatriz o marca única" },
 ];
 
 function BioSlot({

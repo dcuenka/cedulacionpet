@@ -98,21 +98,45 @@ export async function createRecord(
   const registrationNo = await generateRegistrationNumber();
   const embedding = f.photoData ? await computeEmbedding(f.photoData) : null;
 
+  let createdId = "";
   try {
-    await prisma.petRecord.create({ data: { registrationNo, ...f, ...(embedding ? { embedding } : {}) } });
+    const created = await prisma.petRecord.create({
+      data: { registrationNo, ...f, ...(embedding ? { embedding } : {}) },
+      select: { id: true },
+    });
+    createdId = created.id;
   } catch (e) {
     const ue = uniqueError(e);
     if (ue) return { error: ue };
     throw e;
   }
 
-  // Si la ficha se creó a partir de una solicitud, la marcamos como atendida.
+  // Si la ficha se creó a partir de una solicitud: copiamos las fotos del
+  // estudio biométrico y marcamos la solicitud como atendida.
   const fromRequest = str(formData.get("fromRequest"));
-  if (fromRequest) {
+  if (fromRequest && createdId) {
     try {
+      const sr = await prisma.serviceRequest.findUnique({
+        where: { id: fromRequest },
+        select: { bioFront: true, bioNose: true, bioRight: true, bioLeft: true, bioMark: true },
+      });
+      if (sr) {
+        const bio = [
+          { kind: "bio-frente", data: sr.bioFront },
+          { kind: "bio-nariz", data: sr.bioNose },
+          { kind: "bio-perfil-der", data: sr.bioRight },
+          { kind: "bio-perfil-izq", data: sr.bioLeft },
+          { kind: "bio-rasgo", data: sr.bioMark },
+        ].filter((b) => b.data && b.data.startsWith("data:image"));
+        if (bio.length) {
+          await prisma.petPhoto.createMany({
+            data: bio.map((b) => ({ petRecordId: createdId, kind: b.kind, photoData: b.data as string })),
+          });
+        }
+      }
       await prisma.serviceRequest.update({ where: { id: fromRequest }, data: { status: "atendida" } });
     } catch {
-      /* la solicitud pudo haberse eliminado; no bloquea la creación */
+      /* no bloquea la creación de la ficha */
     }
   }
 

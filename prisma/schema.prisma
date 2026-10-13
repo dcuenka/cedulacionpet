@@ -169,6 +169,13 @@ model ServiceRequest {
   carnetPhoto  String? // foto del carnet de vacunas
   paymentPhoto String? // comprobante del pago realizado
 
+  // Estudio biométrico para reconocimiento / recuperación (base64)
+  bioFront String? // frente
+  bioNose  String? // nariz / trufa
+  bioRight String? // lado derecho
+  bioLeft  String? // lado izquierdo
+  bioMark  String? // rasgo distintivo
+
   message String? // qué necesita / cómo se enteró
   status  String  @default("nueva") // nueva | contactado | atendida | descartada
   notes   String? // notas internas del equipo

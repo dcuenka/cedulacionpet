@@ -295,6 +295,22 @@ export default function ServiceRequestForm() {
         </div>
       </section>
 
+      {/* Estudio biométrico para reconocimiento */}
+      <section className="rounded-xl border border-black/5 bg-white p-5 shadow-sm">
+        <h2 className="font-bold text-navy">🧬 Fotos para reconocimiento biométrico</h2>
+        <p className="mt-0.5 text-xs text-slate-500">
+          Un set de fotos estandarizadas de tu mascota que servirá para identificarla y
+          recuperarla en caso de pérdida. Toma cada foto lo más nítida posible.
+        </p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          <PhotoField name="bioFront" label="Frente (cara)" hint="De frente, ojos visibles" />
+          <PhotoField name="bioNose" label="Nariz / trufa" hint="Primer plano nítido" />
+          <PhotoField name="bioRight" label="Lado derecho" hint="Perfil derecho de la cara" />
+          <PhotoField name="bioLeft" label="Lado izquierdo" hint="Perfil izquierdo de la cara" />
+          <PhotoField name="bioMark" label="Rasgo distintivo" hint="Mancha, cicatriz o marca única" />
+        </div>
+      </section>
+
       {/* Comprobante de pago */}
       <section className="rounded-xl border border-black/5 bg-white p-5 shadow-sm">
         <h2 className="font-bold text-navy">Comprobante de pago</h2>
