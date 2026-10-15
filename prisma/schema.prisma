@@ -59,12 +59,19 @@ model PetRecord {
   status     String   @default("activo") // activo | anulado
   lost       Boolean  @default(false)
   notes      String?
+
+  // Módulos activados para que el tutor los vea en su carnet digital.
+  showCedula   Boolean @default(true)
+  showCarnet   Boolean @default(true)
+  showHistoria Boolean @default(false)
+
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  healthEvents  HealthEvent[]
-  photos        PetPhoto[]
-  prescriptions Prescription[]
+  healthEvents    HealthEvent[]
+  photos          PetPhoto[]
+  prescriptions   Prescription[]
+  clinicalEntries ClinicalEntry[]
 
   @@index([ownerId])
   @@index([microchip])
@@ -127,6 +134,25 @@ model Prescription {
   note      String? // detalle / observaciones opcionales
   date      DateTime  @default(now()) // fecha de la receta
   source    String    @default("tutor") // tutor | admin
+  createdAt DateTime  @default(now())
+
+  @@index([petRecordId])
+  @@index([date])
+}
+
+// Historia clínica: consultas / atenciones veterinarias de la mascota.
+model ClinicalEntry {
+  id          String    @id @default(cuid())
+  petRecordId String
+  pet         PetRecord @relation(fields: [petRecordId], references: [id], onDelete: Cascade)
+
+  date      DateTime // fecha de la atención
+  weight    String? // peso
+  reason    String? // motivo de consulta
+  diagnosis String? // diagnóstico
+  treatment String? // tratamiento
+  notes     String? // observaciones
+  mvz       String? // médico veterinario
   createdAt DateTime  @default(now())
 
   @@index([petRecordId])

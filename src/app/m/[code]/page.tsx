@@ -52,6 +52,7 @@ export default async function LocalizarCodePage({
       healthEvents: { orderBy: { date: "desc" } },
       photos: { where: { kind: "album" }, orderBy: { createdAt: "desc" } },
       prescriptions: { orderBy: { date: "desc" } },
+      clinicalEntries: { orderBy: { date: "desc" } },
     },
   });
 
@@ -157,7 +158,7 @@ export default async function LocalizarCodePage({
       )}
 
       {/* Identificación digital: esto es lo que el tutor muestra en el celular */}
-      <CedulaPresenter record={record} qr={qr} />
+      {record.showCedula && <CedulaPresenter record={record} qr={qr} />}
 
       {/* Acciones: compartir / instalar app (no se imprime) */}
       <div className="no-print mt-3 flex flex-wrap items-center justify-center gap-2">
@@ -170,7 +171,7 @@ export default async function LocalizarCodePage({
       </p>
 
       {/* Carnet de salud y comportamiento (documento de apoyo para el veterinario) */}
-      {(hasHealth || record.training || record.aggressionHistory || record.diseases) && (
+      {record.showCarnet && (hasHealth || record.training || record.aggressionHistory || record.diseases) && (
         <div className="mt-4 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
           <div className="bg-navy px-5 py-3">
             <p className="text-sm font-black text-white">💉 Carnet de salud</p>
@@ -278,7 +279,35 @@ export default async function LocalizarCodePage({
         </div>
       )}
 
+      {/* Historia clínica (si el equipo la activó para este tutor) */}
+      {record.showHistoria && record.clinicalEntries.length > 0 && (
+        <div className="mt-4 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
+          <div className="bg-navy px-5 py-3">
+            <p className="text-sm font-black text-white">🩺 Historia clínica</p>
+            <p className="text-[11px] text-white/60">Consultas y atenciones veterinarias</p>
+          </div>
+          <div className="space-y-3 p-4 sm:p-5">
+            {record.clinicalEntries.map((e) => (
+              <div key={e.id} className="rounded-xl border border-slate-200 p-3">
+                <p className="text-sm font-bold text-navy">
+                  {fmt(e.date)}
+                  {e.weight ? <span className="ml-2 font-normal text-slate-500">· {e.weight} kg</span> : null}
+                </p>
+                <dl className="mt-1 space-y-0.5 text-sm">
+                  {e.reason && <p><span className="text-slate-400">Motivo: </span><span className="text-slate-700">{e.reason}</span></p>}
+                  {e.diagnosis && <p><span className="text-slate-400">Diagnóstico: </span><span className="text-slate-700">{e.diagnosis}</span></p>}
+                  {e.treatment && <p><span className="text-slate-400">Tratamiento: </span><span className="text-slate-700">{e.treatment}</span></p>}
+                  {e.notes && <p><span className="text-slate-400">Obs.: </span><span className="text-slate-700">{e.notes}</span></p>}
+                </dl>
+                {e.mvz && <p className="mt-1 text-xs text-slate-400">Firma: {e.mvz}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Reportes del tutor: pendientes + nuevo reporte */}
+      {record.showCarnet && (
       <div className="mt-4">
         {pendingEvents.length > 0 && (
           <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
@@ -302,6 +331,7 @@ export default async function LocalizarCodePage({
         )}
         <HealthEventSubmit petRecordId={record.id} />
       </div>
+      )}
 
       {/* Archivo fotográfico (respaldo) */}
       <PhotoAlbum photos={record.photos} />

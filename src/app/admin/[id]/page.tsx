@@ -8,6 +8,9 @@ import { toggleLost } from "@/lib/actions/records";
 import { toggleStatusAction } from "@/lib/actions/admin";
 import CedulaCard from "@/components/CedulaCard";
 import HealthEventForm from "@/components/HealthEventForm";
+import HealthBatchForm from "@/components/HealthBatchForm";
+import ModuleToggles from "@/components/ModuleToggles";
+import ClinicalHistory from "@/components/ClinicalHistory";
 import PetPhotoManager from "@/components/PetPhotoManager";
 import BiometricStudy from "@/components/BiometricStudy";
 import Recetas from "@/components/Recetas";
@@ -42,6 +45,7 @@ export default async function FichaAdminPage({
       healthEvents: { orderBy: { date: "desc" } },
       photos: { orderBy: { createdAt: "desc" } },
       prescriptions: { orderBy: { date: "desc" } },
+      clinicalEntries: { orderBy: { date: "desc" } },
     },
   });
   if (!r) notFound();
@@ -114,6 +118,11 @@ export default async function FichaAdminPage({
         </form>
       </div>
 
+      {/* Módulos activos para el tutor */}
+      <div className="mt-6">
+        <ModuleToggles record={r} />
+      </div>
+
       {/* Detalle completo */}
       <div className="mt-8 grid gap-6 md:grid-cols-2">
         <div className="rounded-xl border border-black/5 bg-white p-6 shadow-sm">
@@ -174,6 +183,9 @@ export default async function FichaAdminPage({
       <div className="mt-8">
         <h2 className="mb-3 font-bold text-navy">💉 Carnet de salud · historial</h2>
         <HealthEventForm petRecordId={r.id} />
+        <div className="mt-4">
+          <HealthBatchForm petRecordId={r.id} />
+        </div>
 
         {r.healthEvents.length > 0 ? (
           <div className="mt-4 overflow-hidden rounded-xl border border-black/5 bg-white shadow-sm">
@@ -256,6 +268,12 @@ export default async function FichaAdminPage({
             Aún no hay procesos registrados. Usa el formulario de arriba en cada visita.
           </p>
         )}
+      </div>
+
+      {/* Historia clínica */}
+      <div className="mt-8">
+        <h2 className="mb-3 font-bold text-navy">🩺 Historia clínica</h2>
+        <ClinicalHistory petRecordId={r.id} entries={r.clinicalEntries} />
       </div>
 
       {/* Estudio biométrico */}

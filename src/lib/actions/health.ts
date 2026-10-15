@@ -105,6 +105,57 @@ export async function validateHealthEvent(formData: FormData): Promise<void> {
   revalidatePath("/admin/validaciones");
 }
 
+// Carga en lote varias vacunas/desparasitaciones (hasta 5 filas) a la vez.
+export async function addHealthBatch(formData: FormData): Promise<void> {
+  if (!(await isAdmin())) return;
+  const petRecordId = str(formData.get("petRecordId"));
+  if (!petRecordId) return;
+  const mvz = optStr(formData.get("mvz")) || BRAND.name;
+
+  const rows: {
+    type: string;
+    date: Date;
+    nextDate: Date | null;
+    product: string | null;
+    weight: string | null;
+  }[] = [];
+  for (let i = 0; i < 5; i++) {
+    const product = optStr(formData.get(`product${i}`));
+    const date = optDate(formData.get(`date${i}`));
+    if (!product && !date) continue; // fila vacía
+    rows.push({
+      type: str(formData.get(`type${i}`)) === "desparasitacion" ? "desparasitacion" : "vacuna",
+      date: date || new Date(),
+      nextDate: optDate(formData.get(`nextDate${i}`)),
+      product,
+      weight: optStr(formData.get(`weight${i}`)),
+    });
+  }
+  if (rows.length === 0) return;
+
+  await prisma.healthEvent.createMany({
+    data: rows.map((r) => ({
+      petRecordId,
+      type: r.type,
+      date: r.date,
+      nextDate: r.nextDate,
+      product: r.product,
+      weight: r.weight,
+      mvz,
+      status: "validado",
+      source: "admin",
+    })),
+  });
+
+  // Sincroniza el resumen con la última vacuna y la última desparasitación.
+  const lastVac = rows.filter((r) => r.type === "vacuna").sort((a, b) => +b.date - +a.date)[0];
+  const lastDew = rows.filter((r) => r.type === "desparasitacion").sort((a, b) => +b.date - +a.date)[0];
+  if (lastVac) await syncSummary(petRecordId, "vacuna", lastVac.date, lastVac.nextDate, lastVac.product);
+  if (lastDew) await syncSummary(petRecordId, "desparasitacion", lastDew.date, lastDew.nextDate, lastDew.product);
+
+  revalidatePath(`/admin/${petRecordId}`);
+}
+
 // Elimina / rechaza un evento (solo administradores).
 export async function deleteHealthEvent(formData: FormData): Promise<void> {
   if (!(await isAdmin())) return;
